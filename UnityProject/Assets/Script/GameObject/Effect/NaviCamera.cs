@@ -28,6 +28,7 @@ public class NaviCamera : MonoBehaviour {
 	    if(percent > 1.0f) percent = 1.0f;
 	    iTween.PutOnPath(gameObject ,iTweenPath.GetPath("StreetPath"),percent);
 	    Vector3 nextPathPosition = iTween.PointOnPath(iTweenPath.GetPath("StreetPath"),percent+0.1f);
+
 		
 		// カメラが移動しているか確認.
 		if(old_diastance == distance)
