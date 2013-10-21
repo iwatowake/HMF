@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class HandObjectController : MonoBehaviour {
 	
-	Vector3			Pos;
-	List<Vector3>	PosArray = new List<Vector3>();
+	private Vector3			Pos;
+	private List<Vector3>	PosArray = new List<Vector3>();
 	
 
 	// Use this for initialization
