@@ -17,7 +17,10 @@ public class InGameState : StateBase {
 		eChangeState
 	}
 	
-	private STATE	state = STATE.eEnter_Init;	//!< 状態管理用
+	private STATE	state		= STATE.eEnter_Init;	//!< 状態管理用
+	private float	tention		= 0.1f;					//!< テンション(0.1f～1.0f)
+	private	float	leftSec		= 180.0f;				//!< 残り時間(秒)
+	
 	
 	public override void Exec ()
 	{
@@ -61,5 +64,58 @@ public class InGameState : StateBase {
 	protected override void OnDestruct ()
 	{
 		
+	}
+	
+	
+	//! 状態入り　初期化
+	private void Enter_Init(){
+		
+	}
+	//! 状態入り　待機
+	private void Enter_Wait(){
+		
+	}
+	
+	
+	//! メイン処理　初期化
+	private void Main_Init(){
+		
+	}
+	//! メイン処理　待機
+	private void Main_Wait(){
+		
+	}
+	
+	
+	//! 正解率に応じてテンションと残り時間を増減
+	public void UpdateUIbyResult(float percent){
+		// テーブルを参照する
+	}
+	
+	//! テンション増減
+	public void SetTention(float t){
+		tention += t;
+		tention = Mathf.Clamp01(tention);
+		
+		// UIに反映
+		
+		if(t>0){
+			// なんか演出	
+		}else if(t<0){
+			// なんか演出	
+		}
+	}
+	
+	//! 残り時間増減
+	public void SetSec(float s){
+		leftSec += s;
+		
+		// UIに反映
+		
+		if(s>0){
+			// なんか演出	
+		}else if(s<0){
+			// なんか演出	
+		}
 	}
 }
