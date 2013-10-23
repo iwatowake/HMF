@@ -14,7 +14,16 @@ public class OrigamiCollider : MonoBehaviour {
 	public	OrigamiRay[]	RayPointPlane;
 	public	OrigamiRay[]	RayPoint;
 	private	int				Num;
-
+	
+	private		Vector3[]	StartPos;
+	private		Vector3[]	EndPos;
+	private		int[]		OrigamiIndex;
+	private		float		t = 0.0f;
+	
+	public void SetStartPos ( Vector3[] Pos ){ StartPos = Pos; }
+	public void SetEndPos ( Vector3[] Pos ){ EndPos = Pos; }
+	public void SetOrigamiIndex ( int[] Index ){ OrigamiIndex = Index; }
+	
 	// Use this for initialization
 	void Start () {
 		Num = RayOffset*RayOffset;
@@ -38,6 +47,19 @@ public class OrigamiCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if( gameObject.layer == 9 ){
+			Mesh HitMesh = gameObject.GetComponent<MeshFilter>().mesh;
+			Vector3[] Vertex = HitMesh.vertices;
+			for( int i = 0; i < OrigamiIndex.Length; i++ ){
+				Vertex[OrigamiIndex[i]] = Vector3.Slerp( StartPos[i], EndPos[i], t );
+			}
+			HitMesh.vertices = Vertex;
+			if( StaticMath.Compensation( ref t, 1.0f, 0.02f ) ){
+				t = 0.0f;
+				gameObject.GetComponent<MeshCollider>().sharedMesh = HitMesh;
+				gameObject.layer = 8;
+			}
+		}
 	}
 	
 	public float	GetPercent	(){
