@@ -73,9 +73,9 @@ public class LeapUnityHandController : MonoBehaviour
 		LeapInput.PointableUpdated += new LeapInput.PointableUpdatedHandler(OnPointableUpdated);
 		
 		//assign default materials
-		foreach( Renderer r in m_hands[2].GetComponentsInChildren<Renderer>() )
+		//foreach( Renderer r in m_hands[2].GetComponentsInChildren<Renderer>() )
 		{
-			r.material = m_materials[2];	
+			//r.material = m_materials[2];	
 		}
 		//do a pass to hide the objects.
 		/*foreach( GameObject palm in m_palms )
@@ -161,7 +161,7 @@ public class LeapUnityHandController : MonoBehaviour
 	{
 		updateParent( fingerObject, pointable.Hand.Id );
 		
-		SetVisible(fingerObject, pointable.IsValid);
+		//SetVisible(fingerObject, pointable.IsValid);
 		SetCollidable(fingerObject, pointable.IsValid);
 		
 		if ( pointable.IsValid )
@@ -203,11 +203,12 @@ public class LeapUnityHandController : MonoBehaviour
 		if( child.transform.parent != parent.transform )
 		{
 			child.transform.parent = parent.transform;
-			
+			/*
 			foreach( Renderer r in child.GetComponents<Renderer>() )
 				r.material = m_materials[handIndex];;	
 			foreach( Renderer r in child.GetComponentsInChildren<Renderer>() )
 				r.material = m_materials[handIndex];;
+				*/
 		}
 	}
 }
