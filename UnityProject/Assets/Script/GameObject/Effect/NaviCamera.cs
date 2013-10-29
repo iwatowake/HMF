@@ -5,9 +5,9 @@ public class NaviCamera : MonoBehaviour {
 	float distance = 0.0f;
 	float old_diastance = 0.0f;
 	
-	public float speedAtLookForMove = 1.0f;
-	public float speedAtLookForWait = 60.0f;
-	public float cameraSpeed = 0.1f;
+//	public float speedAtLookForMove = 1.0f;
+//	public float speedAtLookForWait = 60.0f;
+//	public float cameraSpeed = 0.1f;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class NaviCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetKey(KeyCode.W))
+/*        if(Input.GetKey(KeyCode.W))
             distance += cameraSpeed;
         if(Input.GetKey(KeyCode.S))
             distance -= cameraSpeed;
@@ -29,24 +29,32 @@ public class NaviCamera : MonoBehaviour {
 	    iTween.PutOnPath(gameObject ,iTweenPath.GetPath("StreetPath"),percent);
 	    Vector3 nextPathPosition = iTween.PointOnPath(iTweenPath.GetPath("StreetPath"),percent+0.1f);
 
-		
+*/
 		// カメラが移動しているか確認.
 		if(old_diastance == distance)
 		{
-//			iTween.LookUpdate(gameObject,iTween.Hash("looktarget",nextPathPosition,"time",speedAtLookForWait));//,"easetype", iTween.EaseType.easeInOutBack));
-		}
-		else
-		{
-			// 進行方向にカメラを向ける.
-			iTween.LookUpdate(gameObject,iTween.Hash("looktarget",nextPathPosition,"time",speedAtLookForMove/*));*/,"easetype", iTween.EaseType.easeInOutBack));
-//			gameObject.transform.LookAt(nextPathPosition);
-//			iTween.LookUpdate(gameObject,iTween.Hash("looktarget",nextPathPosition,"time",1));//,"easetype", iTween.EaseType.easeInOutBack));
 		}
 		
 		old_diastance = distance;
 		
-		// 以下はカメラを揺らす処理の残骸.
-//		iTween.PunchRotation(gameObject,iTween.Hash("z",45,"time",5, "easetype", iTween.EaseType.easeInOutCubic));
-//		iTween.ShakeRotation(gameObject,iTween.Hash("z",5,"time",5, "easetype", iTween.EaseType.easeInOutCubic));
 	}
+
+	#region iTweenのOnCompleteで使う関数一覧.
+	void SetStreet1()
+	{
+		iTweenEvent.GetEvent(gameObject,"StreetEvent1").Play();
+	}
+	void SetStreet2()
+	{
+		iTweenEvent.GetEvent(gameObject,"StreetEvent2").Play();
+	}
+	void SetStreet3()
+	{
+		iTweenEvent.GetEvent(gameObject,"StreetEvent3").Play();
+	}
+	void SetStreet4()
+	{
+		iTweenEvent.GetEvent(gameObject,"StreetEvent4").Play();
+	}
+	#endregion
 }

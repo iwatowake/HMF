@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class LeapOrigamiCollider : MonoBehaviour {
 	
-	public	GameObject		PointParticlePrefab;
+	public	GameObject		PointLoopParticlePrefab;
+	public	GameObject		PointOneShotParticlePrefab;
 	public	GameObject		ContactParticlePrefab;
 	private	GameObject[]	PointParticle = new GameObject[2]{ null, null };
 	private	GameObject		HitObj = null;
@@ -37,7 +38,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
-			PointParticle[0] = Instantiate( PointParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
+			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
 			HitFlg = true;
 		}
 	}
@@ -96,7 +97,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				}
 				float Deg = Mathf.Acos(Angle)*180.0f/Mathf.PI;
 				Instantiate( ContactParticlePrefab, HitStartPos + Vec / 2.0f, Quaternion.AngleAxis( Deg, Camera.main.transform.forward ) );
-				PointParticle[1] = Instantiate( PointParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
+				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
+				PointParticle[0].particleEmitter.emit = false;
 				OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos );
 				// レイヤー変更.
 				other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
