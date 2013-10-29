@@ -77,11 +77,9 @@ public class OrigamiCollider : MonoBehaviour {
 				}
 			}
 		}
-		int OrigamiRayNum = 0;
 		for( int i = 0; i < RayOffset; i++ ){
 			for( int j = 0; j < RayOffset; j++ ){
 				if( RayPoint[i*RayOffset+j].Enable ){
-					OrigamiRayNum ++;
 					ray.origin = transform.TransformPoint( RayPoint[i*RayOffset+j].Position );
 					if( WakuCollider.Raycast( ray, out HitInfo, 100.0f ) ){
 						HitCnt++;
@@ -93,14 +91,12 @@ public class OrigamiCollider : MonoBehaviour {
 			}
 		}
 		
-		print( OrigamiRayNum.ToString() );
 		float PlanePer = (float)PlaneHitCnt/(float)Num * 100.0f;
-		float OrigamiPer = (float)HitCnt/(float)OrigamiRayNum * 100.0f;
-		print( PlanePer.ToString() );
-		print( OrigamiPer.ToString() );
+		float OrigamiPer = (float)HitCnt/(float)Num * 100.0f;
 		float Per;
 		if( PlanePer != 0.0f ){
 			Per = OrigamiPer / PlanePer * 100.0f;
+			if( Per < 0.0f )	Per = 0.0f;
 		}
 		else{
 			Per = 0.0f;

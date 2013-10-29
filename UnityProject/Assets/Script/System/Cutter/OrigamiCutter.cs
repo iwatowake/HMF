@@ -203,13 +203,15 @@ public static class OrigamiCutter{
 		OrigamiObj.GetComponent<MeshCollider>().sharedMesh = NewMesh;
 		//other.GetComponent<BoxCollider>().size = NewMesh.bounds.size;
 		//other.GetComponent<BoxCollider>().center = NewMesh.bounds.center;
+		
+		if( LeftCnt > RightCnt ){
+			OriFlg = false;
+		}
 
 		// 判定を折る.
-		Ray			ray = new Ray();
-		RaycastHit 	HitInfo = new RaycastHit();
-		ray.direction = Camera.main.transform.forward;
-		MeshCollider	meshCollider = OrigamiObj.GetComponent<MeshCollider>();
 		OrigamiCollider origamiCollider = OrigamiObj.GetComponent<OrigamiCollider>();
+		Vector2[] Polygon = new Vector2[3];
+		Vector2	  Point = new Vector2();
 		if( origamiCollider == null )	return;
 		for( int i = 0; i < origamiCollider.RayPoint.Length; i++ ){
 			if( !origamiCollider.RayPoint[i].Enable )	continue;
@@ -221,18 +223,22 @@ public static class OrigamiCutter{
 				else{
 					origamiCollider.RayPoint[i].Position += LocalNormal * Len * 2.0f;
 				}
-				ray.origin = OrigamiObj.transform.TransformPoint( origamiCollider.RayPoint[i].Position );
-				if( meshCollider.Raycast( ray, out HitInfo, 100.0f ) ){
-					origamiCollider.RayPoint[i].Enable = false;
+				
+				Point.Set( origamiCollider.RayPoint[i].Position.x, origamiCollider.RayPoint[i].Position.z );
+				for( int j = 0; j < OptimizeIndex.Length; j+=3 ){
+					Polygon[0].Set( OptimizeVertex[OptimizeIndex[j+0]].x, OptimizeVertex[OptimizeIndex[j+0]].z );
+					Polygon[1].Set( OptimizeVertex[OptimizeIndex[j+1]].x, OptimizeVertex[OptimizeIndex[j+1]].z );
+					Polygon[2].Set( OptimizeVertex[OptimizeIndex[j+2]].x, OptimizeVertex[OptimizeIndex[j+2]].z );
+					if( StaticMath.CheckInPolygon2D( Polygon, 3, Point ) ){
+						origamiCollider.RayPoint[i].Enable = false;
+						break;
+					}
 				}
 			}
 		}
 		
 		// 折る前と折った後の頂点座標とインデックスを求める.
 		int OriCnt = 0;
-		if( LeftCnt > RightCnt ){
-			OriFlg = false;
-		}
 		for( int i = 0; i < OptimizeVertex.Length; i++ ){
 			if( GetSide( LocalHitVec, OptimizeVertex[i] - LocalHitPoint1 ) == OriFlg ){
 				OriCnt++;
