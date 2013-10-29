@@ -43,10 +43,6 @@ public class InGameState : StateBase {
 			state++;
 			break;
 		case STATE.eEnter_Wait:
-/*			if((timer+=Time.deltaTime) > 3.0f)
-			{
-				state++;				
-			}*/
 			break;
 			
 			// インゲーム　入力待ち
