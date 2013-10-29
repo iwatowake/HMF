@@ -6,8 +6,12 @@ public class HandObjectController : MonoBehaviour {
 	
 	private Vector3			Pos;
 	private List<Vector3>	PosArray = new List<Vector3>();
+	private	bool			OutOfScreen = false;
+	private float			Speed = 0.0f;
 	
-
+	public void	SetOutOfScreen ( bool Flg ){ OutOfScreen = Flg; }
+	public float GetSpeed () { return Speed; }
+	
 	// Use this for initialization
 	void Start () {
 		Pos = Camera.main.transform.localPosition + Camera.main.transform.forward * 10.0f;
@@ -15,10 +19,20 @@ public class HandObjectController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void	Update	(){
-		if( PosArray.Count == 0 )	return;
+		if( OutOfScreen && PosArray.Count == 0 ){
+			gameObject.SetActive( false );
+		}
+		if( PosArray.Count == 0 ){
+			Speed = 0.0f;
+			return;
+		}
 		
-		const float	OffsetLength = 0.7f;
+		const float	OffsetLength = 0.5f;
 		float	Length = Vector3.Distance( Pos, PosArray[0] );
+		Speed = 0.0f;
+		for( int i = 1; i < PosArray.Count; i++ ){
+			Speed += Vector3.Distance( PosArray[i-1], PosArray[i] );
+		}
 		// 距離が長すぎた場合補間しない.
 		/*if( Length > MaxLength ){
 			Pos = PosArray[0];
@@ -53,11 +67,15 @@ public class HandObjectController : MonoBehaviour {
 		};
 		Vector3	ScreenPos = Camera.main.WorldToScreenPoint( inPos );
 		if( StaticMath.CheckInPolygon2D( ScreenPolygon, 4, new Vector2( ScreenPos.x, ScreenPos.y ) ) ){
-			PosArray.Add( inPos );
+			if( OutOfScreen ){
+				Pos = inPos;
+				gameObject.transform.localPosition = inPos;
+				PosArray.Clear();
+			}
+			else{
+				PosArray.Add( inPos );
+			}
 			gameObject.SetActive( true );
-		}
-		else{
-			gameObject.SetActive( false );
 		}
 	}
 }

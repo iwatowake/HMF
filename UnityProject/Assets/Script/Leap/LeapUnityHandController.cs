@@ -123,6 +123,14 @@ public class LeapUnityHandController : MonoBehaviour
 		int index = Array.FindIndex(m_handIDs, id => id == -1);
 		if( index != -1 )
 		{
+			if( m_HandControllerScript[1-index].gameObject.activeSelf == false ){
+				m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
+				m_HandControllerScript[index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= true;
+			}
+			else{
+				m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
+				m_HandControllerScript[index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
+			}
 			m_handIDs[index] = h.Id;
 			updatePalm(h, m_HandControllerScript[index]);
 		}
@@ -140,6 +148,10 @@ public class LeapUnityHandController : MonoBehaviour
 		int index = Array.FindIndex(m_handIDs, id => id == lostID);
 		if( index != -1 )
 		{
+			if( m_HandControllerScript[1-index].gameObject.activeSelf == true ){
+				m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled = true;
+			}
+			m_HandControllerScript[index].SetOutOfScreen( true );
 			updatePalm(Hand.Invalid, m_HandControllerScript[index]);
 			m_handIDs[index] = -1;
 		}
@@ -173,11 +185,12 @@ public class LeapUnityHandController : MonoBehaviour
 		{
 			Vector3 Pos = leapHand.PalmPosition.ToUnityTranslated();
 			Pos = Camera.main.WorldToScreenPoint( Pos );
-			Pos.z = 10.0f;
+			Pos.z = 6.5f;
 			Pos = Camera.main.ScreenToWorldPoint( Pos );
 			palmObject.SetPos( Pos );
+			palmObject.SetOutOfScreen( false );
 		}
-	}	
+	}
 	
 	void updateParent( GameObject child, int handId )
 	{
