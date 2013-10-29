@@ -8,7 +8,7 @@ public class OrigamiRay {
 
 public class OrigamiCollider : MonoBehaviour {
 	
-	public 	GameObject		FrameObject;
+	public 	GameObject		WakuObject;
 	private	float			PlaneSize = 0.5f;
 	private	int				RayOffset = 50;
 	public	OrigamiRay[]	RayPointPlane;
@@ -33,7 +33,7 @@ public class OrigamiCollider : MonoBehaviour {
 			for( int j = 0; j < RayOffset; j++ ){
 				RayPointPlane[i*RayOffset+j] = new OrigamiRay();
 				RayPointPlane[i*RayOffset+j].Position.x = PlaneSize / (float)RayOffset * j - PlaneSize / 2.0f;
-				RayPointPlane[i*RayOffset+j].Position.y = 1.0f;
+				RayPointPlane[i*RayOffset+j].Position.y = 0.0f;
 				RayPointPlane[i*RayOffset+j].Position.z = PlaneSize / (float)RayOffset * i - PlaneSize / 2.0f;
 				RayPointPlane[i*RayOffset+j].Enable = false;
 			}
@@ -47,7 +47,7 @@ public class OrigamiCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( gameObject.layer == 9 ){
+		if( gameObject.layer == (int)LayerEnum.layer_OrigamiWait ){
 			Mesh HitMesh = gameObject.GetComponent<MeshFilter>().mesh;
 			Vector3[] Vertex = HitMesh.vertices;
 			for( int i = 0; i < OrigamiIndex.Length; i++ ){
@@ -57,13 +57,13 @@ public class OrigamiCollider : MonoBehaviour {
 			if( StaticMath.Compensation( ref t, 1.0f, 0.02f ) ){
 				t = 0.0f;
 				gameObject.GetComponent<MeshCollider>().sharedMesh = HitMesh;
-				gameObject.layer = 8;
+				gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
 			}
 		}
 	}
 	
 	public float	GetPercent	(){
-		Collider 	FrameCollider = FrameObject.collider;
+		Collider 	WakuCollider = WakuObject.collider;
 		Ray			ray = new Ray();
 		RaycastHit 	HitInfo = new RaycastHit();
 		ray.direction = Camera.main.transform.forward;
@@ -72,24 +72,32 @@ public class OrigamiCollider : MonoBehaviour {
 		for( int i = 0; i < RayOffset; i++ ){
 			for( int j = 0; j < RayOffset; j++ ){
 				ray.origin = transform.TransformPoint( RayPointPlane[i*RayOffset+j].Position );
-				if( FrameCollider.Raycast( ray, out HitInfo, 100.0f ) ){
+				if( WakuCollider.Raycast( ray, out HitInfo, 100.0f ) ){
 					PlaneHitCnt++;
 				}
 			}
 		}
+		int OrigamiRayNum = 0;
 		for( int i = 0; i < RayOffset; i++ ){
 			for( int j = 0; j < RayOffset; j++ ){
 				if( RayPoint[i*RayOffset+j].Enable ){
+					OrigamiRayNum ++;
 					ray.origin = transform.TransformPoint( RayPoint[i*RayOffset+j].Position );
-					if( FrameCollider.Raycast( ray, out HitInfo, 100.0f ) ){
+					if( WakuCollider.Raycast( ray, out HitInfo, 100.0f ) ){
 						HitCnt++;
+					}
+					else{
+						HitCnt--;
 					}
 				}
 			}
 		}
 		
+		print( OrigamiRayNum.ToString() );
 		float PlanePer = (float)PlaneHitCnt/(float)Num * 100.0f;
-		float OrigamiPer = (float)HitCnt/(float)Num * 100.0f;
+		float OrigamiPer = (float)HitCnt/(float)OrigamiRayNum * 100.0f;
+		print( PlanePer.ToString() );
+		print( OrigamiPer.ToString() );
 		float Per;
 		if( PlanePer != 0.0f ){
 			Per = OrigamiPer / PlanePer * 100.0f;

@@ -20,7 +20,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if( HitObj == null )	return;
-		if( HitObj.layer == 8 && !HitFlg ){
+		if( HitObj.layer == (int)LayerEnum.layer_OrigamiCut && !HitFlg ){
 			if( PointParticle[0] != null ){
 				Destroy( PointParticle[0] );
 				PointParticle[0] = null;
@@ -33,7 +33,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	}
 	
 	private void OnTriggerEnter (Collider other){
-		if( other.gameObject.layer == 8 ){
+		if( enabled == false ) return;
+		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
 			PointParticle[0] = Instantiate( PointParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
@@ -42,7 +43,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	}
 	
 	private void OnTriggerExit (Collider other){
-		if( other.gameObject.layer == 8 && HitFlg ){
+		if( enabled == false ) return;
+		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
 			HitEndPos = other.collider.ClosestPointOnBounds(transform.position);
 			
 			// 折れるかどうか判定.
@@ -89,7 +91,6 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				Vector3	LocalEndPos = other.transform.InverseTransformPoint( HitEndPos );
 				Vector3	LocalVec = (LocalEndPos - LocalStartPos).normalized;
 				float Angle = Vector3.Dot( Vec.normalized, Camera.main.transform.right );
-				print ( Angle.ToString() );
 				if( LocalVec.z < 0.0f ){
 					Angle = -Angle;
 				}
@@ -98,7 +99,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				PointParticle[1] = Instantiate( PointParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
 				OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos );
 				// レイヤー変更.
-				other.gameObject.layer = 9;
+				other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
 			}
 			else{
 				Destroy( PointParticle[0] );
