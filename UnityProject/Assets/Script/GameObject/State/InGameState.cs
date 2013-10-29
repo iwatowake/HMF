@@ -40,6 +40,7 @@ public class InGameState : StateBase {
 			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			fade.Tween_FadeIn(gameObject, "OnCompleteFade", 1.5f);
+			
 			state++;
 			break;
 		case STATE.eEnter_Wait:
