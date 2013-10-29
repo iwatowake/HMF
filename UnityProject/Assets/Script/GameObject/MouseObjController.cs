@@ -11,8 +11,9 @@ public class MouseObjController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3	Pos = Input.mousePosition;
-		Pos.z = 6.5f;
+		Pos.z = 4.5f;
 		Pos = Camera.main.ScreenToWorldPoint( Pos );
-		gameObject.transform.localPosition = Pos;
+		gameObject.transform.position = Pos;
+		gameObject.transform.localEulerAngles = new Vector3(0,0,0);
 	}
 }

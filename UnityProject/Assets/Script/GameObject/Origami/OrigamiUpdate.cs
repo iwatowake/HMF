@@ -78,7 +78,7 @@ public class OrigamiUpdate : MonoBehaviour {
 			Instantiate( WaveEffectPrefab, transform.position, Quaternion.identity );
 		}
 		t = 1.0f - (StartMoveTime - Timer) / StartMoveTime;
-		transform.localPosition = Vector3.Lerp( Vector3.zero, new Vector3( 0,0,6.0f ), t );
+		transform.localPosition = Vector3.Lerp( Vector3.zero, new Vector3( 0,0,4.5f ), t );
 		if( State != STATE.START_MOVE ) Timer = 0.0f;
 	}
 	

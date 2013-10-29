@@ -75,6 +75,11 @@ public class LeapUnityBridge : MonoBehaviour
 	
 	void Update()
 	{
+		if( Camera.main != null )
+		{
+			m_InputParent = Camera.main.gameObject;
+		}
+		
 		if( !m_UseFixedUpdate )
 			LeapInput.Update();
 		
@@ -92,10 +97,12 @@ public class LeapUnityBridge : MonoBehaviour
 		
 		if( m_InputParent )
 		{
+			Debug.Log("a");
 			hands.transform.parent = m_InputParent.transform;
 		}
 		else
 		{
+			Debug.Log("b");
 			hands.transform.parent = transform;
 		}
 		
@@ -119,7 +126,12 @@ public class LeapUnityBridge : MonoBehaviour
 			behavior.m_palms[i] = CreatePalm(behavior.m_hands[2], i);
 			behavior.m_HandControllerScript[i] = behavior.m_palms[i].GetComponent<HandObjectController>();
 		}
-		behavior.m_palms[0].transform.localPosition = Camera.main.transform.localPosition + Camera.main.transform.forward * 10.0f;
+		
+/*		if(Camera.main != null)
+			behavior.m_palms[0].transform.localPosition = Camera.main.transform.localPosition + Camera.main.transform.forward * 10.0f;
+		else
+			behavior.m_palms[0].transform.localPosition = Vector3;*/
+			
 		behavior.m_palms[1].SetActive( false );
 		/*
 		foreach( GameObject fingerTip in GameObject.FindGameObjectsWithTag("FingerTip") )
