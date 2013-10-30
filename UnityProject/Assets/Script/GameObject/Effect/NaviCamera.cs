@@ -16,29 +16,31 @@ public class NaviCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-/*        if(Input.GetKey(KeyCode.W))
-            distance += cameraSpeed;
-        if(Input.GetKey(KeyCode.S))
-            distance -= cameraSpeed;
-				
-		// 進行中の距離と全体の距離の割合を算出.
-		float pathLength = iTween.PathLength(iTweenPath.GetPath("StreetPath"));
-	    float percent = distance / pathLength;
-	    if(percent < 0.0f) percent = 0.0f;
-	    if(percent > 1.0f) percent = 1.0f;
-	    iTween.PutOnPath(gameObject ,iTweenPath.GetPath("StreetPath"),percent);
-	    Vector3 nextPathPosition = iTween.PointOnPath(iTweenPath.GetPath("StreetPath"),percent+0.1f);
-
-*/
 		// カメラが移動しているか確認.
 		if(old_diastance == distance)
 		{
 		}
-		
 		old_diastance = distance;
 		
+		if(Input.GetKeyDown(KeyCode.Z))	
+			LookTownPauseTween();
+							
 	}
-
+	#region カメラの一時停止して世界の中心を注視する.
+	void LookTownPauseTween()
+	{
+		iTween.Pause(gameObject);
+		iTweenEvent.GetEvent(gameObject,"LookTown").Play();
+	}
+	#endregion
+	
+	#region 移動を再開する.
+	void ResumeStreet()
+	{
+		iTween.Resume(gameObject);
+	}
+	#endregion
+		
 	#region iTweenのOnCompleteで使う関数一覧.
 	void SetStreet1()
 	{

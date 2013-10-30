@@ -9,13 +9,12 @@ public class LineEffect : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gameObject.particleSystem.renderer.enabled = false;
-		targetPositionStart = new Vector3(-10,0,0);
-		targetPositionEnd = new Vector3(10,0,0);
 		MoveToTargetPositionEnd();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
 	}
 	
 	void MoveToTargetPositionEnd()
