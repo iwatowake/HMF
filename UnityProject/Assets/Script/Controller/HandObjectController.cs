@@ -80,6 +80,6 @@ public class HandObjectController : MonoBehaviour {
 	}
 	
 	public Vector2 GetScreenPos (){
-		return ScreenPos = Camera.main.WorldToScreenPoint( inPos+Camera.main.transform.position );
+	  return Camera.main.WorldToScreenPoint( Pos+Camera.main.transform.position );
 	}
 }

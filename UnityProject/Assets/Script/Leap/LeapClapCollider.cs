@@ -9,7 +9,7 @@ public class LeapClapCollider : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		HandControllerScript = transform.parent.gameObject.GetComponent<HandObjectController>();
-		OrigamiControllerScript = GameObject.Find( "GameSystem" ).GetComponent<OrigamiController>();
+		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 	}
 	
 	// Update is called once per frame
