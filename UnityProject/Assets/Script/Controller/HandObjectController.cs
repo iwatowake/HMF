@@ -65,7 +65,7 @@ public class HandObjectController : MonoBehaviour {
 			new Vector2( 0.0f        , Screen.height ),
 			new Vector2( Screen.width, Screen.height ),
 		};
-		Vector3	ScreenPos = Camera.main.WorldToScreenPoint( inPos );
+		Vector3	ScreenPos = Camera.main.WorldToScreenPoint( inPos+Camera.main.transform.position );
 		if( StaticMath.CheckInPolygon2D( ScreenPolygon, 4, new Vector2( ScreenPos.x, ScreenPos.y ) ) ){
 			if( OutOfScreen ){
 				Pos = inPos;

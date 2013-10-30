@@ -11,4 +11,6 @@ public	enum	LayerEnum{
 	layer_OrigamiWait,
 	layer_OrigamiUpdate,
 	layer_LeapHand,
+	layer_Effect,
+	layer_OrigamiCamera,
 };

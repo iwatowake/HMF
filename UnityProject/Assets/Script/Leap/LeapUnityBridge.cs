@@ -75,9 +75,12 @@ public class LeapUnityBridge : MonoBehaviour
 	
 	void Update()
 	{
-		if( Camera.main != null )
+		if( Camera.main != null && 
+			gameObject.transform.parent != Camera.main.transform )
 		{
-			m_InputParent = Camera.main.gameObject;
+			gameObject.transform.parent = Camera.main.transform;
+			gameObject.transform.localPosition = Vector3.zero;
+			gameObject.transform.localRotation = Quaternion.identity;
 		}
 		
 		if( !m_UseFixedUpdate )
@@ -115,15 +118,18 @@ public class LeapUnityBridge : MonoBehaviour
 		
 		for( int i = 0; i < behavior.m_hands.Length; i++ )
 		{
-			behavior.m_hands[i] = CreateHand(hands, i);	
+			behavior.m_hands[i] = CreateHand(hands, i);
+			behavior.m_hands[i].layer = (int)LayerEnum.layer_OrigamiCamera;
 		}
 		for( int i = 0; i < behavior.m_fingers.Length; i++ )
 		{
 			behavior.m_fingers[i] = CreateFinger(behavior.m_hands[2], i);
+			behavior.m_fingers[i].layer = (int)LayerEnum.layer_OrigamiCamera;
 		}
 		for( int i = 0; i < behavior.m_palms.Length; i++ )
 		{
 			behavior.m_palms[i] = CreatePalm(behavior.m_hands[2], i);
+			behavior.m_palms[i].layer = (int)LayerEnum.layer_OrigamiCamera;
 			behavior.m_HandControllerScript[i] = behavior.m_palms[i].GetComponent<HandObjectController>();
 		}
 		

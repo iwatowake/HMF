@@ -184,9 +184,12 @@ public class LeapUnityHandController : MonoBehaviour
 		if( leapHand.IsValid )
 		{
 			Vector3 Pos = leapHand.PalmPosition.ToUnityTranslated();
+			Pos.z = 4.4f;
+			/*
 			Pos = Camera.main.WorldToScreenPoint( Pos );
-			Pos.z = 6.5f;
+			Pos.z = 10.5f;
 			Pos = Camera.main.ScreenToWorldPoint( Pos );
+			*/
 			palmObject.SetPos( Pos );
 			palmObject.SetOutOfScreen( false );
 		}
