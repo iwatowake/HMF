@@ -36,6 +36,10 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	private void OnTriggerEnter (Collider other){
 		if( enabled == false ) return;
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
+			if( PointParticle[0] != null ){
+				Destroy( PointParticle[0] );
+				PointParticle[0] = null;
+			}
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;

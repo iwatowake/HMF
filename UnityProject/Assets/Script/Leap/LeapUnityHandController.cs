@@ -169,6 +169,8 @@ public class LeapUnityHandController : MonoBehaviour
 			Vector3 vFingerDir = pointable.Direction.ToUnity();
 			Vector3 vFingerPos = pointable.TipPosition.ToUnityTranslated();
 			
+			vFingerPos.z = 4.6f;
+			
 			fingerObject.transform.localPosition = vFingerPos;
 			fingerObject.transform.localRotation = Quaternion.FromToRotation( Vector3.forward, vFingerDir );
 		}
