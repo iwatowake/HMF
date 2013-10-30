@@ -78,4 +78,8 @@ public class HandObjectController : MonoBehaviour {
 			gameObject.SetActive( true );
 		}
 	}
+	
+	public Vector2 GetScreenPos (){
+	  return Camera.main.WorldToScreenPoint( Pos+Camera.main.transform.position );
+	}
 }
