@@ -2,41 +2,31 @@
 using System.Collections;
 
 public class NaviCamera : MonoBehaviour {
-	float distance = 0.0f;
-	float old_diastance = 0.0f;
+	public float fieldOfViewInMove = 40;
+	public float fieldOfViewInLook = 60;
+	public float fieldOfViewTime = 1.0f;
 	
-//	public float speedAtLookForMove = 1.0f;
-//	public float speedAtLookForWait = 60.0f;
-//	public float cameraSpeed = 0.1f;
-	
-	// Use this for initialization
+		// Use this for initialization
 	void Start () {
-//		iTween.MoveTo(gameObject,iTween.Hash("path",iTweenPath.GetPath("StreetPath"),"time",10,"easetype",iTween.EaseType.easeOutSine));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// カメラが移動しているか確認.
-		if(old_diastance == distance)
-		{
-		}
-		old_diastance = distance;
-		
-		if(Input.GetKeyDown(KeyCode.Z))	
-			LookTownPauseTween();
-							
 	}
+	
 	#region カメラの一時停止して世界の中心を注視する.
-	void LookTownPauseTween()
+	public void LookTownPauseTween()
 	{
 		iTween.Pause(gameObject);
 		iTweenEvent.GetEvent(gameObject,"LookTown").Play();
+		ChangeFieldOfView();
 	}
 	#endregion
 	
 	#region 移動を再開する.
 	void ResumeStreet()
 	{
+		ResumeFieldOfView();
 		iTween.Resume(gameObject);
 	}
 	#endregion
@@ -57,6 +47,23 @@ public class NaviCamera : MonoBehaviour {
 	void SetStreet4()
 	{
 		iTweenEvent.GetEvent(gameObject,"StreetEvent4").Play();
+	}
+	#endregion
+
+	#region CameraのFieldOfViewをTweenで変更.
+	public void ChangeFieldOfView()
+	{
+		iTween.ValueTo(gameObject, iTween.Hash("from", fieldOfViewInMove, "to", fieldOfViewInLook, "time", fieldOfViewTime, "onupdate", "SetFieldOfView"));		
+	}
+	
+	public void ResumeFieldOfView()
+	{
+		iTween.ValueTo(gameObject, iTween.Hash("from", fieldOfViewInLook, "to", fieldOfViewInMove, "time", fieldOfViewTime, "onupdate", "SetFieldOfView"));		
+	}		
+	
+	private void SetFieldOfView(float value)
+	{
+		this.camera.fieldOfView = value;
 	}
 	#endregion
 }
