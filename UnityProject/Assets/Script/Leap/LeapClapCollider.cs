@@ -23,7 +23,7 @@ public class LeapClapCollider : MonoBehaviour {
 		if( other.gameObject.layer == (int)LayerEnum.layer_LeapHand ){
 			if( HandControllerScript.GetSpeed() > 0.3f &&
 				OrigamiControllerScript.GetActiveFlg() ){
-				OrigamiControllerScript.Clap();
+				//OrigamiControllerScript.Clap();
 			}
 		}
 	}
