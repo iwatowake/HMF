@@ -18,9 +18,6 @@ public class InGameState : StateBase {
 	}
 	
 	private STATE	state		= STATE.eEnter_Init;	//!< 状態管理用
-	private float	tention		= 0.1f;					//!< テンション(0.1f～1.0f)
-	private	float	leftSec		= 180.0f;				//!< 残り時間(秒)
-	private float	timer		= 0.0f;
 	
 	protected override void Start ()
 	{
@@ -33,6 +30,7 @@ public class InGameState : StateBase {
 		{
 			// インゲーム　状態入り
 		case STATE.eEnter_Init:
+			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.INGAME);
 			fade = GameObject.Find("Fade").GetComponent<Fade>();
 			fade.gameObject.renderer.material.color = Color.white;
 			Debug.Log("Enter_InGame");

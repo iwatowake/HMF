@@ -8,7 +8,7 @@
 * Module   : CRI Atom for Unity
 * File     : CriAtomProjInfo_Unity.cs
 * Tool Ver.          : CRI Atom Craft LE Ver.1.30.00
-* Date Time          : 2013/09/27 23:00
+* Date Time          : 2013/11/04 21:05
 * Project Name       : HMF_Origami
 * Project Comment    : 
 *
@@ -40,8 +40,11 @@ public partial class CriAtomAcfInfo
         acfInfo.aisacControlNameList.Add("AisacControl15");
         acfInfo.acbInfoList.Clear();
         AcbInfo newAcbInfo = null;
-        newAcbInfo = new AcbInfo("CueSheet_0", 0, "", "CueSheet_0.acb", "CueSheet_0_streamfiles.awb","d3c7b73c-14d6-4ac3-8375-08d2b9a8e52f");
+        newAcbInfo = new AcbInfo("BGM", 0, "", "BGM.acb", "BGM_streamfiles.awb","d3c7b73c-14d6-4ac3-8375-08d2b9a8e52f");
         acfInfo.acbInfoList.Add(newAcbInfo);
-        newAcbInfo.cueInfoList.Add(0, new CueInfo("bgm6proto", 0, ""));
+        newAcbInfo.cueInfoList.Add(0, new CueInfo("Prologue", 0, ""));
+        newAcbInfo.cueInfoList.Add(1, new CueInfo("Evolution ", 1, ""));
+        newAcbInfo.cueInfoList.Add(2, new CueInfo("StarLine", 2, ""));
+        newAcbInfo.cueInfoList.Add(3, new CueInfo("Beauty", 3, ""));
     }
 }

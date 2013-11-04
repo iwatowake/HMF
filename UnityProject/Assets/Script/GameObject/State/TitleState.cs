@@ -44,6 +44,7 @@ public class TitleState : StateBase {
 			// タイトル　状態入り
 		case STATE.eEnter_Init:
 			Debug.Log("Enter_Title");
+			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
 			Game_CityLayer.Instance.CityLayerEnable(0,false);
 			state++;
 			break;
