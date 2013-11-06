@@ -3,12 +3,12 @@ using System.Collections;
 
 public class UI_DicisionGauge : SingletonMonoBehaviour<UI_DicisionGauge> {
 	
-	public	float			fillSpeed = 1.0f;
+	private const	float			fillSpeed = 0.5f;
 	
-	private UIFilledSprite	sprite;
-	private	bool			bIsOnButton = false;
-	private	bool			bFilled = false;
-	private	UI_Buttons		relatedButton;
+	private 		UIFilledSprite	sprite;
+	private			bool			bIsOnButton = false;
+	private			bool			bFilled = false;
+	private			UI_Buttons		relatedButton;
 	
 	public bool isOnButton{
 		get{return bIsOnButton;}
@@ -20,18 +20,20 @@ public class UI_DicisionGauge : SingletonMonoBehaviour<UI_DicisionGauge> {
 		set{relatedButton = value;}
 	}
 	
+	
 	void Start(){
 		sprite = gameObject.GetComponent<UIFilledSprite>();
 
 	}
 	
-	void Update () {		
+	void Update () {
 		if(bIsOnButton)
 		{
 			if( (sprite.fillAmount >= 1.0f) && !bFilled)
 			{
 				bFilled = true;
 				relatedButton.OnPressed();
+				EffectCamera.Instance.DestroyButtonEffect();
 			}else{
 				sprite.fillAmount += (Time.deltaTime * fillSpeed);
 			}
