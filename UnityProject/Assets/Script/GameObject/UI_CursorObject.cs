@@ -18,14 +18,14 @@ public class UI_CursorObject : MonoBehaviour {
 	void Update () {
 		if(DebugManager.Instance.mouseMode)
 		{
-			transform.localPosition = Input.mousePosition - new Vector3(Screen.width/2, Screen.height/2, 0);
+			transform.localPosition = Input.mousePosition - new Vector3(Screen.width/2, Screen.height/2, 1);
 		}else{
 			for(int i=0; i<2; i++)
 			{
 				if(palmObj[i].GetComponent<LeapOrigamiCollider>().enabled)
 				{
 					Vector2 pos = palmObj[i].GetComponent<HandObjectController>().GetScreenPos();
-					transform.localPosition = new Vector3(pos.x, pos.y, 0) - new Vector3(Screen.width/2, Screen.height/2, 0);
+					transform.localPosition = new Vector3(pos.x, pos.y, 0) - new Vector3(Screen.width/2, Screen.height/2, 1);
 				}
 			}
 		//	transform.localPosition = GameObject.Find() - new Vector3(Screen.width/2, Screen.height/2, 0);

@@ -4,10 +4,10 @@ using System.Collections;
 public class StateBase : MonoBehaviour_Extends {
 	
 	private bool	isQuit = false;
-	protected	Fade	fade;
+	public	Fade	fade;
 	
 	protected virtual void Start(){
-		fade = GameObject.Find("Fade").GetComponent<Fade>();
+		//fade = GetComponentInChildren<Fade>();
 	}
 	
 	public virtual void Exec () {
@@ -15,6 +15,18 @@ public class StateBase : MonoBehaviour_Extends {
 	}
 	
 	protected virtual void OnDestruct(){
+		
+	}
+	
+	protected void FadeIn(float time){
+		fade.Tween_FadeIn(gameObject, "OnCompleteFade", time);
+	}
+	
+	protected void FadeOut(float time){
+		fade.Tween_FadeOut(gameObject, "OnCompleteFade", time);
+	}
+	
+	protected virtual void OnCompleteFade(){
 		
 	}
 	

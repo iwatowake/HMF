@@ -32,4 +32,9 @@ public class Fade : MonoBehaviour_Extends {
 		
 		iTween.ColorTo(gameObject, ht);
 	}
+	
+	void OnDestroy(){
+		iTween.StopByName("FadeOut");
+		iTween.StopByName("FadeIn");
+	}
 }
