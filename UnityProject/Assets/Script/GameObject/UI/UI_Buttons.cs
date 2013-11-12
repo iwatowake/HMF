@@ -27,6 +27,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 			{
 				if(!isPressed)
 				{
+					InstantiateGameObjectAsChild("Prefabs/Test_Yanagisawa/GaugeAppearEffect", UI_DicisionGauge.Instance.gameObject, -Vector3.forward*2, true);
 					isPressed = true;
 					UI_DicisionGauge.Instance.isOnButton = true;
 					UI_DicisionGauge.Instance.RelatedButton = this;
@@ -46,7 +47,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 			isPressed = false;
 			if(UI_DicisionGauge.Instance.RelatedButton == this)
 			{
-				UI_DicisionGauge.Instance.isOnButton = false;
+				UI_DicisionGauge.Instance.isOnButton 	= false;
 				UI_DicisionGauge.Instance.RelatedButton = null;
 				EffectCamera.Instance.DestroyButtonEffect();
 			}
@@ -54,6 +55,8 @@ public class UI_Buttons : MonoBehaviour_Extends {
 	}
 	
 	public void OnPressed(){
+		if(GetComponentInChildren<StringSelectEffect>() != null)
+			GetComponentInChildren<StringSelectEffect>().Play();
 		GameObject.Find(onPressedTarget).SendMessage(onPressedMethod,onPressedParam);
 	}
 }

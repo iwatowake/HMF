@@ -3,9 +3,10 @@ using System.Collections;
 
 public class StringSelectEffect : MonoBehaviour {
 
-	public Vector3				target = new Vector3(0,0,0);
+	public	Vector3				target = new Vector3(0,0,0);
+	public	GameObject			targetObject;
 	
-	bool Checked = false;					
+	bool Checked = false;			
 
 	
 	// Use this for initialization
@@ -15,7 +16,8 @@ public class StringSelectEffect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(gameObject.particleSystem.time > gameObject.particleSystem.duration / 2 && !Checked)
+		
+		if(particleSystem.isPlaying && gameObject.particleSystem.time > gameObject.particleSystem.duration / 2 && !Checked)
 		{			
 			ParticleSystem.Particle[] ParticleList = new ParticleSystem.Particle[gameObject.particleSystem.particleCount];
 			gameObject.particleSystem.GetParticles(ParticleList);
@@ -28,6 +30,12 @@ public class StringSelectEffect : MonoBehaviour {
 			gameObject.particleSystem.SetParticles(ParticleList,gameObject.particleSystem.particleCount);
 			Checked = true;
 		}
+	}
 	
+	public void Play(){
+		Checked = false;
+		particleSystem.Play();
+		target = targetObject.transform.position;
+		//target.x += targetObject.transform.lossyScale.x * (targetObject.GetComponent<UILabel>().text.Length/2);
 	}
 }
