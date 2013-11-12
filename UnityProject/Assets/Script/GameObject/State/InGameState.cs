@@ -3,6 +3,8 @@ using System.Collections;
 
 public class InGameState : StateBase {
 	
+	public GameObject WakuGeneratorPrefab;
+	
 	// 状態管理
 	enum STATE{
 		eEnter_Init = 0,
@@ -31,11 +33,16 @@ public class InGameState : StateBase {
 			// インゲーム　状態入り
 		case STATE.eEnter_Init:
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.INGAME);
+
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
 			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
+			GameObject WakuGeneratorObj = Instantiate( WakuGeneratorPrefab ) as GameObject;
+			WakuGeneratorObj.transform.parent = transform;
+			WakuGeneratorObj.GetComponent<WakuGenerator>().Init();
+			
 			state++;
 			break;
 		case STATE.eEnter_Wait:
