@@ -28,6 +28,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 				isPressed = true;
 				UI_DicisionGauge.Instance.isOnButton = true;
 				UI_DicisionGauge.Instance.RelatedButton = this;
+				EffectCamera.Instance.CreateButtonEffect();
 			}
 		}else{
 			if(isPressed)
@@ -35,6 +36,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 				isPressed = false;
 				UI_DicisionGauge.Instance.isOnButton = false;
 				UI_DicisionGauge.Instance.RelatedButton = null;
+				EffectCamera.Instance.DestroyButtonEffect();
 			}
 		}
 	}
