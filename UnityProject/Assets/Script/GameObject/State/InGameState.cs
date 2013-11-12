@@ -3,6 +3,8 @@ using System.Collections;
 
 public class InGameState : StateBase {
 	
+	public GameObject WakuGeneratorPrefab;
+	
 	// 状態管理
 	enum STATE{
 		eEnter_Init = 0,
@@ -38,6 +40,9 @@ public class InGameState : StateBase {
 			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			fade.Tween_FadeIn(gameObject, "OnCompleteFade", 1.5f);
+			GameObject WakuGeneratorObj = Instantiate( WakuGeneratorPrefab ) as GameObject;
+			WakuGeneratorObj.transform.parent = transform;
+			WakuGeneratorObj.GetComponent<WakuGenerator>().Init();
 			
 			state++;
 			break;
