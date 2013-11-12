@@ -38,6 +38,7 @@ public class UI_DicisionGauge : SingletonMonoBehaviour<UI_DicisionGauge> {
 				sprite.fillAmount += (Time.deltaTime * fillSpeed);
 			}
 		}else{
+			bFilled = false;
 			sprite.fillAmount = 0;
 		}
 	}

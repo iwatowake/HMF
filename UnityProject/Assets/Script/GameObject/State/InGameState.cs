@@ -33,13 +33,12 @@ public class InGameState : StateBase {
 			// インゲーム　状態入り
 		case STATE.eEnter_Init:
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.INGAME);
-			fade = GameObject.Find("Fade").GetComponent<Fade>();
-			fade.gameObject.renderer.material.color = Color.white;
+
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
 			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
-			fade.Tween_FadeIn(gameObject, "OnCompleteFade", 1.5f);
+			FadeIn(1.5f);			
 			GameObject WakuGeneratorObj = Instantiate( WakuGeneratorPrefab ) as GameObject;
 			WakuGeneratorObj.transform.parent = transform;
 			WakuGeneratorObj.GetComponent<WakuGenerator>().Init();
@@ -58,11 +57,6 @@ public class InGameState : StateBase {
 		case STATE.eMain_Wait:
 			UI_TimeCounter.Instance.Exec();
 			
-			if(Input.GetKeyDown(KeyCode.A))
-			{
-				UI_TentionGauge.Instance.SetResult(75);
-				UI_TimeCounter.Instance.SetResult(75);
-			}
 			if(Input.GetKeyDown(KeyCode.S))
 			{
 				UI_TentionGauge.Instance.SetResult(100);
@@ -77,10 +71,11 @@ public class InGameState : StateBase {
 			
 			// インゲーム　状態離脱
 		case STATE.eExit_Init:
+			FadeOut(1.5f);
+			GameObject.Find("UI_InGame").SetActive(false);
 			state++;
 			break;
 		case STATE.eExit_Wait:
-			state++;
 			break;
 			
 			// 次の状態へ
@@ -115,7 +110,7 @@ public class InGameState : StateBase {
 		
 	}
 	
-	private void OnCompleteFade(){
+	override protected void OnCompleteFade(){
 		state++;
 	}
 }

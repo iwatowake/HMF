@@ -46,10 +46,10 @@ public class TitleState : StateBase {
 			Debug.Log("Enter_Title");
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
 			Game_CityLayer.Instance.CityLayerEnable(0,false);
+			FadeIn(1.5f);
 			state++;
 			break;
 		case STATE.eEnter_Wait:
-			state++;
 			break;
 			
 			// タイトル　入力待ち
@@ -61,7 +61,7 @@ public class TitleState : StateBase {
 			
 			// タイトル　状態離脱
 		case STATE.eExit_Init:
-			fade.Tween_FadeOut(gameObject, "OnCompleteFade", 1.5f);
+			FadeOut(1.5f);
 			state++;
 			break;
 		case STATE.eExit_Wait:
@@ -91,7 +91,7 @@ public class TitleState : StateBase {
 		state = STATE.eExit_Init;
 	}
 	
-	private void OnCompleteFade(){
+	override protected void OnCompleteFade(){
 		state++;
 	}
 }

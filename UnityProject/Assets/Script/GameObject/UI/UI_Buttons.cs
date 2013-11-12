@@ -9,6 +9,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 	private UISprite	sprite;
 	private	bool		isPressed = false;
 	private Vector3		originalScale;
+	public	bool		active			= true;
 	
 	void Start(){
 		sprite = GetComponent<UISprite>();
@@ -16,25 +17,37 @@ public class UI_Buttons : MonoBehaviour_Extends {
 	}
 	
 	void Update () {
-		Vector3 cursorPos = UI_DicisionGauge.Instance.transform.localPosition;
-
-		if( (cursorPos.x > transform.localPosition.x) &&
-			(cursorPos.y < transform.localPosition.y) &&
-			(cursorPos.x < (transform.localPosition.x + originalScale.x)) && 
-			(cursorPos.y > (transform.localPosition.y - originalScale.y)))
-		{
-			if(!isPressed)
+		if(active){
+			Vector3 cursorPos = UI_DicisionGauge.Instance.transform.localPosition;
+	
+			if( (cursorPos.x > transform.localPosition.x - originalScale.x*0.5f) &&
+				(cursorPos.y < transform.localPosition.y + originalScale.y*0.5f) &&
+				(cursorPos.x < (transform.localPosition.x + originalScale.x*0.5f)) && 
+				(cursorPos.y > (transform.localPosition.y - originalScale.y*0.5f)))
 			{
-				isPressed = true;
-				UI_DicisionGauge.Instance.isOnButton = true;
-				UI_DicisionGauge.Instance.RelatedButton = this;
-				EffectCamera.Instance.CreateButtonEffect();
+				if(!isPressed)
+				{
+					InstantiateGameObjectAsChild("Prefabs/Test_Yanagisawa/GaugeAppearEffect", UI_DicisionGauge.Instance.gameObject, -Vector3.forward*2, true);
+					isPressed = true;
+					UI_DicisionGauge.Instance.isOnButton = true;
+					UI_DicisionGauge.Instance.RelatedButton = this;
+					EffectCamera.Instance.CreateButtonEffect();
+				}
+			}else{
+				if(isPressed)
+				{
+					isPressed = false;
+					UI_DicisionGauge.Instance.isOnButton = false;
+					UI_DicisionGauge.Instance.RelatedButton = null;
+					EffectCamera.Instance.DestroyButtonEffect();
+				}
 			}
-		}else{
-			if(isPressed)
+		}else if(isPressed)
+		{
+			isPressed = false;
+			if(UI_DicisionGauge.Instance.RelatedButton == this)
 			{
-				isPressed = false;
-				UI_DicisionGauge.Instance.isOnButton = false;
+				UI_DicisionGauge.Instance.isOnButton 	= false;
 				UI_DicisionGauge.Instance.RelatedButton = null;
 				EffectCamera.Instance.DestroyButtonEffect();
 			}
@@ -42,6 +55,8 @@ public class UI_Buttons : MonoBehaviour_Extends {
 	}
 	
 	public void OnPressed(){
+		if(GetComponentInChildren<StringSelectEffect>() != null)
+			GetComponentInChildren<StringSelectEffect>().Play();
 		GameObject.Find(onPressedTarget).SendMessage(onPressedMethod,onPressedParam);
 	}
 }
