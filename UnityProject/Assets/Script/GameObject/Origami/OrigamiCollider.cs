@@ -104,4 +104,25 @@ public class OrigamiCollider : MonoBehaviour {
 		print( Per.ToString()+"%" );
 		return Per;
 	}
+	
+	public bool	GetOriFlg ( Vector3 Vec, Vector3 Point ){
+		int	LeftCnt = 0;
+		int	RightCnt = 0;
+		for( int i = 0; i < RayOffset; i++ ){
+			for( int j = 0; j < RayOffset; j++ ){
+				if( RayPoint[i*RayOffset+j].Enable ){
+					if( OrigamiCutter.GetSide( Vec, RayPoint[i*RayOffset+j].Position - Point ) ){
+						LeftCnt++;
+					}
+					else{
+						RightCnt++;
+					}
+				}
+			}
+		}
+		if( LeftCnt > RightCnt ){
+			return false;
+		}
+		return true;
+	}
 }

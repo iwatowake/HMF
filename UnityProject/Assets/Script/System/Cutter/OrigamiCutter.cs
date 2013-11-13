@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public static class OrigamiCutter{
 	
 	// 左右判定.
-	private	static bool GetSide ( Vector3 CutVec, Vector3 PointVec ){
+	public static bool GetSide ( Vector3 CutVec, Vector3 PointVec ){
 		if( (CutVec.z * PointVec.x - CutVec.x * PointVec.z) < 0 ){
 			return true;
 		}
@@ -204,12 +204,10 @@ public static class OrigamiCutter{
 		//other.GetComponent<BoxCollider>().size = NewMesh.bounds.size;
 		//other.GetComponent<BoxCollider>().center = NewMesh.bounds.center;
 		
-		if( LeftCnt > RightCnt ){
-			OriFlg = false;
-		}
+		OrigamiCollider origamiCollider = OrigamiObj.GetComponent<OrigamiCollider>();
+		OriFlg = origamiCollider.GetOriFlg( LocalHitVec, LocalHitPoint1 );
 
 		// 判定を折る.
-		OrigamiCollider origamiCollider = OrigamiObj.GetComponent<OrigamiCollider>();
 		Vector2[] Polygon = new Vector2[3];
 		Vector2	  Point = new Vector2();
 		if( origamiCollider == null )	return;
