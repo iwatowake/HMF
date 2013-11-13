@@ -60,31 +60,33 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			
 			Ray			ray = new Ray();
 			RaycastHit 	HitInfo = new RaycastHit();
+			float		RayLength = 10.0f;
+			float		Offset = 0.3f;
 			ray.direction = Camera.main.transform.forward;
-			MediumPos -= ray.direction * 10.0f;
-			MediumPos2 += ray.direction * 10.0f;
+			MediumPos -= ray.direction * RayLength;
+			MediumPos2 += ray.direction * RayLength;
 			
 			bool CutFlg1 = false;
 			bool CutFlg2 = false;
-			ray.origin = MediumPos + Normal * 0.1f;
+			ray.origin = MediumPos + Normal * Offset;
 			if( other.Raycast( ray, out HitInfo, 100.0f ) ){
 				CutFlg1 = true;
 			}
 			else{
 				ray.direction = -Camera.main.transform.forward;
-				ray.origin = MediumPos2 + Normal * 0.1f;
+				ray.origin = MediumPos2 + Normal * Offset;
 				if( other.Raycast( ray, out HitInfo, 100.0f ) ){
 					CutFlg1 = true;
 				}
 			}
 			ray.direction = Camera.main.transform.forward;
-			ray.origin = MediumPos - Normal * 0.1f;
+			ray.origin = MediumPos - Normal * Offset;
 			if( other.Raycast( ray, out HitInfo, 100.0f ) ){
 				CutFlg2 = true;
 			}
 			else{
 				ray.direction = -Camera.main.transform.forward;
-				ray.origin = MediumPos2 - Normal * 0.1f;
+				ray.origin = MediumPos2 - Normal * Offset;
 				if( other.Raycast( ray, out HitInfo, 100.0f ) ){
 					CutFlg2 = true;
 				}
