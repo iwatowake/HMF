@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class NaviCamera : MonoBehaviour {
+public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 	public float fieldOfViewInMove = 40;
 	public float fieldOfViewInLook = 60;
 	public float fieldOfViewTime = 1.0f;
