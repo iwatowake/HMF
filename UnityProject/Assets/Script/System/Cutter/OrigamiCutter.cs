@@ -25,8 +25,6 @@ public static class OrigamiCutter{
 		int[]		VertCnt = new int[2]{ 0, 0 };
 		int[]		TriangleCnt = new int[2];
 		Vector3		CrossPoint = Vector3.zero;
-		int			LeftCnt = 0;
-		int			RightCnt = 0;
 		bool		OriFlg = true;
 		// 頂点数カウント.
 		for ( int i = 0; i < Index.Length; i+=3 ){
@@ -34,14 +32,12 @@ public static class OrigamiCutter{
 			TriangleCnt[1] = 0;
 			for( int j = 0; j < 3; j++ ){
 				if( GetSide( LocalHitVec, Vertices[Index[i+j]] - LocalHitPoint1 ) ){
-					LeftCnt++;
 					TriangleCnt[0]++;
 					if( TriangleCnt[0] == 3 ){
 						TriangleCnt[0] = 1;
 					}
 				}
 				else{
-					RightCnt++;
 					TriangleCnt[1]++;
 					if( TriangleCnt[1] == 3 ){
 						TriangleCnt[1] = 1;
