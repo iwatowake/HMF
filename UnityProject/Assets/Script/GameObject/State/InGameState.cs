@@ -46,10 +46,12 @@ public class InGameState : StateBase {
 			state++;
 			break;
 		case STATE.eEnter_Wait:
+			Debug.Log("enter_wait");
 			break;
 			
 			// インゲーム　入力待ち
 		case STATE.eMain_Init:
+			Debug.Log("main_init");
 			UI_TimeCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
 			state++;
