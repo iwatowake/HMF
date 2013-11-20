@@ -13,10 +13,17 @@ public class InGameState : StateBase {
 		eMain_Init,
 		eMain_Wait,
 		
+		eGameOver_Init,
+		eGameOver_Wait,
+		
+		eGameClear_Init,
+		eGameClear_Wait,
+		
 		eExit_Init,
 		eExit_Wait,
 		
-		eChangeState
+		eChangeState_ToGameOver,
+		eChangeState_ToResult
 	}
 	
 	private STATE	state		= STATE.eEnter_Init;	//!< 状態管理用
@@ -36,7 +43,7 @@ public class InGameState : StateBase {
 
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
-			UI_TimeCounter.Instance.SetEnable(false);
+//			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
 			GameObject WakuGeneratorObj = Instantiate( WakuGeneratorPrefab ) as GameObject;
@@ -52,23 +59,30 @@ public class InGameState : StateBase {
 			// インゲーム　入力待ち
 		case STATE.eMain_Init:
 			Debug.Log("main_init");
-			UI_TimeCounter.Instance.SetEnable(true);
+//			UI_TimeCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
 			state++;
 			break;
 		case STATE.eMain_Wait:
-			UI_TimeCounter.Instance.Exec();
-			
-			if(Input.GetKeyDown(KeyCode.S))
+//			UI_TimeCounter.Instance.Exec();
+			if(UI_TentionGauge.Instance.isDead())
 			{
-				UI_TentionGauge.Instance.SetResult(100);
-				UI_TimeCounter.Instance.SetResult(100);
+				state = STATE.eGameOver_Init;
 			}
+			break;
 			
-			if(Input.GetKeyDown(KeyCode.Space))
-			{
-				state++;
-			}
+		case STATE.eGameOver_Init:
+			state++;
+			break;
+		case STATE.eGameOver_Wait:
+			state = STATE.eExit_Init;
+			break;
+			
+		case STATE.eGameClear_Init:
+			state++;
+			break;
+		case STATE.eGameClear_Wait:
+			state = STATE.eExit_Init;
 			break;
 			
 			// インゲーム　状態離脱
@@ -81,7 +95,11 @@ public class InGameState : StateBase {
 			break;
 			
 			// 次の状態へ
-		case STATE.eChangeState:
+		case STATE.eChangeState_ToGameOver:
+			StateController.Instance.ChangeState(E_STATE.GameOver);
+			break;
+			// 次の状態へ
+		case STATE.eChangeState_ToResult:
 			StateController.Instance.ChangeState(E_STATE.Result);
 			break;
 		}
