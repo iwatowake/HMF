@@ -12,10 +12,11 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	private Vector3			HitStartPos;
 	private Vector3 		HitEndPos;
 	private	bool			HitFlg = false;
+	private OrigamiController OrigamiControllerScript;
 
 	// Use this for initialization
 	void Start () {
-	
+		OrigamiControllerScript = GameObject.Find("OrigamiController").gameObject.GetComponent<OrigamiController>();
 	}
 	
 	// Update is called once per frame
@@ -105,9 +106,14 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				Instantiate( ContactParticlePrefab, HitStartPos + Vec / 2.0f, Quaternion.AngleAxis( Deg, Camera.main.transform.forward ) );
 				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
 				PointParticle[0].particleEmitter.emit = false;
-				OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos );
-				// レイヤー変更.
-				other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
+				//if( OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
+				if( OrigamiMeshCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
+					// レイヤー変更.
+					other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
+					OrigamiControllerScript.SetState( OrigamiUpdate.STATE.FOLD_SELECT );
+					Destroy( PointParticle[0] );
+					PointParticle[0] = null;
+				}
 			}
 			else{
 				Destroy( PointParticle[0] );

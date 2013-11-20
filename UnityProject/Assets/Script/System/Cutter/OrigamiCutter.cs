@@ -12,7 +12,7 @@ public static class OrigamiCutter{
 		return false;
 	}
 	
-	public static void Cut ( GameObject OrigamiObj, Vector3 HitPoint1, Vector3 HitPoint2 ){
+	public static bool Cut ( GameObject OrigamiObj, Vector3 HitPoint1, Vector3 HitPoint2 ){
 		
 		Vector3	LocalHitPoint1 = OrigamiObj.transform.InverseTransformPoint( HitPoint1 );
 		Vector3	LocalHitPoint2 = OrigamiObj.transform.InverseTransformPoint( HitPoint2 );
@@ -50,7 +50,7 @@ public static class OrigamiCutter{
 		
 		// 分割の必要なし.
 		if( VertCnt[0] == 0 || VertCnt[1] == 0 ) {
-			return;
+			return false;
 		}
 		
 		// 頂点作成.
@@ -206,7 +206,7 @@ public static class OrigamiCutter{
 		// 判定を折る.
 		Vector2[] Polygon = new Vector2[3];
 		Vector2	  Point = new Vector2();
-		if( origamiCollider == null )	return;
+		if( origamiCollider == null )	return false;
 		for( int i = 0; i < origamiCollider.RayPoint.Length; i++ ){
 			if( !origamiCollider.RayPoint[i].Enable )	continue;
 			if( GetSide( LocalHitVec, origamiCollider.RayPoint[i].Position - LocalHitPoint1 ) == OriFlg ){
@@ -259,5 +259,7 @@ public static class OrigamiCutter{
 		origamiCollider.SetStartPos( StartPos );
 		origamiCollider.SetEndPos( EndPos );
 		origamiCollider.SetOrigamiIndex( OrigamiIndex );
+		
+		return true;
 	}
 }

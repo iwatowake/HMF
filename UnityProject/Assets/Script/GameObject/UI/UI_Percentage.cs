@@ -32,5 +32,6 @@ public class UI_Percentage : MonoBehaviour_Extends {
 		now = 0;
 		target = per;
 		label.alpha = 1;
+		label.text = StaticMath.ToRoundDown(now, 2).ToString() + "%";
 	}
 }

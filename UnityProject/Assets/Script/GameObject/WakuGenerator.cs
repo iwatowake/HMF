@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WakuGenerator : MonoBehaviour {
+public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	
 	enum STATE {
 		CREATE,
@@ -12,20 +12,27 @@ public class WakuGenerator : MonoBehaviour {
 	
 	OrigamiController OrigamiControllerScript = null;
 	
-	private float[] OriTimeParTable = new float[3]{ 0.4f,0.4f,0.2f };
+	[HideInInspector]
+	public int	NowDegree = 50;
+	[HideInInspector]
+	public int	CutTime;
+	
+	private readonly int[] DegreeAddTable = new int[4]{ -1,-1,1,2 };
+	private readonly float[] OriTimeParTable = new float[3]{ 0.4f,0.4f,0.2f };
 	private float[] OriTimePar = new float[3]{ 0,0,0 };
-	private int[] DegreeAddTable = new int[3]{ 2,1,-1 };
-	private int	NowDegree = 50;
 	private int	IntervalTime = 0;
 	private int	OriTime = 0;
 	private int Timer = 0;
-	static public int CutTime;
 	
 	public void Init (){
 		NowDegree = 50;
 		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 	}
 	
+	public void SetResult ( int Result ){
+		if( Result >= DegreeAddTable.Length )	return;
+		NowDegree += DegreeAddTable[Result];
+	}
 	
 	// Use this for initialization
 	void Start () {
@@ -51,7 +58,7 @@ public class WakuGenerator : MonoBehaviour {
 			// 折り紙生成.
 			OrigamiControllerScript.CreateOrigami( 
 				Define_WakuPattern.Table[Index].Pattern[SelectIndex].WakuLevel, 
-				(int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].OriTime );
+				/*(int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].OriTime*/30 );
 			OriTime = (int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].OriTime * 60;
 			IntervalTime = (int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].IntervalTime * 60;
 			
@@ -67,6 +74,9 @@ public class WakuGenerator : MonoBehaviour {
 		else if( State == STATE.WAIT ){
 			if( OrigamiControllerScript.GetActiveFlg() ) return;
 			
+			Timer = 0;
+			State = STATE.INTERVAL;
+			/*
 			// 加算する段階を計算.
 			for( int i = 0; i < OriTimeParTable.Length; i++ ){
 				if( CutTime <= OriTimePar[i] ){
@@ -76,6 +86,7 @@ public class WakuGenerator : MonoBehaviour {
 					break;
 				}
 			}
+			*/
 		}
 		else{
 			if( StaticMath.Compensation( ref Timer, IntervalTime, 1 ) ){
