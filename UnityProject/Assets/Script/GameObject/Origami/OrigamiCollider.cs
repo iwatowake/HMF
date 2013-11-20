@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class OrigamiRay {
@@ -19,13 +19,17 @@ public class OrigamiCollider : MonoBehaviour {
 	private		Vector3[]	EndPos;
 	private		int[]		OrigamiIndex;
 	private		float		t = 0.0f;
+	private		bool		isFold = false;
 	
 	public void SetStartPos ( Vector3[] Pos ){ StartPos = Pos; }
 	public void SetEndPos ( Vector3[] Pos ){ EndPos = Pos; }
 	public void SetOrigamiIndex ( int[] Index ){ OrigamiIndex = Index; }
 	
+	private	OrigamiUpdate	OrigamiUpdateScript;
+	
 	// Use this for initialization
 	void Start () {
+		OrigamiUpdateScript = gameObject.GetComponent<OrigamiUpdate>();
 		Num = RayOffset*RayOffset;
 		RayPoint = new OrigamiRay[Num];
 		RayPointPlane = new OrigamiRay[Num];
@@ -47,7 +51,7 @@ public class OrigamiCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( gameObject.layer == (int)LayerEnum.layer_OrigamiWait ){
+		if( OrigamiUpdateScript.GetState() == OrigamiUpdate.STATE.FOLD ){
 			Mesh HitMesh = gameObject.GetComponent<MeshFilter>().mesh;
 			Vector3[] Vertex = HitMesh.vertices;
 			for( int i = 0; i < OrigamiIndex.Length; i++ ){
@@ -56,13 +60,17 @@ public class OrigamiCollider : MonoBehaviour {
 			HitMesh.vertices = Vertex;
 			if( StaticMath.Compensation( ref t, 1.0f, 0.02f ) ){
 				t = 0.0f;
+				isFold = true;
 				gameObject.GetComponent<MeshCollider>().sharedMesh = HitMesh;
 				gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
+				OrigamiUpdateScript.SetState( OrigamiUpdate.STATE.CUT );
 			}
 		}
 	}
 	
 	public float	GetPercent	(){
+		if( !isFold ) return 0.0f;
+		
 		Collider 	WakuCollider = WakuObject.collider;
 		Ray			ray = new Ray();
 		RaycastHit 	HitInfo = new RaycastHit();

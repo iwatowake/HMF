@@ -8,6 +8,9 @@ public class OrigamiUpdate : MonoBehaviour {
 		WAVE_EFFECT,
 		CREATE_BREAK_EFFECT,
 		BREAK_EFFECT,
+		CUT,
+		FOLD_SELECT,
+		FOLD,
 		WAIT,
 	};
 	private STATE State = STATE.START_MOVE;
@@ -43,7 +46,6 @@ public class OrigamiUpdate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( gameObject.layer != (int)LayerEnum.layer_OrigamiUpdate ) return;
 		
 		switch ( State ){
 		case STATE.START_MOVE:
@@ -105,7 +107,7 @@ public class OrigamiUpdate : MonoBehaviour {
 		if( StaticMath.Compensation( ref Timer, WaveEffectTime, 1.0f ) ){
 			Timer = 0.0f;
 			gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
-			State = STATE.END_MOVE;
+			State = STATE.CUT;
 		}
 	}
 	

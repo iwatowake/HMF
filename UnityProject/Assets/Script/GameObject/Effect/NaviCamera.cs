@@ -17,7 +17,7 @@ public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 	#region カメラの一時停止して世界の中心を注視する.
 	public void LookTownPauseTween()
 	{
-		iTween.Pause(gameObject);
+		//iTween.Pause(gameObject);
 		iTweenEvent.GetEvent(gameObject,"LookTown").Play();
 		ChangeFieldOfView();
 	}

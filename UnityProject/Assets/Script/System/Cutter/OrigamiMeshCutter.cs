@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public static class OrigamiCutter{
+public static class OrigamiMeshCutter{
 	
 	// 左右判定.
 	public static bool GetSide ( Vector3 CutVec, Vector3 PointVec ){
@@ -24,8 +24,6 @@ public static class OrigamiCutter{
 		int[]		Index = OrigamiMesh.triangles;
 		int[]		VertCnt = new int[2]{ 0, 0 };
 		int[]		TriangleCnt = new int[2];
-		Vector3		CrossPoint = Vector3.zero;
-		bool		OriFlg = true;
 		// 頂点数カウント.
 		for ( int i = 0; i < Index.Length; i+=3 ){
 			TriangleCnt[0] = 0;
@@ -187,78 +185,33 @@ public static class OrigamiCutter{
 			OptimizeVertex[i] = VertList[i];
 		}
 		
-		
 		// メッシュ作成.
 		Mesh NewMesh = new Mesh();
 		Vector2[]	UVs = new Vector2[OptimizeVertex.Length];
 		NewMesh.vertices = OptimizeVertex;
 		NewMesh.triangles = OptimizeIndex;
 		NewMesh.uv = UVs;
-		NewMesh.RecalculateBounds();
-		OrigamiObj.GetComponent<MeshFilter>().mesh = NewMesh;
-		OrigamiObj.GetComponent<MeshCollider>().sharedMesh = NewMesh;
-		//other.GetComponent<BoxCollider>().size = NewMesh.bounds.size;
-		//other.GetComponent<BoxCollider>().center = NewMesh.bounds.center;
+		//NewMesh.RecalculateBounds();
+		//OrigamiObj.GetComponent<MeshFilter>().mesh = NewMesh;
+		//OrigamiObj.GetComponent<MeshCollider>().sharedMesh = NewMesh;
 		
-		OrigamiCollider origamiCollider = OrigamiObj.GetComponent<OrigamiCollider>();
-		OriFlg = origamiCollider.GetOriFlg( LocalHitVec, LocalHitPoint1 );
-
-		// 判定を折る.
-		Vector2[] Polygon = new Vector2[3];
-		Vector2	  Point = new Vector2();
-		if( origamiCollider == null )	return false;
-		for( int i = 0; i < origamiCollider.RayPoint.Length; i++ ){
-			if( !origamiCollider.RayPoint[i].Enable )	continue;
-			if( GetSide( LocalHitVec, origamiCollider.RayPoint[i].Position - LocalHitPoint1 ) == OriFlg ){
-				float Len = StaticMath.RayDistancePoint( LocalHitPoint1, LocalHitPoint2, origamiCollider.RayPoint[i].Position, ref CrossPoint );
-				if( OriFlg ){
-					origamiCollider.RayPoint[i].Position -= LocalNormal * Len * 2.0f;
-				}
-				else{
-					origamiCollider.RayPoint[i].Position += LocalNormal * Len * 2.0f;
-				}
-				
-				Point.Set( origamiCollider.RayPoint[i].Position.x, origamiCollider.RayPoint[i].Position.z );
-				for( int j = 0; j < OptimizeIndex.Length; j+=3 ){
-					Polygon[0].Set( OptimizeVertex[OptimizeIndex[j+0]].x, OptimizeVertex[OptimizeIndex[j+0]].z );
-					Polygon[1].Set( OptimizeVertex[OptimizeIndex[j+1]].x, OptimizeVertex[OptimizeIndex[j+1]].z );
-					Polygon[2].Set( OptimizeVertex[OptimizeIndex[j+2]].x, OptimizeVertex[OptimizeIndex[j+2]].z );
-					if( StaticMath.CheckInPolygon2D( Polygon, 3, Point ) ){
-						origamiCollider.RayPoint[i].Enable = false;
-						break;
-					}
-				}
-			}
-		}
+		// セレクトメッシュ作成.
+		Mesh NewMesh1 = new Mesh();
+		UVs = new Vector2[Vertex1.Length];
+		NewMesh1.vertices = Vertex1;
+		NewMesh1.triangles = Index1;
+		NewMesh1.uv = UVs;
+		NewMesh1.RecalculateBounds();
+		Mesh NewMesh2 = new Mesh();
+		UVs = new Vector2[Vertex2.Length];
+		NewMesh2.vertices = Vertex2;
+		NewMesh2.triangles = Index2;
+		NewMesh2.uv = UVs;
+		NewMesh2.RecalculateBounds();
 		
-		// 折る前と折った後の頂点座標とインデックスを求める.
-		int OriCnt = 0;
-		for( int i = 0; i < OptimizeVertex.Length; i++ ){
-			if( GetSide( LocalHitVec, OptimizeVertex[i] - LocalHitPoint1 ) == OriFlg ){
-				OriCnt++;
-			}
-		}
-		Vector3[] 	StartPos = new Vector3[OriCnt];
-		Vector3[] 	EndPos = new Vector3[OriCnt];
-		int[]		OrigamiIndex = new int[OriCnt];
-		OriCnt = 0;
-		for( int i = 0; i < OptimizeVertex.Length; i++ ){
-			if( GetSide( LocalHitVec, OptimizeVertex[i] - LocalHitPoint1 ) == OriFlg ){
-				float Len = StaticMath.RayDistancePoint( LocalHitPoint1, LocalHitPoint2, OptimizeVertex[i], ref CrossPoint );
-				StartPos[OriCnt] = OptimizeVertex[i];
-				if( OriFlg ){
-					EndPos[OriCnt] = OptimizeVertex[i] - LocalNormal * Len * 2.0f;
-				}
-				else{
-					EndPos[OriCnt] = OptimizeVertex[i] + LocalNormal * Len * 2.0f;
-				}
-				OrigamiIndex[OriCnt] = i;
-				OriCnt ++;
-			}
-		}
-		origamiCollider.SetStartPos( StartPos );
-		origamiCollider.SetEndPos( EndPos );
-		origamiCollider.SetOrigamiIndex( OrigamiIndex );
+		OrigamiSelect origamiSelect = OrigamiObj.GetComponent<OrigamiSelect>();
+		origamiSelect.SetSelectMesh( NewMesh, NewMesh1, NewMesh2 );
+		origamiSelect.SetCutInfo( LocalHitVec, LocalNormal, LocalHitPoint1, LocalHitPoint2 );
 		
 		return true;
 	}
