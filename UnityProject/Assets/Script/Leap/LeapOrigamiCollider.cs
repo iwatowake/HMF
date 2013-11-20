@@ -104,7 +104,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				float Deg = Mathf.Acos(Angle)*180.0f/Mathf.PI;
 				Instantiate( ContactParticlePrefab, HitStartPos + Vec / 2.0f, Quaternion.AngleAxis( Deg, Camera.main.transform.forward ) );
 				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
-				PointParticle[0].particleEmitter.emit = false;
+				PointParticle[0].particleSystem.emissionRate = 0;
 				OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos );
 				// レイヤー変更.
 				other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
