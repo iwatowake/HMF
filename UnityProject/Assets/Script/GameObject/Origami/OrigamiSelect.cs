@@ -37,6 +37,7 @@ public class OrigamiSelect : MonoBehaviour {
 				SelectFlg[0] = true;
 				SelectFlg[1] = SelectFlg[2] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[0] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 			}
 		}
 		else if( SelectColliderScript[1].Hit ){
@@ -44,6 +45,7 @@ public class OrigamiSelect : MonoBehaviour {
 				SelectFlg[1] = true;
 				SelectFlg[0] = SelectFlg[2] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[1] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 			}
 		}
 		else{
@@ -51,6 +53,7 @@ public class OrigamiSelect : MonoBehaviour {
 				SelectFlg[2] = true;
 				SelectFlg[0] = SelectFlg[1] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[2] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 			}
 		}
 		UpdateTimer();

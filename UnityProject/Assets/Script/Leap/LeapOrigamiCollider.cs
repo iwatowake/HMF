@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class LeapOrigamiCollider : MonoBehaviour {
 	
+	public	GameObject		LineEffectPrefab;
 	public	GameObject		PointLoopParticlePrefab;
 	public	GameObject		PointOneShotParticlePrefab;
 	public	GameObject		ContactParticlePrefab;
@@ -13,6 +14,9 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	private Vector3 		HitEndPos;
 	private	bool			HitFlg = false;
 	private OrigamiController OrigamiControllerScript;
+	private	GameObject		LineEffectObj;
+	private	LineEffect		LineEffectScript = null;
+	private	bool			isEnd = false;
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +36,12 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				PointParticle[1] = null;
 			}
 		}
+		/*
+		if( LineEffectScript != null && !isEnd ){
+			float z = LineEffectScript.targetPositionEnd.z;
+			LineEffectScript.targetPositionEnd.Set( transform.localPosition.x, transform.localPosition.y, z );
+		}
+		*/
 	}
 	
 	private void OnTriggerEnter (Collider other){
@@ -44,7 +54,17 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
+			/*
+			LineEffectObj = Instantiate( LineEffectPrefab, Vector3.zero, Quaternion.identity ) as GameObject;
+			LineEffectObj.transform.parent = HitObj.transform.parent;
+			LineEffectScript = LineEffectObj.GetComponent<LineEffect>();
+			Vector3 pos = transform.localPosition;
+			pos.z = HitObj.transform.localPosition.z;
+			LineEffectScript.targetPositionStart = pos;
+			LineEffectScript.targetPositionEnd = pos;
+			*/
 			HitFlg = true;
+			isEnd = false;
 		}
 	}
 	
@@ -52,6 +72,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( enabled == false ) return;
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
 			HitEndPos = other.collider.ClosestPointOnBounds(transform.position);
+			//Vector3 pos = transform.localPosition;
+			//pos.z = HitObj.transform.localPosition.z;
 			
 			// 折れるかどうか判定.
 			Vector3	Vec = HitEndPos - HitStartPos;
@@ -105,13 +127,12 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				float Deg = Mathf.Acos(Angle)*180.0f/Mathf.PI;
 				Instantiate( ContactParticlePrefab, HitStartPos + Vec / 2.0f, Quaternion.AngleAxis( Deg, Camera.main.transform.forward ) );
 				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
-<<<<<<< HEAD
+
 				PointParticle[0].particleSystem.emissionRate = 0;
 				OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos );
 				// レイヤー変更.
 				other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
-=======
-				PointParticle[0].particleEmitter.emit = false;
+
 				//if( OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
 				if( OrigamiMeshCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
 					// レイヤー変更.
@@ -120,10 +141,11 @@ public class LeapOrigamiCollider : MonoBehaviour {
 					Destroy( PointParticle[0] );
 					PointParticle[0] = null;
 				}
->>>>>>> 6839e28a80b41f5144798cf126c4dc89b29e4e13
+				isEnd = false;
 			}
 			else{
 				Destroy( PointParticle[0] );
+				Destroy( LineEffectObj );
 				PointParticle[0] = null;
 			}
 			
