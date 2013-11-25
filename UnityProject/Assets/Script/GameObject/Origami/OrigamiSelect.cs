@@ -6,6 +6,12 @@ public class OrigamiSelect : MonoBehaviour {
 	private	OrigamiSelectCollider[]	SelectColliderScript = new OrigamiSelectCollider[2];
 	private	OrigamiController	OrigamiControllerScript;
 	
+	public GameObject	ContactParticlePrefab;
+	[HideInInspector]
+	public	float		ContactParticleAngle;
+	[HideInInspector]
+	public	Vector3		ContactParticlePos;
+	
 	private	Mesh	NewMesh;
 	private Vector3	HitVec;
 	private	Vector3	HitNormal;
@@ -37,6 +43,7 @@ public class OrigamiSelect : MonoBehaviour {
 				SelectFlg[0] = true;
 				SelectFlg[1] = SelectFlg[2] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[0] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 			}
 		}
 		else if( SelectColliderScript[1].Hit ){
@@ -44,6 +51,7 @@ public class OrigamiSelect : MonoBehaviour {
 				SelectFlg[1] = true;
 				SelectFlg[0] = SelectFlg[2] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[1] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 			}
 		}
 		else{
@@ -51,6 +59,7 @@ public class OrigamiSelect : MonoBehaviour {
 				SelectFlg[2] = true;
 				SelectFlg[0] = SelectFlg[1] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[2] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 			}
 		}
 		UpdateTimer();
@@ -171,6 +180,8 @@ public class OrigamiSelect : MonoBehaviour {
 		origamiCollider.SetStartPos( StartPos );
 		origamiCollider.SetEndPos( EndPos );
 		origamiCollider.SetOrigamiIndex( OrigamiIndex );
+		
+		Instantiate( ContactParticlePrefab, ContactParticlePos, Quaternion.AngleAxis( ContactParticleAngle, Camera.main.transform.forward ) );
 	}
 	
 	public void SetCutInfo ( Vector3 inHitVec, Vector3 inHitNormal, Vector3 inHitPoint1, Vector3 inHitPoint2 ){

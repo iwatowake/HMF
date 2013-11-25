@@ -17,15 +17,20 @@ public class LineEffect : MonoBehaviour {
 		
 	}
 	
+	void End()
+	{
+		iTween.Stop(gameObject);
+	}
+		
 	void MoveToTargetPositionEnd()
 	{
 //		gameObject.particleSystem.renderer.enabled = true;
-		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionEnd,"time", 1.0f,"oncomplete","MoveToTargetPositionStart","easetype",iTween.EaseType.linear,"islocal",true));
+		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionEnd,"time", 0.1f,"oncomplete","MoveToTargetPositionStart","easetype",iTween.EaseType.linear,"islocal",true));
 	}
 	void MoveToTargetPositionStart()
 	{
 //		gameObject.particleSystem.renderer.enabled = true;
-		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionStart,"time", 1.0f,"oncomplete","MoveToTargetPositionEnd","easetype",iTween.EaseType.linear,"islocal",true));		
+		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionStart,"time", 0.1f,"oncomplete","MoveToTargetPositionEnd","easetype",iTween.EaseType.linear,"islocal",true));		
 	}
 	
 }

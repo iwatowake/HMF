@@ -10,6 +10,8 @@ public class UI_DicisionGauge : SingletonMonoBehaviour<UI_DicisionGauge> {
 	private			bool			bFilled = false;
 	private			UI_Buttons		relatedButton;
 	
+	public			GameObject		GaugeLasrWaveEffect;
+	
 	public bool isOnButton{
 		get{return bIsOnButton;}
 		set{bIsOnButton = value;}
@@ -34,6 +36,8 @@ public class UI_DicisionGauge : SingletonMonoBehaviour<UI_DicisionGauge> {
 				bFilled = true;
 				relatedButton.OnPressed();
 				EffectCamera.Instance.DestroyButtonEffect();
+				
+				Instantiate(GaugeLasrWaveEffect,gameObject.transform.position,Quaternion.identity);
 			}else{
 				sprite.fillAmount += (Time.deltaTime * fillSpeed);
 			}
