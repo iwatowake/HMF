@@ -76,6 +76,9 @@ public class OrigamiSelect : MonoBehaviour {
 				gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
 			}
 			ActiveFlg = false;
+			
+			// 2013/11/26 kojima
+			iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeOut").Play();
 		}
 	}
 	
