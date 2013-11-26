@@ -16,7 +16,7 @@ public class UI_RateManager : SingletonMonoBehaviour<UI_RateManager> {
 	void Update () {
 		if(nowAnimating>-1)
 		{
-			spRates[nowAnimating].alpha -= Time.deltaTime * 0.8f;
+			spRates[nowAnimating].alpha -= Time.deltaTime * 0.5f;
 			if(spRates[nowAnimating].alpha <= 0.0f)
 			{
 				nowAnimating = -1;
@@ -46,7 +46,7 @@ public class UI_RateManager : SingletonMonoBehaviour<UI_RateManager> {
 	public void SetRate(float per){
 		int rate = -1;
 		
-		if(per < 60.0f)
+		if(per < 75.0f)
 		{
 			rate = 0;
 		}else if(per < 85.0f){
@@ -59,9 +59,12 @@ public class UI_RateManager : SingletonMonoBehaviour<UI_RateManager> {
 		
 		nowAnimating = Mathf.Clamp(rate, 0, spRates.Length);
 		spRates[rate].alpha = 1.0f;
-		spRates[rate].transform.localPosition = new Vector3(0,-60,0);
+		spRates[rate].transform.localPosition = new Vector3(0,-200,0);
 		spRates[rate].gameObject.GetComponent<iTweenEvent>().Play();
 		
 		percentage.Activate(per);
+		
+		UI_TentionGauge.Instance.SetResult(per);
+		UI_ScoreCounter.Instance.SetResult(per);
 	}
 }

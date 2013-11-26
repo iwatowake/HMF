@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UI_DicisionGauge : SingletonMonoBehaviour<UI_DicisionGauge> {
+public class UI_DicisionGauge : MonoBehaviour_Extends {
 	
 	private const	float			fillSpeed = 0.5f;
 	
