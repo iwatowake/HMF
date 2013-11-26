@@ -137,12 +137,26 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				
 				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
 
+<<<<<<< HEAD
+				PointParticle[0].particleSystem.emissionRate = 0;
+				OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos );
+				// レイヤー変更.
+				other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
+
+				PointParticle[0].particleEmitter.emit = false;
+				//if( OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
+=======
 				// カット.
+>>>>>>> 7796b7d8c0a1675b57c1d37ab663fa1a5a5ae91c
 				if( OrigamiMeshCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
 					other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
 					OrigamiControllerScript.SetState( OrigamiUpdate.STATE.FOLD_SELECT );
 				}
+<<<<<<< HEAD
+
+=======
 				isEnd = false;
+>>>>>>> 7796b7d8c0a1675b57c1d37ab663fa1a5a5ae91c
 			}
 			else{
 				Destroy( PointParticle[0] );
