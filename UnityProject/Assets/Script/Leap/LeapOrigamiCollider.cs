@@ -24,7 +24,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( !OrigamiControllerScript.GetActiveFlg() ){
+		if( !OrigamiControllerScript.GetActiveFlg() || HitObj == null ){
 			PointParticleDestroy();
 			return;
 		}
