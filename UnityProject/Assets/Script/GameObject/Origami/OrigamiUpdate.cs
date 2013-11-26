@@ -17,6 +17,8 @@ public class OrigamiUpdate : MonoBehaviour {
 	
 	public GameObject	WaveEffectPrefab;
 	public GameObject	BreakEffectPrefab;
+	
+	[HideInInspector]
 	public GameObject	WakuObject;
 	
 	const float	StartMoveTime = 90.0f;

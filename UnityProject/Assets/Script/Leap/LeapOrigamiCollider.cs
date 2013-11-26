@@ -4,15 +4,18 @@ using System.Collections.Generic;
 
 public class LeapOrigamiCollider : MonoBehaviour {
 	
+	public	GameObject		LineEffectPrefab;
 	public	GameObject		PointLoopParticlePrefab;
 	public	GameObject		PointOneShotParticlePrefab;
-	public	GameObject		ContactParticlePrefab;
 	private	GameObject[]	PointParticle = new GameObject[2]{ null, null };
 	private	GameObject		HitObj = null;
 	private Vector3			HitStartPos;
 	private Vector3 		HitEndPos;
 	private	bool			HitFlg = false;
 	private OrigamiController OrigamiControllerScript;
+	private	GameObject		LineEffectObj;
+	private	LineEffect		LineEffectScript = null;
+	private	bool			isEnd = false;
 
 	// Use this for initialization
 	void Start () {
@@ -21,16 +24,29 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if( HitObj == null )	return;
+		if( !OrigamiControllerScript.GetActiveFlg() || HitObj == null ){
+			PointParticleDestroy();
+			return;
+		}
 		if( HitObj.layer == (int)LayerEnum.layer_OrigamiCut && !HitFlg ){
-			if( PointParticle[0] != null ){
-				Destroy( PointParticle[0] );
-				PointParticle[0] = null;
-			}
-			if( PointParticle[1] != null ){
-				Destroy( PointParticle[1] );
-				PointParticle[1] = null;
-			}
+			PointParticleDestroy();
+		}
+		/*
+		if( LineEffectScript != null && !isEnd ){
+			float z = LineEffectScript.targetPositionEnd.z;
+			LineEffectScript.targetPositionEnd.Set( transform.localPosition.x, transform.localPosition.y, z );
+		}
+		*/
+	}
+	
+	private	void PointParticleDestroy (){
+		if( PointParticle[0] != null ){
+			Destroy( PointParticle[0] );
+			PointParticle[0] = null;
+		}
+		if( PointParticle[1] != null ){
+			Destroy( PointParticle[1] );
+			PointParticle[1] = null;
 		}
 	}
 	
@@ -44,7 +60,17 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
+			/*
+			LineEffectObj = Instantiate( LineEffectPrefab, Vector3.zero, Quaternion.identity ) as GameObject;
+			LineEffectObj.transform.parent = HitObj.transform.parent;
+			LineEffectScript = LineEffectObj.GetComponent<LineEffect>();
+			Vector3 pos = transform.localPosition;
+			pos.z = HitObj.transform.localPosition.z;
+			LineEffectScript.targetPositionStart = pos;
+			LineEffectScript.targetPositionEnd = pos;
+			*/
 			HitFlg = true;
+			isEnd = false;
 		}
 	}
 	
@@ -98,25 +124,29 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				Vector3	LocalStartPos = other.transform.InverseTransformPoint( HitStartPos );
 				Vector3	LocalEndPos = other.transform.InverseTransformPoint( HitEndPos );
 				Vector3	LocalVec = (LocalEndPos - LocalStartPos).normalized;
+				
+				// ContactParticleの座標と角度を設定.
 				float Angle = Vector3.Dot( Vec.normalized, Camera.main.transform.right );
 				if( LocalVec.z < 0.0f ){
 					Angle = -Angle;
 				}
 				float Deg = Mathf.Acos(Angle)*180.0f/Mathf.PI;
-				Instantiate( ContactParticlePrefab, HitStartPos + Vec / 2.0f, Quaternion.AngleAxis( Deg, Camera.main.transform.forward ) );
+				OrigamiSelect	OrigamiSelectScript = other.gameObject.GetComponent<OrigamiSelect>();
+				OrigamiSelectScript.ContactParticleAngle = Deg;
+				OrigamiSelectScript.ContactParticlePos = HitStartPos + Vec / 2.0f - Vector3.forward * 0.3f;
+				
 				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
-				PointParticle[0].particleEmitter.emit = false;
-				//if( OrigamiCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
+
+				// カット.
 				if( OrigamiMeshCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
-					// レイヤー変更.
 					other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
 					OrigamiControllerScript.SetState( OrigamiUpdate.STATE.FOLD_SELECT );
-					Destroy( PointParticle[0] );
-					PointParticle[0] = null;
 				}
+				isEnd = false;
 			}
 			else{
 				Destroy( PointParticle[0] );
+				Destroy( LineEffectObj );
 				PointParticle[0] = null;
 			}
 			
