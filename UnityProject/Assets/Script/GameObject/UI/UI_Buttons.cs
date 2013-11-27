@@ -24,7 +24,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 				dicisionGauge = GameObject.Find("UI_Cursor").GetSafeComponent<UI_DicisionGauge>();
 			}
 			
-			Vector3 cursorPos = dicisionGauge.transform.localPosition;
+			Vector3 cursorPos = dicisionGauge.uiPosition;
 	
 			if( (cursorPos.x > transform.localPosition.x - originalScale.x*0.5f) &&
 				(cursorPos.y < transform.localPosition.y + originalScale.y*0.5f) &&
