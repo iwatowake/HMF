@@ -142,6 +142,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 					other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
 					OrigamiControllerScript.SetState( OrigamiUpdate.STATE.FOLD_SELECT );
 				}
+				// 2013/11/26 kojima
+				iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
 				isEnd = false;
 			}
 			else{

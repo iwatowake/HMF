@@ -129,7 +129,7 @@ public class LeapUnityBridge : MonoBehaviour
 		for( int i = 0; i < behavior.m_palms.Length; i++ )
 		{
 			behavior.m_palms[i] = CreatePalm(behavior.m_hands[2], i);
-			behavior.m_palms[i].layer = (int)LayerEnum.layer_OrigamiCamera;
+			behavior.m_palms[i].layer = (int)LayerEnum.layer_LeapHand;
 			behavior.m_HandControllerScript[i] = behavior.m_palms[i].GetComponent<HandObjectController>();
 		}
 		

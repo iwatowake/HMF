@@ -9,6 +9,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 	private UISprite	sprite;
 	private	bool		isPressed = false;
 	private Vector3		originalScale;
+	private	UI_DicisionGauge	dicisionGauge;
 	public	bool		active			= true;
 	
 	void Start(){
@@ -18,7 +19,12 @@ public class UI_Buttons : MonoBehaviour_Extends {
 	
 	void Update () {
 		if(active){
-			Vector3 cursorPos = UI_DicisionGauge.Instance.transform.localPosition;
+			if(dicisionGauge == null)
+			{
+				dicisionGauge = GameObject.Find("UI_Cursor").GetSafeComponent<UI_DicisionGauge>();
+			}
+			
+			Vector3 cursorPos = dicisionGauge.transform.localPosition;
 	
 			if( (cursorPos.x > transform.localPosition.x - originalScale.x*0.5f) &&
 				(cursorPos.y < transform.localPosition.y + originalScale.y*0.5f) &&
@@ -27,28 +33,28 @@ public class UI_Buttons : MonoBehaviour_Extends {
 			{
 				if(!isPressed)
 				{
-					InstantiateGameObjectAsChild("Prefabs/Test_Yanagisawa/GaugeAppearEffect", UI_DicisionGauge.Instance.gameObject, -Vector3.forward*2, true);
+					InstantiateGameObjectAsChild("Prefabs/Test_Yanagisawa/GaugeAppearEffect", dicisionGauge.gameObject, -Vector3.forward*2, true);
 					isPressed = true;
-					UI_DicisionGauge.Instance.isOnButton = true;
-					UI_DicisionGauge.Instance.RelatedButton = this;
+					dicisionGauge.isOnButton = true;
+					dicisionGauge.RelatedButton = this;
 					EffectCamera.Instance.CreateButtonEffect();
 				}
 			}else{
 				if(isPressed)
 				{
 					isPressed = false;
-					UI_DicisionGauge.Instance.isOnButton = false;
-					UI_DicisionGauge.Instance.RelatedButton = null;
+					dicisionGauge.isOnButton = false;
+					dicisionGauge.RelatedButton = null;
 					EffectCamera.Instance.DestroyButtonEffect();
 				}
 			}
 		}else if(isPressed)
 		{
 			isPressed = false;
-			if(UI_DicisionGauge.Instance.RelatedButton == this)
+			if(dicisionGauge.RelatedButton == this)
 			{
-				UI_DicisionGauge.Instance.isOnButton 	= false;
-				UI_DicisionGauge.Instance.RelatedButton = null;
+				dicisionGauge.isOnButton 	= false;
+				dicisionGauge.RelatedButton = null;
 				EffectCamera.Instance.DestroyButtonEffect();
 			}
 		}

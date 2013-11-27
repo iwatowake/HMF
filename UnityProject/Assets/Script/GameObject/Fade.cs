@@ -4,7 +4,7 @@ using System.Collections;
 public class Fade : MonoBehaviour_Extends {
 	
 	public void Tween_FadeIn(GameObject oncompletetarget, string oncomplete,float time){
-		iTween.StopByName("FadeOut");
+		//iTween.StopByName("FadeOut");
 		
 		Hashtable ht = new Hashtable();
 		
@@ -19,7 +19,7 @@ public class Fade : MonoBehaviour_Extends {
 	}
 	
 	public void Tween_FadeOut(GameObject oncompletetarget, string oncomplete,float time){
-		iTween.StopByName("FadeIn");
+		//iTween.StopByName("FadeIn");
 		
 		Hashtable ht = new Hashtable();
 		
@@ -34,7 +34,7 @@ public class Fade : MonoBehaviour_Extends {
 	}
 	
 	void OnDestroy(){
-		iTween.StopByName("FadeOut");
-		iTween.StopByName("FadeIn");
+		//iTween.StopByName("FadeOut");
+		//iTween.StopByName("FadeIn");
 	}
 }
