@@ -55,4 +55,8 @@ public class UI_DicisionGauge : MonoBehaviour_Extends {
 			return false;
 		}
 	}
+	
+	public	Vector3	uiPosition{
+		get{return transform.parent.localPosition;}
+	}
 }
