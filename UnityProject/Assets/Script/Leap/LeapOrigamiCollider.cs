@@ -31,12 +31,12 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( HitObj.layer == (int)LayerEnum.layer_OrigamiCut && !HitFlg ){
 			PointParticleDestroy();
 		}
-		/*
+		
 		if( LineEffectScript != null && !isEnd ){
 			float z = LineEffectScript.targetPositionEnd.z;
 			LineEffectScript.targetPositionEnd.Set( transform.localPosition.x, transform.localPosition.y, z );
 		}
-		*/
+		
 	}
 	
 	private	void PointParticleDestroy (){
@@ -60,7 +60,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
-			/*
+			
 			LineEffectObj = Instantiate( LineEffectPrefab, Vector3.zero, Quaternion.identity ) as GameObject;
 			LineEffectObj.transform.parent = HitObj.transform.parent;
 			LineEffectScript = LineEffectObj.GetComponent<LineEffect>();
@@ -68,7 +68,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			pos.z = HitObj.transform.localPosition.z;
 			LineEffectScript.targetPositionStart = pos;
 			LineEffectScript.targetPositionEnd = pos;
-			*/
+			
 			HitFlg = true;
 			isEnd = false;
 		}
