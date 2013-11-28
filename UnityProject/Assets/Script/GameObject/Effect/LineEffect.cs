@@ -5,16 +5,24 @@ public class LineEffect : MonoBehaviour {
 	
 	public Vector3 targetPositionStart; 
 	public Vector3 targetPositionEnd;
+	public float	moveTime = 0.1f;
+
+	Vector3 oldPos;
 	
 	// Use this for initialization
 	void Start () {
-//		gameObject.particleSystem.renderer.enabled = false;
 		MoveToTargetPositionEnd();
+		oldPos = targetPositionEnd;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(oldPos != targetPositionEnd)
+			gameObject.particleSystem.renderer.enabled = false;
+		else
+			gameObject.particleSystem.renderer.enabled = true;
+
+		oldPos = targetPositionEnd;
 	}
 	
 	void End()
@@ -25,12 +33,12 @@ public class LineEffect : MonoBehaviour {
 	void MoveToTargetPositionEnd()
 	{
 //		gameObject.particleSystem.renderer.enabled = true;
-		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionEnd,"time", 0.1f,"oncomplete","MoveToTargetPositionStart","easetype",iTween.EaseType.linear,"islocal",true));
+		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionEnd,"time", moveTime,"oncomplete","MoveToTargetPositionStart","easetype",iTween.EaseType.linear,"islocal",true));
 	}
 	void MoveToTargetPositionStart()
 	{
 //		gameObject.particleSystem.renderer.enabled = true;
-		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionStart,"time", 0.1f,"oncomplete","MoveToTargetPositionEnd","easetype",iTween.EaseType.linear,"islocal",true));		
+		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionStart,"time", moveTime,"oncomplete","MoveToTargetPositionEnd","easetype",iTween.EaseType.linear,"islocal",true));		
 	}
 	
 }
