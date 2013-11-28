@@ -148,6 +148,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			}
 			else{
 				Destroy( PointParticle[0] );
+				iTween.Stop( LineEffectObj );
 				Destroy( LineEffectObj );
 				PointParticle[0] = null;
 			}

@@ -13,19 +13,17 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	OrigamiController OrigamiControllerScript = null;
 	
 	[HideInInspector]
-	public int	NowDegree = 50;
+	public int	NowDegree = 4;
 	[HideInInspector]
 	public int	CutTime;
 	
+	public	int	IntervalTime = 5;
+	public	int	OriTime = 30;
 	private readonly int[] DegreeAddTable = new int[4]{ -1,-1,1,2 };
-	private readonly float[] OriTimeParTable = new float[3]{ 0.4f,0.4f,0.2f };
-	private float[] OriTimePar = new float[3]{ 0,0,0 };
-	private int	IntervalTime = 0;
-	private int	OriTime = 0;
 	private int Timer = 0;
 	
 	public void Init (){
-		NowDegree = 50;
+		NowDegree = 4;
 		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 	}
 	
@@ -57,17 +55,8 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 			}
 			// 折り紙生成.
 			OrigamiControllerScript.CreateOrigami( 
-				Define_WakuPattern.Table[Index].Pattern[SelectIndex].WakuLevel, 
-				/*(int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].OriTime*/30 );
-			OriTime = (int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].OriTime * 60;
-			IntervalTime = (int)Define_WakuPattern.Table[Index].Pattern[SelectIndex].IntervalTime * 60;
+				Define_WakuPattern.Table[Index].Pattern[SelectIndex].WakuLevel, OriTime );
 			
-			// 秒数の割合を求める.
-			Par = 0;
-			for( int i = 0; i < OriTimeParTable.Length; i++ ){
-				Par += OriTime * OriTimeParTable[i];
-				OriTimePar[i] = Par;
-			}
 			
 			State = STATE.WAIT;
 		}
@@ -76,17 +65,6 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 			
 			Timer = 0;
 			State = STATE.INTERVAL;
-			/*
-			// 加算する段階を計算.
-			for( int i = 0; i < OriTimeParTable.Length; i++ ){
-				if( CutTime <= OriTimePar[i] ){
-					NowDegree += DegreeAddTable[i];
-					Timer = 0;
-					State = STATE.INTERVAL;
-					break;
-				}
-			}
-			*/
 		}
 		else{
 			if( StaticMath.Compensation( ref Timer, IntervalTime, 1 ) ){
