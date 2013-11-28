@@ -8,11 +8,12 @@ public class LineEffect : MonoBehaviour {
 	public float	moveTime = 0.1f;
 
 	Vector3 oldPos;
-	
+	int counter = 0;
 	// Use this for initialization
 	void Start () {
-		MoveToTargetPositionEnd();
 		oldPos = targetPositionEnd;
+		gameObject.renderer.enabled = false;
+		gameObject.GetComponent<TrailRenderer>().enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -23,6 +24,9 @@ public class LineEffect : MonoBehaviour {
 			gameObject.particleSystem.renderer.enabled = true;
 
 		oldPos = targetPositionEnd;
+		counter++;
+		if(counter > 50)
+			gameObject.GetComponent<TrailRenderer>().enabled = true;
 	}
 	
 	void End()
@@ -30,15 +34,17 @@ public class LineEffect : MonoBehaviour {
 		iTween.Stop(gameObject);
 	}
 		
-	void MoveToTargetPositionEnd()
+	public void MoveToTargetPositionEnd()
 	{
 //		gameObject.particleSystem.renderer.enabled = true;
 		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionEnd,"time", moveTime,"oncomplete","MoveToTargetPositionStart","easetype",iTween.EaseType.linear,"islocal",true));
+
 	}
-	void MoveToTargetPositionStart()
+	public void MoveToTargetPositionStart()
 	{
 //		gameObject.particleSystem.renderer.enabled = true;
 		iTween.MoveTo(gameObject,iTween.Hash("position", targetPositionStart,"time", moveTime,"oncomplete","MoveToTargetPositionEnd","easetype",iTween.EaseType.linear,"islocal",true));		
+		//gameObject.GetComponent<TrailRenderer>().enabled = true;
 	}
 	
 }

@@ -13,7 +13,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	OrigamiController OrigamiControllerScript = null;
 	
 	[HideInInspector]
-	public int	NowDegree = 4;
+	public int	NowDegree = 3;
 	[HideInInspector]
 	public int	CutTime;
 	
@@ -23,7 +23,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	private int Timer = 0;
 	
 	public void Init (){
-		NowDegree = 4;
+		NowDegree = 3;
 		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 	}
 	

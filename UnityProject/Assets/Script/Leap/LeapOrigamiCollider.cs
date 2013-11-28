@@ -13,7 +13,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	private Vector3 		HitEndPos;
 	private	bool			HitFlg = false;
 	private OrigamiController OrigamiControllerScript;
-	private	GameObject		LineEffectObj;
+	private	GameObject		LineEffectObj = null;
 	private	LineEffect		LineEffectScript = null;
 	private	bool			isEnd = false;
 
@@ -48,6 +48,10 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			Destroy( PointParticle[1] );
 			PointParticle[1] = null;
 		}
+		if( LineEffectObj != null ){
+			iTween.Stop( LineEffectObj );
+			Destroy( LineEffectObj );
+		}
 	}
 	
 	private void OnTriggerEnter (Collider other){
@@ -65,9 +69,10 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			LineEffectObj.transform.parent = HitObj.transform.parent;
 			LineEffectScript = LineEffectObj.GetComponent<LineEffect>();
 			Vector3 pos = transform.localPosition;
-			pos.z = HitObj.transform.localPosition.z;
+			pos.z = HitObj.transform.localPosition.z - 0.2f;
 			LineEffectScript.targetPositionStart = pos;
 			LineEffectScript.targetPositionEnd = pos;
+			LineEffectScript.MoveToTargetPositionStart();
 			
 			HitFlg = true;
 			isEnd = false;
@@ -144,12 +149,13 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				}
 				// 2013/11/26 kojima
 				iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
-				isEnd = false;
+				isEnd = true;
 			}
 			else{
 				Destroy( PointParticle[0] );
 				iTween.Stop( LineEffectObj );
 				Destroy( LineEffectObj );
+				LineEffectObj = null;
 				PointParticle[0] = null;
 			}
 			
