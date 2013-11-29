@@ -21,6 +21,10 @@ public class OrigamiSelect : MonoBehaviour {
 	private	bool[]	SelectFlg = new bool[]{ false,false,false };
 	private	float[]	SelectTimer = new float[]{ 0,0,0 };
 	private MeshFilter[]	SelectMesh = new MeshFilter[2];
+	
+	private const float	IntervalTime = 1.5f * 60.0f;
+	private float		Timer = 0.0f;
+	private	bool		SelectStartFlg = false;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +41,15 @@ public class OrigamiSelect : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if( !ActiveFlg ) return;
+		
+		if( !SelectStartFlg ){
+			if( StaticMath.Compensation( ref Timer, IntervalTime, 1.0f ) ){
+				UI_OrigamiDicisionGauge.Instance.spriteEnable( true );
+				UI_OrigamiDicisionGauge.Instance.PlayAtZero();
+				SelectStartFlg = true;
+			}
+			return;
+		}
 		
 		if( SelectColliderScript[0].Hit ){
 			if( !SelectFlg[0] ){
@@ -208,10 +221,10 @@ public class OrigamiSelect : MonoBehaviour {
 		SelectColliderScript[0].ActiveFlg = true;
 		SelectColliderScript[1].ActiveFlg = true;
 			
-		UI_OrigamiDicisionGauge.Instance.spriteEnable( true );
-		UI_OrigamiDicisionGauge.Instance.PlayAtZero();
 		SelectFlg[0] = SelectFlg[1] = SelectFlg[2] = false;
 		SelectTimer[0] = SelectTimer[1] = SelectTimer[2] = 0.0f;
 		ActiveFlg = true;
+		SelectStartFlg = false;
+		Timer = 0.0f;
 	}
 }

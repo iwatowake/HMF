@@ -8,6 +8,7 @@ public class OrigamiRay {
 
 public class OrigamiCollider : MonoBehaviour {
 	
+	[HideInInspector]
 	public 	GameObject		WakuObject;
 	private	float			PlaneSize = 0.5f;
 	private	int				RayOffset = 50;
