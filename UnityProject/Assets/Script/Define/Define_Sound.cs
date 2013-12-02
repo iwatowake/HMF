@@ -1,7 +1,7 @@
 ﻿public	enum BGM_ID 
 {
 	TITLE = 0,
-	INGAME = 2
+	INGAME = 1
 }
 
 public	enum SE_ID{

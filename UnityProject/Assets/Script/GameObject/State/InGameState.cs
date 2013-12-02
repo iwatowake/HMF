@@ -22,11 +22,14 @@ public class InGameState : StateBase {
 		eExit_Init,
 		eExit_Wait,
 		
+		eChangeState_Bridge,
+		
 		eChangeState_ToGameOver,
 		eChangeState_ToResult
 	}
 	
 	private STATE	state		= STATE.eEnter_Init;	//!< 状態管理用
+	private	STATE	nextState	= STATE.eEnter_Init;
 	
 	protected override void Start ()
 	{
@@ -43,6 +46,7 @@ public class InGameState : StateBase {
 
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
+			Game_CityLayer.Instance.CityLayerEnable(1,true);
 //			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
@@ -61,6 +65,7 @@ public class InGameState : StateBase {
 			Debug.Log("main_init");
 //			UI_TimeCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
+			WakuGenerator.Instance.Play();
 			state++;
 			break;
 		case STATE.eMain_Wait:
@@ -69,9 +74,14 @@ public class InGameState : StateBase {
 			{
 				state = STATE.eGameOver_Init;
 			}
+			if(NaviCamera.Instance.isFinish)
+			{
+				state = STATE.eGameClear_Init;
+			}
 			break;
 			
 		case STATE.eGameOver_Init:
+			nextState = STATE.eChangeState_ToGameOver;
 			state++;
 			break;
 		case STATE.eGameOver_Wait:
@@ -79,19 +89,32 @@ public class InGameState : StateBase {
 			break;
 			
 		case STATE.eGameClear_Init:
+			nextState = STATE.eChangeState_ToResult;
 			state++;
 			break;
 		case STATE.eGameClear_Wait:
-			state = STATE.eExit_Init;
+			if(WakuGenerator.Instance.Stop())
+			{
+				state = STATE.eExit_Init;
+			}
 			break;
 			
 			// インゲーム　状態離脱
 		case STATE.eExit_Init:
-			FadeOut(1.5f);
+			if(nextState == STATE.eChangeState_ToResult)
+			{
+				FadeOut(Color.white, 1.5f);
+			}else{
+				FadeOut(Color.black, 1.5f);
+			}
 			GameObject.Find("UI_InGame").SetActive(false);
 			state++;
 			break;
 		case STATE.eExit_Wait:
+			break;
+			
+		case STATE.eChangeState_Bridge:
+			state = nextState;
 			break;
 			
 			// 次の状態へ

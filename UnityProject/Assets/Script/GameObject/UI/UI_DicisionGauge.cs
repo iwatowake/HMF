@@ -37,7 +37,8 @@ public class UI_DicisionGauge : MonoBehaviour_Extends {
 				relatedButton.OnPressed();
 				EffectCamera.Instance.DestroyButtonEffect();
 				
-				Instantiate(GaugeLasrWaveEffect,gameObject.transform.position,Quaternion.identity);
+				GameObject effect = Instantiate(GaugeLasrWaveEffect,gameObject.transform.position,Quaternion.identity) as GameObject;
+				effect.transform.parent = transform;
 			}else{
 				sprite.fillAmount += (Time.deltaTime * fillSpeed);
 			}

@@ -40,7 +40,7 @@ public class UI_Label_Fade : MonoBehaviour {
 	}
 	
 	void OnDestroy(){
-		iTween.StopByName("LabelFadeIn");
-		iTween.StopByName("LabelFadeOut");
+//		iTween.StopByName("LabelFadeIn");
+//		iTween.StopByName("LabelFadeOut");
 	}
 }

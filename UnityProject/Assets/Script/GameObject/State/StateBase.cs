@@ -26,6 +26,10 @@ public class StateBase : MonoBehaviour_Extends {
 		fade.Tween_FadeOut(gameObject, "OnCompleteFade", time);
 	}
 	
+	protected void FadeOut(Color color, float time){
+		fade.Tween_FadeOut(gameObject, "OnCompleteFade", color, time);
+	}
+	
 	protected virtual void OnCompleteFade(){
 		
 	}

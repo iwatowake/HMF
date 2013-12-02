@@ -12,6 +12,6 @@ public class UI_ResultManager : SingletonMonoBehaviour<UI_ResultManager>{
 	public	bool SetScore(){
 		lbFdScore.gameObject.GetComponent<UILabel>().text = "Score " + StateController.Instance.score.ToString();
 		
-		return true;
+		return false;
 	}
 }
