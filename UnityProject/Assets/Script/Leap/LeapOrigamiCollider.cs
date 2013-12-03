@@ -56,11 +56,24 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	
 	private void OnTriggerEnter (Collider other){
 		if( enabled == false ) return;
+		
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
+			UI_OKButton.Instance.Off();
+			
 			if( PointParticle[0] != null ){
 				Destroy( PointParticle[0] );
 				PointParticle[0] = null;
 			}
+			if( PointParticle[1] != null ){
+				Destroy( PointParticle[1] );
+				PointParticle[1] = null;
+			}
+			
+			if( LineEffectObj != null ){
+				iTween.Stop( LineEffectObj );
+				Destroy( LineEffectObj );
+			}
+			
 			HitObj = other.gameObject;
 			HitStartPos = other.collider.ClosestPointOnBounds(transform.position);
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
@@ -81,7 +94,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	
 	private void OnTriggerExit (Collider other){
 		if( enabled == false ) return;
-		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
+		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){			
 			HitEndPos = other.collider.ClosestPointOnBounds(transform.position);
 			
 			// 折れるかどうか判定.
@@ -157,6 +170,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				Destroy( LineEffectObj );
 				LineEffectObj = null;
 				PointParticle[0] = null;
+				
+				UI_OKButton.Instance.On();
 			}
 			
 			HitFlg = false;

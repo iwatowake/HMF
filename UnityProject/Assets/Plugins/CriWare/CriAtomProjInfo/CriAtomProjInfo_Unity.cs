@@ -8,7 +8,7 @@
 * Module   : CRI Atom for Unity
 * File     : CriAtomProjInfo_Unity.cs
 * Tool Ver.          : CRI Atom Craft LE Ver.1.30.00
-* Date Time          : 2013/11/04 21:05
+* Date Time          : 2013/12/03 3:44
 * Project Name       : HMF_Origami
 * Project Comment    : 
 *
@@ -45,6 +45,6 @@ public partial class CriAtomAcfInfo
         newAcbInfo.cueInfoList.Add(0, new CueInfo("Prologue", 0, ""));
         newAcbInfo.cueInfoList.Add(1, new CueInfo("Evolution ", 1, ""));
         newAcbInfo.cueInfoList.Add(2, new CueInfo("StarLine", 2, ""));
-        newAcbInfo.cueInfoList.Add(3, new CueInfo("Beauty", 3, ""));
+        newAcbInfo.cueInfoList.Add(3, new CueInfo("HeavenlyStar_CountDownRemix", 3, ""));
     }
 }

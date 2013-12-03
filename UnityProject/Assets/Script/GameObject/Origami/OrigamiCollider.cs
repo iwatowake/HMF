@@ -59,7 +59,7 @@ public class OrigamiCollider : MonoBehaviour {
 				Vertex[OrigamiIndex[i]] = Vector3.Slerp( StartPos[i], EndPos[i], t );
 			}
 			HitMesh.vertices = Vertex;
-			if( StaticMath.Compensation( ref t, 1.0f, 0.02f ) ){
+			if( StaticMath.Compensation( ref t, 1.0f, 0.025f ) ){
 				t = 0.0f;
 				isFold = true;
 				gameObject.GetComponent<MeshCollider>().sharedMesh = HitMesh;

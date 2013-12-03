@@ -8,9 +8,10 @@ public class UI_ResultManager : SingletonMonoBehaviour<UI_ResultManager>{
 	public	UI_InputChars	inputChars;
 	public	UI_InputArea	inputArea;
 	public	UISprite		spNextButton;
+	public	UISprite		spOK;
 	
 	public	bool SetScore(){
-		lbFdScore.gameObject.GetComponent<UILabel>().text = "Score " + StateController.Instance.score.ToString();
+		lbFdScore.gameObject.GetComponent<UILabel>().text = "Score: " + StateController.Instance.score.ToString();
 		
 		return false;
 	}

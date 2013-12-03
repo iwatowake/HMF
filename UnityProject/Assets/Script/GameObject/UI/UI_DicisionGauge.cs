@@ -3,7 +3,7 @@ using System.Collections;
 
 public class UI_DicisionGauge : MonoBehaviour_Extends {
 	
-	private const	float			fillSpeed = 0.5f;
+	private const	float			fillSpeed = 0.75f;
 	
 	private 		UIFilledSprite	sprite;
 	private			bool			bIsOnButton = false;
@@ -37,9 +37,11 @@ public class UI_DicisionGauge : MonoBehaviour_Extends {
 				relatedButton.OnPressed();
 				EffectCamera.Instance.DestroyButtonEffect();
 				
+				sprite.fillAmount = 0;
+				
 				GameObject effect = Instantiate(GaugeLasrWaveEffect,gameObject.transform.position,Quaternion.identity) as GameObject;
 				effect.transform.parent = transform;
-			}else{
+			}else if(!bFilled){
 				sprite.fillAmount += (Time.deltaTime * fillSpeed);
 			}
 		}else{

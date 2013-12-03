@@ -20,9 +20,9 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	[HideInInspector]
 	public int	CutTime;
 	
-	public	int	IntervalTime = 5;
+	public	int	IntervalTime = 3;
 	public	int	OriTime = 30;
-	private readonly int[] DegreeAddTable = new int[4]{ -1,-1,1,2 };
+	private readonly int[] DegreeAddTable = new int[4]{ -1,1,1,2 };
 	//private int Timer = 0;
 	private	float	Timer = 0;	// 11/29 kojima edited
 	
@@ -33,7 +33,13 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	
 	public void SetResult ( int Result ){
 		if( Result >= DegreeAddTable.Length )	return;
-		NowDegree += DegreeAddTable[Result];
+		
+		if(NowDegree < 20)
+		{
+			NowDegree += DegreeAddTable[Result]*3;
+		}else{
+			NowDegree += DegreeAddTable[Result];
+		}
 	}
 	
 	// Use this for initialization

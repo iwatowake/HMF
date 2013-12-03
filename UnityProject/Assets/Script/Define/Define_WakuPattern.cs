@@ -121,11 +121,11 @@ public class WakuPatternTable {
 
 public static class Define_WakuPattern {
 	// テーブルのサイズ.
-	public const int MaxRange = 49;
+	public const int MaxRange = 48;
 	public static WakuPatternTable[] Table;
 	
 	public const int MIN_DEGREE = 0;
-	public const int MAX_DEGREE = 49;
+	public const int MAX_DEGREE = 48;
 	
 	static Define_WakuPattern (){
 		Table = new WakuPatternTable[MaxRange];
@@ -300,14 +300,15 @@ public static class Define_WakuPattern {
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
-		Table[Index].CreatePattern( 1 );
+		Table[Index].CreatePattern( 2 );
 		Table[Index].Set( 0, 100, WAKU.LEVEL_5_14 );
-		
-		Index++;
+		Table[Index].Set( 1, 100, WAKU.LEVEL_5_15 );		
+
+/*		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
 		Table[Index].CreatePattern( 1 );
-		Table[Index].Set( 0, 100, WAKU.LEVEL_5_15 );
+		Table[Index].Set( 0, 100, WAKU.LEVEL_5_15 );*/
 		
 		Index++;
 		Table[Index] = new WakuPatternTable();

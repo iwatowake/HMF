@@ -33,20 +33,21 @@ public class InGameState : StateBase {
 	
 	protected override void Start ()
 	{
+		RenderSettings.fogEndDistance = 80;
 		base.Start ();
 	}
 	
 	public override void Exec ()
 	{
+		
 		switch(state)
-		{
+		{			
 			// インゲーム　状態入り
 		case STATE.eEnter_Init:
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.INGAME);
 
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
-			Game_CityLayer.Instance.CityLayerEnable(1,true);
 //			UI_TimeCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
@@ -70,13 +71,19 @@ public class InGameState : StateBase {
 			break;
 		case STATE.eMain_Wait:
 //			UI_TimeCounter.Instance.Exec();
+/*			if(UI_TimeCounter.Instance.total > 480.0f)
+			{
+				WakuGenerator.Instance.Stop();
+			}*/
 			if(UI_TentionGauge.Instance.isDead())
 			{
 				state = STATE.eGameOver_Init;
+				WakuGenerator.Instance.Stop();
 			}
-			if(NaviCamera.Instance.isFinish)
+			if(UI_TimeCounter.Instance.isLastWave)
 			{
-				state = STATE.eGameClear_Init;
+				if(WakuGenerator.Instance.Stop())
+					state = STATE.eGameClear_Init;
 			}
 			break;
 			
@@ -90,13 +97,14 @@ public class InGameState : StateBase {
 			
 		case STATE.eGameClear_Init:
 			nextState = STATE.eChangeState_ToResult;
+			StateController.Instance.score = UI_ScoreCounter.Instance.Score;
 			state++;
 			break;
 		case STATE.eGameClear_Wait:
-			if(WakuGenerator.Instance.Stop())
-			{
+//			if(WakuGenerator.Instance.Stop())
+//			{
 				state = STATE.eExit_Init;
-			}
+//			}
 			break;
 			
 			// インゲーム　状態離脱

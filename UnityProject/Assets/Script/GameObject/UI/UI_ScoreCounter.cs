@@ -23,7 +23,7 @@ public class UI_ScoreCounter : SingletonMonoBehaviour<UI_ScoreCounter> {
 		
 		float	per_floored = StaticMath.ToRoundDown(per, 1);
 		
-		if(per < 95.0f)
+		if(per < Define_Rate.Good)
 			combo = 0;
 		
 		int	scoreAdds = Mathf.FloorToInt( (per * 10) * (1 + (float)combo * 0.5f) );
@@ -36,7 +36,7 @@ public class UI_ScoreCounter : SingletonMonoBehaviour<UI_ScoreCounter> {
 		if(combo > 0)
 			UI_Combo.Instance.SetCombo(combo);
 		
-		if(per >= 95.0f)
+		if(per >= Define_Rate.Good)
 			combo++;
 		
 		UI_ScoreAdds.Instance.SetScore(scoreAdds);
