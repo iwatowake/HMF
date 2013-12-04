@@ -12,6 +12,7 @@ public class OrigamiUpdate : MonoBehaviour {
 		FOLD_SELECT,
 		FOLD,
 		WAIT,
+		REVERT,
 	};
 	private STATE State = STATE.START_MOVE;
 	
@@ -29,6 +30,8 @@ public class OrigamiUpdate : MonoBehaviour {
 	private float Timer = 0.0f;
 	private	float t = 0.0f;
 	
+	[HideInInspector]
+	public	bool	RevertFlg = false;
 	private bool	CalculateMediumPos = false;
 	private Vector3	MediumPos;
 	private Vector3	OrigamiPos;

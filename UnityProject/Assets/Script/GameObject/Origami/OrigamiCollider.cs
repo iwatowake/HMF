@@ -12,8 +12,12 @@ public class OrigamiCollider : MonoBehaviour {
 	public 	GameObject		WakuObject;
 	private	float			PlaneSize = 0.5f;
 	private	int				RayOffset = 50;
+	[HideInInspector]
 	public	OrigamiRay[]	RayPointPlane;
+	[HideInInspector]
 	public	OrigamiRay[]	RayPoint;
+	[HideInInspector]
+	public	OrigamiRay[]	OldRayPoint;
 	private	int				Num;
 	
 	private		Vector3[]	StartPos;
@@ -34,6 +38,7 @@ public class OrigamiCollider : MonoBehaviour {
 		Num = RayOffset*RayOffset;
 		RayPoint = new OrigamiRay[Num];
 		RayPointPlane = new OrigamiRay[Num];
+		OldRayPoint = new OrigamiRay[Num];
 		for( int i = 0; i < RayOffset; i++ ){
 			for( int j = 0; j < RayOffset; j++ ){
 				RayPointPlane[i*RayOffset+j] = new OrigamiRay();
@@ -44,6 +49,7 @@ public class OrigamiCollider : MonoBehaviour {
 			}
 		}
 		for( int i = 0; i < Num; i++ ){
+			OldRayPoint[i] = new OrigamiRay();
 			RayPoint[i] = new OrigamiRay();
 			RayPoint[i].Position = RayPointPlane[i].Position;
 			RayPoint[i].Enable = true;
@@ -62,9 +68,30 @@ public class OrigamiCollider : MonoBehaviour {
 			if( StaticMath.Compensation( ref t, 1.0f, 0.025f ) ){
 				t = 0.0f;
 				isFold = true;
+				HitMesh.RecalculateBounds();
 				gameObject.GetComponent<MeshCollider>().sharedMesh = HitMesh;
 				gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
 				OrigamiUpdateScript.SetState( OrigamiUpdate.STATE.CUT );
+				OrigamiUpdateScript.RevertFlg = true;
+			}
+		}
+		else if( OrigamiUpdateScript.GetState() == OrigamiUpdate.STATE.REVERT ){
+			Mesh HitMesh = gameObject.GetComponent<MeshFilter>().mesh;
+			Vector3[] Vertex = HitMesh.vertices;
+			for( int i = 0; i < OrigamiIndex.Length; i++ ){
+				Vertex[OrigamiIndex[i]] = Vector3.Slerp( EndPos[i], StartPos[i], t );
+			}
+			HitMesh.vertices = Vertex;
+			if( StaticMath.Compensation( ref t, 1.0f, 0.025f ) ){
+				t = 0.0f;
+				isFold = true;
+				HitMesh.RecalculateBounds();
+				gameObject.GetComponent<MeshCollider>().sharedMesh = null;
+				gameObject.GetComponent<MeshCollider>().sharedMesh = HitMesh;
+				gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
+				OrigamiUpdateScript.SetState( OrigamiUpdate.STATE.CUT );
+				OrigamiUpdateScript.RevertFlg = false;
+				RevertPoint();
 			}
 		}
 	}
@@ -133,5 +160,23 @@ public class OrigamiCollider : MonoBehaviour {
 			return false;
 		}
 		return true;
+	}
+	
+	public void BackUpPoint (){
+		for( int i = 0; i < RayOffset; i++ ){
+			for( int j = 0; j < RayOffset; j++ ){
+				OldRayPoint[i*RayOffset+j].Enable = RayPoint[i*RayOffset+j].Enable;
+				OldRayPoint[i*RayOffset+j].Position = RayPoint[i*RayOffset+j].Position;
+			}
+		}
+	}
+	
+	public void RevertPoint (){
+		for( int i = 0; i < RayOffset; i++ ){
+			for( int j = 0; j < RayOffset; j++ ){
+				RayPoint[i*RayOffset+j].Enable = OldRayPoint[i*RayOffset+j].Enable;
+				RayPoint[i*RayOffset+j].Position = OldRayPoint[i*RayOffset+j].Position;
+			}
+		}
 	}
 }

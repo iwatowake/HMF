@@ -148,6 +148,7 @@ public class OrigamiSelect : MonoBehaviour {
 		Vector2[]	Polygon = new Vector2[3];
 		Vector2		Point = new Vector2();
 		if( origamiCollider == null )	return;
+		origamiCollider.BackUpPoint();
 		for( int i = 0; i < origamiCollider.RayPoint.Length; i++ ){
 			if( !origamiCollider.RayPoint[i].Enable )	continue;
 			if( OrigamiCutter.GetSide( HitVec, origamiCollider.RayPoint[i].Position - HitPoint1 ) == OriFlg ){
