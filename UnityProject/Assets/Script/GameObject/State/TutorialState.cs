@@ -24,10 +24,14 @@ public class TutorialState : StateBase {
 	}
 	
 	private STATE	state		= STATE.eEnter_Init;	//!< 状態管理用
+	private OrigamiController OrigamiControllerScript = null;
+	
+	public	int	OriTime = 300;
 	
 	protected override void Start ()
 	{
 		base.Start ();
+		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 	}
 	
 	public override void Exec ()
@@ -47,6 +51,7 @@ public class TutorialState : StateBase {
 			break;
 		case STATE.eEnter_Wait:
 			Debug.Log("enter_wait");
+			state++;
 			break;
 			
 			// インゲーム　入力待ち
@@ -55,6 +60,7 @@ public class TutorialState : StateBase {
 //			UI_TimeCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
 			state++;
+			PlayOrigami();
 			break;
 		case STATE.eMain_Wait:
 //			UI_TimeCounter.Instance.Exec();
@@ -74,7 +80,6 @@ public class TutorialState : StateBase {
 			state = STATE.eExit_Init;
 			break;
 			
-			// インゲーム　状態離脱
 		case STATE.eExit_Init:
 			FadeOut(1.5f);
 			GameObject.Find("UI_InGame").SetActive(false);
@@ -122,5 +127,10 @@ public class TutorialState : StateBase {
 	public void EndText()
 	{
 		state = STATE.eExit_Init;
+	}
+	
+	public void PlayOrigami()
+	{
+		OrigamiControllerScript.CreateOrigami(WAKU.LEVEL_1_1,OriTime);
 	}
 }

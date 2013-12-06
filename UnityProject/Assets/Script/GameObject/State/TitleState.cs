@@ -33,6 +33,7 @@ public class TitleState : StateBase {
 	protected override void Start(){
 		base.Start();
 		gameObject.name = "State_Title";
+		RenderSettings.fogEndDistance = 150;
 	}
 	
 	
@@ -45,7 +46,7 @@ public class TitleState : StateBase {
 		case STATE.eEnter_Init:
 			Debug.Log("Enter_Title");
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
-			Game_CityLayer.Instance.CityLayerEnable(0,false);
+			Game_CityLayer.Instance.InitCityLayer();
 			FadeIn(1.5f);
 			state++;
 			break;

@@ -22,13 +22,13 @@ public class OrigamiSelect : MonoBehaviour {
 	private	float[]	SelectTimer = new float[]{ 0,0,0 };
 	private MeshFilter[]	SelectMesh = new MeshFilter[2];
 	
-	private const float	IntervalTime = 1.5f * 60.0f;
+	private const float	IntervalTime = 0.5f * 60.0f;
 	private float		Timer = 0.0f;
 	private	bool		SelectStartFlg = false;
 
 	// Use this for initialization
 	void Start () {
-		UI_OrigamiDicisionGauge.Instance.fillTime = 2.0f;
+		UI_OrigamiDicisionGauge.Instance.fillTime = 1.25f;
 		OrigamiControllerScript = GameObject.Find("OrigamiController").gameObject.GetComponent<OrigamiController>();
 		SelectColliderScript[0] = transform.FindChild( "SelectMesh1" ).GetComponent<OrigamiSelectCollider>();
 		SelectColliderScript[1] = transform.FindChild( "SelectMesh2" ).GetComponent<OrigamiSelectCollider>();
@@ -95,6 +95,8 @@ public class OrigamiSelect : MonoBehaviour {
 			
 			// 2013/11/26 kojima
 			iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeOut").Play();
+			
+			UI_OKButton.Instance.On();
 		}
 	}
 	
@@ -146,6 +148,7 @@ public class OrigamiSelect : MonoBehaviour {
 		Vector2[]	Polygon = new Vector2[3];
 		Vector2		Point = new Vector2();
 		if( origamiCollider == null )	return;
+		origamiCollider.BackUpPoint();
 		for( int i = 0; i < origamiCollider.RayPoint.Length; i++ ){
 			if( !origamiCollider.RayPoint[i].Enable )	continue;
 			if( OrigamiCutter.GetSide( HitVec, origamiCollider.RayPoint[i].Position - HitPoint1 ) == OriFlg ){

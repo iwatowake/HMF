@@ -9,6 +9,26 @@ public class UI_Sprite_Fade : MonoBehaviour {
 		sprite = GetComponent<UISprite>();
 	}
 	
+	public void FadeIn(float time){
+		Hashtable ht = new Hashtable();
+		ht.Add("name", "LabelFadeIn");
+		ht.Add("time", time);
+		ht.Add("from", 0.0f);
+		ht.Add("to"  , 1.0f);
+		ht.Add("onupdate", "OnAlphaUpdate");
+		iTween.ValueTo(gameObject, ht);
+	}
+	
+	public void FadeOut(float time){
+		Hashtable ht = new Hashtable();
+		ht.Add("name", "LabelFadeIn");
+		ht.Add("time", time);
+		ht.Add("from", 1.0f);
+		ht.Add("to"  , 0.0f);
+		ht.Add("onupdate", "OnAlphaUpdate");
+		iTween.ValueTo(gameObject, ht);
+	}
+	
 	public void FadeIn(float time, float delay, string oncomplete, GameObject oncompletetarget){
 		Hashtable ht = new Hashtable();
 		ht.Add("name", "LabelFadeIn");
@@ -40,7 +60,7 @@ public class UI_Sprite_Fade : MonoBehaviour {
 	}
 	
 	void OnDestroy(){
-		iTween.StopByName("LabelFadeIn");
-		iTween.StopByName("LabelFadeOut");
+//		iTween.StopByName("LabelFadeIn");
+//		iTween.StopByName("LabelFadeOut");
 	}
 }

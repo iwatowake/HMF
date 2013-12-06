@@ -6,8 +6,12 @@ public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 	public float fieldOfViewInLook = 60;
 	public float fieldOfViewTime = 1.0f;
 	
-		// Use this for initialization
+	[HideInInspector]
+	public bool  isFinish		 = false;
+	
+	// Use this for initialization
 	void Start () {
+		isFinish = false;
 	}
 	
 	// Update is called once per frame
@@ -47,6 +51,10 @@ public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 	void SetStreet4()
 	{
 		iTweenEvent.GetEvent(gameObject,"StreetEvent4").Play();
+	}
+	void AllPathComplete()
+	{
+		isFinish = true;
 	}
 	#endregion
 

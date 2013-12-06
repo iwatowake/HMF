@@ -41,7 +41,12 @@ public class TutorialText : MonoBehaviour {
 	{
 		tutorialState.GetComponent<TutorialState>().EndText();
 	}
-
+	
+	void PlayOrigami()
+	{
+		tutorialState.GetComponent<TutorialState>().EndText();		
+	}
+	
 	void NextText()
 	{
 		currentNo++;

@@ -46,14 +46,14 @@ public class UI_RateManager : SingletonMonoBehaviour<UI_RateManager> {
 	public void SetRate(float per){
 		int rate = -1;
 		
-		if(per < 75.0f)
+		if(per < Define_Rate.Safe)
 		{
 			rate = 0;
-		}else if(per < 85.0f){
+		}else if(per < Define_Rate.Good){
 			rate = 1;
-		}else if(per < 95.0f){
+		}else if(per < Define_Rate.Excellent){
 			rate = 2;
-		}else if(per <= 100.0f){
+		}else{
 			rate = 3;
 		}
 		
