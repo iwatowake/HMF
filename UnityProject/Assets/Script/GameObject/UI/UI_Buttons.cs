@@ -39,6 +39,12 @@ public class UI_Buttons : MonoBehaviour_Extends {
 					dicisionGauge.RelatedButton = this;
 					EffectCamera.Instance.CreateButtonEffect();
 				}
+				
+				if(transform.localScale.x < originalScale.x*1.25f)
+				{
+					transform.localScale += Vector3.one*5.0f;
+				}
+				
 			}else{
 				if(isPressed)
 				{
@@ -46,6 +52,16 @@ public class UI_Buttons : MonoBehaviour_Extends {
 					dicisionGauge.isOnButton = false;
 					dicisionGauge.RelatedButton = null;
 					EffectCamera.Instance.DestroyButtonEffect();
+				}
+				
+				if(transform.localScale.x > originalScale.x)
+				{
+					transform.localScale -= Vector3.one*5.0f;
+
+					if(transform.localScale.x < originalScale.x)
+					{
+						transform.localScale = originalScale;
+					}
 				}
 			}
 		}else if(isPressed)

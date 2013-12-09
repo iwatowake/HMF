@@ -21,9 +21,13 @@ public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 	#region カメラの一時停止して世界の中心を注視する.
 	public void LookTownPauseTween()
 	{
-		//iTween.Pause(gameObject);
+		iTween.Pause(gameObject);
 		iTweenEvent.GetEvent(gameObject,"LookTown").Play();
 		ChangeFieldOfView();
+		UI_ScoreCounter.Instance.SetEnable(false);
+		UI_TentionGauge.Instance.SetEnable(false);
+		WakuGenerator.Instance.Stop();
+		UI_CityLevel.Instance.Play();
 	}
 	#endregion
 	
@@ -32,6 +36,9 @@ public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 	{
 		ResumeFieldOfView();
 		iTween.Resume(gameObject);
+		UI_ScoreCounter.Instance.SetEnable(true);
+		UI_TentionGauge.Instance.SetEnable(true);
+		WakuGenerator.Instance.Play();
 	}
 	#endregion
 		

@@ -20,7 +20,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	[HideInInspector]
 	public int	CutTime;
 	
-	public	int	IntervalTime = 3;
+	public	int	IntervalTime = 5;
 	public	int	OriTime = 30;
 	private readonly int[] DegreeAddTable = new int[4]{ -1,1,1,2 };
 	//private int Timer = 0;
@@ -72,12 +72,14 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 		}
 		else if( State == STATE.WAIT ){
 			if( OrigamiControllerScript.GetActiveFlg() ) return;
-			
 			Timer = 0;
 			State = STATE.INTERVAL;
 		}
 		else if(State == STATE.INTERVAL){
 //			if( StaticMath.Compensation( ref Timer, IntervalTime, 1 ) ){
+			if( Timer >= 2.0f )
+				UI_WaveCount.Instance.Play();
+			
 			if((Timer+=Time.deltaTime) >= IntervalTime){					// 11/29 kojima edited
 				State = STATE.CREATE;
 			}
@@ -99,7 +101,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	public bool Play(){
 		if(State == STATE.STOP || State == STATE.INTERVAL)
 		{
-			State = STATE.CREATE;
+			State = STATE.WAIT;
 			return true;
 		}else{
 			return false;

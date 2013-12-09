@@ -97,6 +97,7 @@ public class OrigamiSelect : MonoBehaviour {
 			iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeOut").Play();
 			
 			UI_OKButton.Instance.On();
+			UI_RevertButton.Instance.On();
 		}
 	}
 	

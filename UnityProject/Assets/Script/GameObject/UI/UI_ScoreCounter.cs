@@ -18,6 +18,10 @@ public class UI_ScoreCounter : SingletonMonoBehaviour<UI_ScoreCounter> {
 		get{return combo;}
 	}
 	
+	public	void	SetEnable(bool b){
+		label.enabled = b;
+	}
+	
 	public	void	SetResult(float	per){
 		Debug.Log("score:"+per);
 		

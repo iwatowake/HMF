@@ -59,6 +59,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
 			UI_OKButton.Instance.Off();
+			UI_RevertButton.Instance.Off();
+			//UI_InGame.Instance.ButtonEnable(false);
 			
 			if( PointParticle[0] != null ){
 				Destroy( PointParticle[0] );
@@ -172,6 +174,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				PointParticle[0] = null;
 				
 				UI_OKButton.Instance.On();
+				UI_RevertButton.Instance.On();
 			}
 			
 			HitFlg = false;
