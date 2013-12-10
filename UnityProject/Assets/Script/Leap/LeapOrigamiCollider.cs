@@ -83,7 +83,6 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
 			Vector3	OldHitPos = HitPos;
 			for(;MoveVecRange != 0.0f;){
-				Debug.Log("hokan");
 				ray.origin = HitPos;
 				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
@@ -120,7 +119,6 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
 			Vector3	OldHitPos = HitPos;
 			for(;MoveVecRange != 0.0f;){
-				Debug.Log("hokan");
 				ray.origin = HitPos;
 				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
