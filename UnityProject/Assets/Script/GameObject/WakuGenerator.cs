@@ -77,7 +77,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 		}
 		else if(State == STATE.INTERVAL){
 //			if( StaticMath.Compensation( ref Timer, IntervalTime, 1 ) ){
-			if( Timer >= 2.0f )
+			if( Timer >= 2.0f && Timer < 3.0f )
 				UI_WaveCount.Instance.Play();
 			
 			if((Timer+=Time.deltaTime) >= IntervalTime){					// 11/29 kojima edited
