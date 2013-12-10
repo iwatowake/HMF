@@ -58,6 +58,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( enabled == false ) return;
 		
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
+			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;
 			UI_OKButton.Instance.Off();
 			UI_RevertButton.Instance.Off();
 			//UI_InGame.Instance.ButtonEnable(false);
@@ -96,7 +97,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	
 	private void OnTriggerExit (Collider other){
 		if( enabled == false ) return;
-		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){			
+		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
+			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;		
 			HitEndPos = other.collider.ClosestPointOnBounds(transform.position);
 			
 			// 折れるかどうか判定.

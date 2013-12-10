@@ -58,6 +58,7 @@ public class OrigamiCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if( OrigamiUpdateScript.GetState() == OrigamiUpdate.STATE.STOP ) return;
 		if( OrigamiUpdateScript.GetState() == OrigamiUpdate.STATE.FOLD ){
 			Mesh HitMesh = gameObject.GetComponent<MeshFilter>().mesh;
 			Vector3[] Vertex = HitMesh.vertices;

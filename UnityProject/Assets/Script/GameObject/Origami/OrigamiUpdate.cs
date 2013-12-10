@@ -13,8 +13,10 @@ public class OrigamiUpdate : MonoBehaviour {
 		FOLD,
 		WAIT,
 		REVERT,
+		STOP,
 	};
 	private STATE State = STATE.START_MOVE;
+	private STATE OldState = STATE.START_MOVE;
 	
 	public GameObject	WaveEffectPrefab;
 	public GameObject	BreakEffectPrefab;
@@ -128,5 +130,16 @@ public class OrigamiUpdate : MonoBehaviour {
 			Timer = 0.0f;
 			State = STATE.WAIT;
 		}
+	}
+	
+	public void Stop (){
+		if( State == STATE.STOP ) return;
+		OldState = State;
+		State = STATE.STOP;
+	}
+	
+	public void ReStart (){
+		if( State != STATE.STOP ) return;
+		State = OldState;
 	}
 }

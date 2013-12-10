@@ -5,6 +5,7 @@ public class OrigamiSelect : MonoBehaviour {
 	
 	private	OrigamiSelectCollider[]	SelectColliderScript = new OrigamiSelectCollider[2];
 	private	OrigamiController	OrigamiControllerScript;
+	private	OrigamiUpdate		OrigamiUpdateScript;
 	
 	public GameObject	ContactParticlePrefab;
 	[HideInInspector]
@@ -29,6 +30,7 @@ public class OrigamiSelect : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		UI_OrigamiDicisionGauge.Instance.fillTime = 1.25f;
+		OrigamiUpdateScript = gameObject.GetComponent<OrigamiUpdate>();
 		OrigamiControllerScript = GameObject.Find("OrigamiController").gameObject.GetComponent<OrigamiController>();
 		SelectColliderScript[0] = transform.FindChild( "SelectMesh1" ).GetComponent<OrigamiSelectCollider>();
 		SelectColliderScript[1] = transform.FindChild( "SelectMesh2" ).GetComponent<OrigamiSelectCollider>();
@@ -41,6 +43,11 @@ public class OrigamiSelect : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if( !ActiveFlg ) return;
+		if( OrigamiUpdateScript.GetState() == OrigamiUpdate.STATE.STOP ){
+			UI_OrigamiDicisionGauge.Instance.Pause();
+			return;
+		}
+		UI_OrigamiDicisionGauge.Instance.Play();
 		
 		if( !SelectStartFlg ){
 			if( StaticMath.Compensation( ref Timer, IntervalTime, 1.0f ) ){
