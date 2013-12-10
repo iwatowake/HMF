@@ -8,7 +8,7 @@
 * Module   : CRI Atom for Unity
 * File     : CriAtomProjInfo_Unity.cs
 * Tool Ver.          : CRI Atom Craft LE Ver.1.30.00
-* Date Time          : 2013/12/03 3:44
+* Date Time          : 2013/12/09 17:49
 * Project Name       : HMF_Origami
 * Project Comment    : 
 *
@@ -42,9 +42,9 @@ public partial class CriAtomAcfInfo
         AcbInfo newAcbInfo = null;
         newAcbInfo = new AcbInfo("BGM", 0, "", "BGM.acb", "BGM_streamfiles.awb","d3c7b73c-14d6-4ac3-8375-08d2b9a8e52f");
         acfInfo.acbInfoList.Add(newAcbInfo);
-        newAcbInfo.cueInfoList.Add(0, new CueInfo("Prologue", 0, ""));
-        newAcbInfo.cueInfoList.Add(1, new CueInfo("Evolution ", 1, ""));
-        newAcbInfo.cueInfoList.Add(2, new CueInfo("StarLine", 2, ""));
-        newAcbInfo.cueInfoList.Add(3, new CueInfo("HeavenlyStar_CountDownRemix", 3, ""));
+        newAcbInfo.cueInfoList.Add(1, new CueInfo("InGame_take1", 1, ""));
+        newAcbInfo.cueInfoList.Add(2, new CueInfo("InGame_take2", 2, ""));
+        newAcbInfo.cueInfoList.Add(3, new CueInfo("Result", 3, ""));
+        newAcbInfo.cueInfoList.Add(0, new CueInfo("01 Prologue", 0, ""));
     }
 }

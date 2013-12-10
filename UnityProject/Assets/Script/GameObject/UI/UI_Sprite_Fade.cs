@@ -29,6 +29,28 @@ public class UI_Sprite_Fade : MonoBehaviour {
 		iTween.ValueTo(gameObject, ht);
 	}
 	
+	public void FadeIn(float time, float delay){
+		Hashtable ht = new Hashtable();
+		ht.Add("name", "LabelFadeIn");
+		ht.Add("time", time);
+		ht.Add("delay", delay);
+		ht.Add("from", 0.0f);
+		ht.Add("to"  , 1.0f);
+		ht.Add("onupdate", "OnAlphaUpdate");
+		iTween.ValueTo(gameObject, ht);
+	}
+	
+	public void FadeOut(float time, float delay){
+		Hashtable ht = new Hashtable();
+		ht.Add("name", "LabelFadeOut");
+		ht.Add("time", time);
+		ht.Add("delay", delay);
+		ht.Add("from", 1.0f);
+		ht.Add("to"  , 0.0f);
+		ht.Add("onupdate", "OnAlphaUpdate");
+		iTween.ValueTo(gameObject, ht);
+	}
+	
 	public void FadeIn(float time, float delay, string oncomplete, GameObject oncompletetarget){
 		Hashtable ht = new Hashtable();
 		ht.Add("name", "LabelFadeIn");

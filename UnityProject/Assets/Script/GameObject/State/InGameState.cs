@@ -49,6 +49,7 @@ public class InGameState : StateBase {
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
 //			UI_TimeCounter.Instance.SetEnable(false);
+			UI_ScoreCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
 			GameObject WakuGeneratorObj = Instantiate( WakuGeneratorPrefab ) as GameObject;
@@ -65,6 +66,7 @@ public class InGameState : StateBase {
 		case STATE.eMain_Init:
 			Debug.Log("main_init");
 //			UI_TimeCounter.Instance.SetEnable(true);
+			UI_ScoreCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
 			WakuGenerator.Instance.Play();
 			state++;
@@ -77,8 +79,8 @@ public class InGameState : StateBase {
 			}*/
 			if(UI_TentionGauge.Instance.isDead())
 			{
-				state = STATE.eGameOver_Init;
-				WakuGenerator.Instance.Stop();
+				if(WakuGenerator.Instance.Stop())
+					state = STATE.eGameOver_Init;
 			}
 			if(UI_TimeCounter.Instance.isLastWave)
 			{
@@ -96,6 +98,8 @@ public class InGameState : StateBase {
 			break;
 			
 		case STATE.eGameClear_Init:
+			UI_ScoreCounter.Instance.SetEnable(false);
+			UI_TentionGauge.Instance.SetEnable(false);
 			nextState = STATE.eChangeState_ToResult;
 			StateController.Instance.score = UI_ScoreCounter.Instance.Score;
 			state++;
@@ -115,7 +119,7 @@ public class InGameState : StateBase {
 			}else{
 				FadeOut(Color.black, 1.5f);
 			}
-			GameObject.Find("UI_InGame").SetActive(false);
+			//GameObject.Find("UI_InGame").SetActive(false);
 			state++;
 			break;
 		case STATE.eExit_Wait:
@@ -123,6 +127,7 @@ public class InGameState : StateBase {
 			
 		case STATE.eChangeState_Bridge:
 			state = nextState;
+			CRI_SoundManager_2D.Instance.StopBGM();
 			break;
 			
 			// 次の状態へ
@@ -133,6 +138,11 @@ public class InGameState : StateBase {
 		case STATE.eChangeState_ToResult:
 			StateController.Instance.ChangeState(E_STATE.Result);
 			break;
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			state = STATE.eGameClear_Init;
 		}
 	}
 	

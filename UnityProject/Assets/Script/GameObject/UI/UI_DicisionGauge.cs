@@ -3,7 +3,7 @@ using System.Collections;
 
 public class UI_DicisionGauge : MonoBehaviour_Extends {
 	
-	private const	float			fillSpeed = 0.75f;
+	private const	float			fillSpeed = 0.5f;
 	
 	private 		UIFilledSprite	sprite;
 	private			bool			bIsOnButton = false;

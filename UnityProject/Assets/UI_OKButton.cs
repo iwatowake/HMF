@@ -32,4 +32,5 @@ public class UI_OKButton : SingletonMonoBehaviour<UI_OKButton> {
 			isActive = false;
 		}
 	}
+
 }
