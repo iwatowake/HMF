@@ -8,6 +8,7 @@ public class HandObjectController : MonoBehaviour {
 	private List<Vector3>	PosArray = new List<Vector3>();
 	private	bool			OutOfScreen = false;
 	private float			Speed = 0.0f;
+	private	Vector3			Offset = new Vector3( 0, 50000, 0 );
 	
 	public void	SetOutOfScreen ( bool Flg ){ OutOfScreen = Flg; }
 	public float GetSpeed () { return Speed; }
@@ -54,7 +55,7 @@ public class HandObjectController : MonoBehaviour {
 			PosArray.RemoveRange( 0, Cnt );
 		}
 		
-		gameObject.transform.localPosition = Pos;
+		gameObject.transform.position = Pos + Offset;
 	}
 	
 	public void	SetPos	( Vector3 inPos ){
@@ -69,7 +70,7 @@ public class HandObjectController : MonoBehaviour {
 		if( StaticMath.CheckInPolygon2D( ScreenPolygon, 4, new Vector2( ScreenPos.x, ScreenPos.y ) ) ){
 			if( OutOfScreen ){
 				Pos = inPos;
-				gameObject.transform.localPosition = inPos;
+				gameObject.transform.position = inPos + Offset;
 				PosArray.Clear();
 			}
 			else{
@@ -80,6 +81,6 @@ public class HandObjectController : MonoBehaviour {
 	}
 	
 	public Vector2 GetScreenPos (){
-	  return Camera.main.WorldToScreenPoint( Pos+Camera.main.transform.position );
+	  return Camera.main.WorldToScreenPoint( gameObject.transform.position );
 	}
 }
