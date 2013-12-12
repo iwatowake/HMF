@@ -20,14 +20,16 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	private Vector3			MoveVec;
 	private	Vector3			OldPos;
 	private	Vector3			NowPos;
-	private	float			MoveVecRange;
 	
-	private	Ray				ray = new Ray();
+	private	Ray				ray1 = new Ray();
+	private	Ray				ray2 = new Ray();
 	private	RaycastHit 		HitInfo = new RaycastHit();
+	private	Vector3			RayPosOffset = Vector3.forward * -5.0f;
 
 	// Use this for initialization
 	void Start () {
-		ray.direction = Vector3.forward;
+		ray1.direction = Vector3.forward;
+		ray2.direction = -Vector3.forward;
 		OrigamiControllerScript = GameObject.Find("OrigamiController").gameObject.GetComponent<OrigamiController>();
 	}
 	
@@ -36,7 +38,6 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		OldPos = NowPos;
 		NowPos = transform.position;
 		MoveVec = (OldPos - NowPos).normalized;
-		MoveVecRange = Vector3.Distance( OldPos, NowPos );
 		
 		if( !OrigamiControllerScript.GetActiveFlg() || HitObj == null ){
 			PointParticleDestroy();
@@ -80,17 +81,24 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			PointParticleDestroy();
 			
 			Vector3	Vec = MoveVec;
-			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
+			Vec.z = 0.0f;
+			Vector3	HitPos = transform.position;
+			Vector3	HitPos2 = HitPos;
+			HitPos += RayPosOffset;
+			HitPos2.z = other.transform.position.z + 5.0f;
 			Vector3	OldHitPos = HitPos;
-			for(int i = 0;i < 1000 && MoveVecRange != 0.0f;i++){
-				ray.origin = HitPos;
-				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
+			for(int i = 0;i < 10000;i++){
+				ray1.origin = HitPos;
+				ray2.origin = HitPos2;
+				if( !other.Raycast( ray1, out HitInfo, 10.0f ) && !other.Raycast( ray2, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
 					break;
 				}
 				OldHitPos = HitPos;
 				HitPos += Vec * 0.01f;
+				HitPos2 += Vec * 0.01f;
 			}
+			HitPos -= RayPosOffset;
 
 			HitObj = other.gameObject;
 			HitStartPos = HitPos;
@@ -116,18 +124,24 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
 			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;		
 			
-			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
+			Vector3	HitPos = transform.position;
+			Vector3	HitPos2 = HitPos;
 			Vector3	Vec = HitPos - HitStartPos;
+			HitPos += RayPosOffset;
+			HitPos2.z = other.transform.position.z + 5.0f;
 			Vector3	OldHitPos = HitPos;
-			for(int i = 0;i < 1000 && MoveVecRange != 0.0f;i++){
-				ray.origin = HitPos;
-				if( other.Raycast( ray, out HitInfo, 10.0f ) ){
+			for(int i = 0;i < 10000;i++){
+				ray1.origin = HitPos;
+				ray2.origin = HitPos2;
+				if( other.Raycast( ray1, out HitInfo, 10.0f ) || other.Raycast( ray2, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
 					break;
 				}
 				OldHitPos = HitPos;
 				HitPos -= Vec.normalized * 0.01f;
+				HitPos2 -= Vec.normalized * 0.01f;
 			}
+			HitPos -= RayPosOffset;
 			
 			// 折れるかどうか判定.
 			Vector3	MediumPos = HitStartPos + Vec / 2.0f;
