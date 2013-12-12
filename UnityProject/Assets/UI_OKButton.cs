@@ -17,6 +17,8 @@ public class UI_OKButton : SingletonMonoBehaviour<UI_OKButton> {
 			}
 			
 			isActive = true;
+			
+			iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeOut").Play();
 		}
 	}
 	

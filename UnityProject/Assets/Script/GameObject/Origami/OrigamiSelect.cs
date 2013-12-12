@@ -28,7 +28,7 @@ public class OrigamiSelect : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		UI_OrigamiDicisionGauge.Instance.fillTime = 1.25f;
+		UI_OrigamiDicisionGauge.Instance.fillTime = 2.0f;
 		OrigamiControllerScript = GameObject.Find("OrigamiController").gameObject.GetComponent<OrigamiController>();
 		SelectColliderScript[0] = transform.FindChild( "SelectMesh1" ).GetComponent<OrigamiSelectCollider>();
 		SelectColliderScript[1] = transform.FindChild( "SelectMesh2" ).GetComponent<OrigamiSelectCollider>();
@@ -58,6 +58,9 @@ public class OrigamiSelect : MonoBehaviour {
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[0] );
 				UI_OrigamiDicisionGauge.Instance.Play();
 				UI_OrigamiDicisionGauge.Instance.SetSpriteType(UI_OrigamiDicisionGauge.SPRITETYPE.Select);
+				
+				// AlowEffect On
+				UI_AlowEffect.Instance.On();
 			}
 		}
 		else if( SelectColliderScript[1].Hit ){
@@ -67,6 +70,9 @@ public class OrigamiSelect : MonoBehaviour {
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[1] );
 				UI_OrigamiDicisionGauge.Instance.Play();
 				UI_OrigamiDicisionGauge.Instance.SetSpriteType(UI_OrigamiDicisionGauge.SPRITETYPE.Select);
+				
+				// AlowEffect On
+				UI_AlowEffect.Instance.On();
 			}
 		}
 		else{
@@ -76,6 +82,9 @@ public class OrigamiSelect : MonoBehaviour {
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[2] );
 				UI_OrigamiDicisionGauge.Instance.Play();
 				UI_OrigamiDicisionGauge.Instance.SetSpriteType(UI_OrigamiDicisionGauge.SPRITETYPE.Cancel);
+				
+				// AlowEffect Off
+				UI_AlowEffect.Instance.Off();
 			}
 		}
 		UpdateTimer();
@@ -95,6 +104,8 @@ public class OrigamiSelect : MonoBehaviour {
 			
 			// 2013/11/26 kojima
 			iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeOut").Play();
+			// AlowEffect Off
+			UI_AlowEffect.Instance.Off();
 			
 			UI_OKButton.Instance.On();
 			UI_RevertButton.Instance.On();

@@ -15,25 +15,26 @@ public class UI_CityLevel : SingletonMonoBehaviour<UI_CityLevel> {
 		eEnumEnd
 	}
 	
-	public	UI_Label_Fade	lbFd_CityLebel;
-	public	UI_Label_Fade	lbFd_Up;
+	public	UI_Sprite_Fade	spFd_CityLebel;
+	public	UI_Sprite_Fade	spFd_Up;
 	private	STATE state = STATE.eEnumEnd;
 
 	void Update () {
 		switch(state)
 		{
 		case STATE.eCityLevel_Init:
-			lbFd_CityLebel.FadeIn(0.5f,0.5f,"OnComplete",gameObject);
+			spFd_CityLebel.FadeIn(0.5f,0.5f,"OnComplete",gameObject);
 			state++;
 			break;
 		case STATE.eCityLevel_Wait:
 			break;
 			
 		case STATE.eUp_Init:
-			lbFd_Up.FadeOut(0.5f,0.0f);
-			lbFd_Up.transform.localScale = new Vector3(120,120,1);
-			iTweenEvent.GetEvent(lbFd_Up.gameObject,"Scaling").Play();
-			iTweenEvent.GetEvent(lbFd_CityLebel.gameObject,"Scaling_1").Play();
+			spFd_Up.FadeOut(0.5f,0.0f);
+			spFd_Up.transform.localScale = new Vector3(1000,120,1);
+			spFd_CityLebel.transform.localScale = new Vector3(900,108,1); 
+			iTweenEvent.GetEvent(spFd_Up.gameObject,"Scaling").Play();
+			iTweenEvent.GetEvent(spFd_CityLebel.gameObject,"Scaling_1").Play();
 			state++;
 			break;
 		case STATE.eUp_Wait:
@@ -41,7 +42,7 @@ public class UI_CityLevel : SingletonMonoBehaviour<UI_CityLevel> {
 			break;
 			
 		case STATE.eAllFadeOut:
-			lbFd_CityLebel.FadeOut(0.5f, 1.0f);
+			spFd_CityLebel.FadeOut(0.5f, 1.0f);
 			state++;
 			break;
 			
@@ -61,6 +62,6 @@ public class UI_CityLevel : SingletonMonoBehaviour<UI_CityLevel> {
 	}
 	
 	void SetScaling_2(){
-		iTweenEvent.GetEvent(lbFd_CityLebel.gameObject, "Scaling_2").Play();
+		iTweenEvent.GetEvent(spFd_CityLebel.gameObject, "Scaling_2").Play();
 	}
 }

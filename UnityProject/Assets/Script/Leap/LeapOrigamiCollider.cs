@@ -91,6 +91,9 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			
 			HitFlg = true;
 			isEnd = false;
+			
+			//Set AlowEffectPos.
+			UI_AlowEffect.Instance.SetPoint1();
 		}
 	}
 	
@@ -164,7 +167,11 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				}
 				// 2013/11/26 kojima
 				iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
+				
 				isEnd = true;
+				
+				// Set AlowEffectPos.
+				UI_AlowEffect.Instance.SetPoint2();
 			}
 			else{
 				Destroy( PointParticle[0] );
