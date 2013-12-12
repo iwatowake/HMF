@@ -82,14 +82,14 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			Vector3	Vec = MoveVec;
 			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
 			Vector3	OldHitPos = HitPos;
-			for(;MoveVecRange != 0.0f;){
+			for(int i = 0;i < 1000 && MoveVecRange != 0.0f;i++){
 				ray.origin = HitPos;
 				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
 					break;
 				}
 				OldHitPos = HitPos;
-				HitPos += Vec * 0.05f;
+				HitPos += Vec * 0.01f;
 			}
 
 			HitObj = other.gameObject;
@@ -117,19 +117,19 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;		
 			
 			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
+			Vector3	Vec = HitPos - HitStartPos;
 			Vector3	OldHitPos = HitPos;
-			for(;MoveVecRange != 0.0f;){
+			for(int i = 0;i < 1000 && MoveVecRange != 0.0f;i++){
 				ray.origin = HitPos;
-				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
+				if( other.Raycast( ray, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
 					break;
 				}
 				OldHitPos = HitPos;
-				HitPos -= MoveVec * 0.05f;
+				HitPos -= Vec.normalized * 0.01f;
 			}
 			
 			// 折れるかどうか判定.
-			Vector3	Vec = HitPos - HitStartPos;
 			Vector3	MediumPos = HitStartPos + Vec / 2.0f;
 			Vector3	MediumPos2 = MediumPos;
 			Vector3	Normal = Vector3.Cross( Camera.main.transform.forward, Vec.normalized );
@@ -169,7 +169,9 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			
 			if( CutFlg1 && CutFlg2 )
 			{
+				isEnd = true;
 				HitEndPos = HitPos;
+				LineEffectScript.targetPositionEnd.Set( HitEndPos.x, HitEndPos.y-50000.0f, LineEffectScript.targetPositionStart.z );
 				Vector3	LocalStartPos = other.transform.InverseTransformPoint( HitStartPos );
 				Vector3	LocalEndPos = other.transform.InverseTransformPoint( HitEndPos );
 				Vector3	LocalVec = (LocalEndPos - LocalStartPos).normalized;
@@ -193,7 +195,6 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				}
 				// 2013/11/26 kojima
 				iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
-				isEnd = true;
 			}
 			else{
 				Destroy( PointParticle[0] );
