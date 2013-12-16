@@ -20,14 +20,16 @@ public class LeapOrigamiCollider : MonoBehaviour {
 	private Vector3			MoveVec;
 	private	Vector3			OldPos;
 	private	Vector3			NowPos;
-	private	float			MoveVecRange;
 	
-	private	Ray				ray = new Ray();
+	private	Ray				ray1 = new Ray();
+	private	Ray				ray2 = new Ray();
 	private	RaycastHit 		HitInfo = new RaycastHit();
+	private	Vector3			RayPosOffset = Vector3.forward * -5.0f;
 
 	// Use this for initialization
 	void Start () {
-		ray.direction = Vector3.forward;
+		ray1.direction = Vector3.forward;
+		ray2.direction = -Vector3.forward;
 		OrigamiControllerScript = GameObject.Find("OrigamiController").gameObject.GetComponent<OrigamiController>();
 	}
 	
@@ -36,7 +38,6 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		OldPos = NowPos;
 		NowPos = transform.position;
 		MoveVec = (OldPos - NowPos).normalized;
-		MoveVecRange = Vector3.Distance( OldPos, NowPos );
 		
 		if( !OrigamiControllerScript.GetActiveFlg() || HitObj == null ){
 			PointParticleDestroy();
@@ -77,28 +78,39 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			UI_RevertButton.Instance.Off();
 			//UI_InGame.Instance.ButtonEnable(false);
 			
+
 			PointParticleDestroy();
 			
+
 			Vector3	Vec = MoveVec;
-			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
+			Vec.z = 0.0f;
+			Vector3	HitPos = transform.position;
+			Vector3	HitPos2 = HitPos;
+			HitPos += RayPosOffset;
+			HitPos2.z = other.transform.position.z + 5.0f;
 			Vector3	OldHitPos = HitPos;
-			for(;MoveVecRange != 0.0f;){
-				ray.origin = HitPos;
-				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
+			for(int i = 0;i < 10000;i++){
+				ray1.origin = HitPos;
+				ray2.origin = HitPos2;
+				if( !other.Raycast( ray1, out HitInfo, 10.0f ) && !other.Raycast( ray2, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
 					break;
 				}
 				OldHitPos = HitPos;
-				HitPos += Vec * 0.05f;
+				HitPos += Vec * 0.01f;
+				HitPos2 += Vec * 0.01f;
 			}
+			HitPos -= RayPosOffset;
 
 			HitObj = other.gameObject;
+
 			HitStartPos = HitPos;
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
 			
 			LineEffectObj = Instantiate( LineEffectPrefab, Vector3.zero, Quaternion.identity ) as GameObject;
 			LineEffectObj.transform.parent = HitObj.transform.parent;
 			LineEffectScript = LineEffectObj.GetComponent<LineEffect>();
+
 			Vector3 pos = HitPos;
 			pos.y -= 50000.0f;
 			pos.z = HitObj.transform.localPosition.z - 0.2f;
@@ -108,58 +120,75 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			
 			HitFlg = true;
 			isEnd = false;
+			
+			//Set AlowEffectPos.
+			UI_AlowEffect.Instance.SetPoint1();
 		}
 	}
 	
 	private void OnTriggerExit (Collider other){
 		if( enabled == false ) return;
+
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
 			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;		
 			
-			Vector3	HitPos = other.ClosestPointOnBounds(transform.position);
+			Vector3	HitPos = transform.position;
+			Vector3	HitPos2 = HitPos;
+			Vector3	Vec = HitPos - HitStartPos;
+			HitPos += RayPosOffset;
+			HitPos2.z = other.transform.position.z + 5.0f;
 			Vector3	OldHitPos = HitPos;
-			for(;MoveVecRange != 0.0f;){
-				ray.origin = HitPos;
-				if( !other.Raycast( ray, out HitInfo, 10.0f ) ){
+			for(int i = 0;i < 10000;i++){
+				ray1.origin = HitPos;
+				ray2.origin = HitPos2;
+				if( other.Raycast( ray1, out HitInfo, 10.0f ) || other.Raycast( ray2, out HitInfo, 10.0f ) ){
 					HitPos = OldHitPos;
 					break;
 				}
 				OldHitPos = HitPos;
-				HitPos -= MoveVec * 0.05f;
+				HitPos -= Vec.normalized * 0.01f;
+				HitPos2 -= Vec.normalized * 0.01f;
 			}
+			HitPos -= RayPosOffset;
 			
 			// 折れるかどうか判定.
-			Vector3	Vec = HitPos - HitStartPos;
+
 			Vector3	MediumPos = HitStartPos + Vec / 2.0f;
 			Vector3	MediumPos2 = MediumPos;
 			Vector3	Normal = Vector3.Cross( Camera.main.transform.forward, Vec.normalized );
 			
+
 			Ray			endray = new Ray();
 			float		RayLength = 10.0f;
 			float		Offset = 0.3f;
+
 			endray.direction = Camera.main.transform.forward;
 			MediumPos -= endray.direction * RayLength;
 			MediumPos2 += endray.direction * RayLength;
 			
 			bool CutFlg1 = false;
 			bool CutFlg2 = false;
+
 			endray.origin = MediumPos + Normal * Offset;
 			if( other.Raycast( endray, out HitInfo, 100.0f ) ){
 				CutFlg1 = true;
 			}
 			else{
+
 				endray.direction = -Camera.main.transform.forward;
 				endray.origin = MediumPos2 + Normal * Offset;
 				if( other.Raycast( endray, out HitInfo, 100.0f ) ){
 					CutFlg1 = true;
 				}
 			}
+
 			endray.direction = Camera.main.transform.forward;
 			endray.origin = MediumPos - Normal * Offset;
 			if( other.Raycast( endray, out HitInfo, 100.0f ) ){
 				CutFlg2 = true;
 			}
 			else{
+
 				endray.direction = -Camera.main.transform.forward;
 				endray.origin = MediumPos2 - Normal * Offset;
 				if( other.Raycast( endray, out HitInfo, 100.0f ) ){
@@ -169,7 +198,9 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			
 			if( CutFlg1 && CutFlg2 )
 			{
+				isEnd = true;
 				HitEndPos = HitPos;
+				LineEffectScript.targetPositionEnd.Set( HitEndPos.x, HitEndPos.y-50000.0f, LineEffectScript.targetPositionStart.z );
 				Vector3	LocalStartPos = other.transform.InverseTransformPoint( HitStartPos );
 				Vector3	LocalEndPos = other.transform.InverseTransformPoint( HitEndPos );
 				Vector3	LocalVec = (LocalEndPos - LocalStartPos).normalized;
@@ -193,7 +224,9 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				}
 				// 2013/11/26 kojima
 				iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
-				isEnd = true;
+				
+				// Set AlowEffectPos.
+				UI_AlowEffect.Instance.SetPoint2();
 			}
 			else{
 				Destroy( PointParticle[0] );

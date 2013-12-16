@@ -5,6 +5,10 @@ public class UI_CursorObject : MonoBehaviour {
 	public	float			defaultZ = -1;
 	private	GameObject[]	palmObj;
 	
+	public Vector3 GetScreenPos(){
+		return transform.localPosition;
+	}
+	
 	// Use this for initialization
 	void Start () {
 		palmObj = new GameObject[2];
