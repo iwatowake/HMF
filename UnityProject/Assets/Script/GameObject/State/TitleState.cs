@@ -11,7 +11,7 @@ using System.Collections;
 //===========================================
 public class TitleState : StateBase {
 	
-	// 状態管理
+	// 状態管理.
 	enum STATE{
 		eEnter_Init = 0,
 		eEnter_Wait,
@@ -25,7 +25,7 @@ public class TitleState : StateBase {
 		eChangeState
 	}
 	
-	private STATE	state = STATE.eEnter_Init;	//!< 状態管理用
+	private STATE	state = STATE.eEnter_Init;	//!< 状態管理用.
 	private E_STATE	nextState;
 	
 	
@@ -37,12 +37,12 @@ public class TitleState : StateBase {
 	}
 	
 	
-	//! 実行
+	//! 実行.
 	public override void Exec ()
 	{
 		switch(state)
 		{
-			// タイトル　状態入り
+			// タイトル　状態入り.
 		case STATE.eEnter_Init:
 			Debug.Log("Enter_Title");
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
@@ -53,14 +53,14 @@ public class TitleState : StateBase {
 		case STATE.eEnter_Wait:
 			break;
 			
-			// タイトル　入力待ち
+			// タイトル　入力待ち.
 		case STATE.eMain_Init:
 			state++;
 			break;
 		case STATE.eMain_Wait:
 			break;
 			
-			// タイトル　状態離脱
+			// タイトル　状態離脱.
 		case STATE.eExit_Init:
 			FadeOut(1.5f);
 			state++;
@@ -68,7 +68,7 @@ public class TitleState : StateBase {
 		case STATE.eExit_Wait:
 			break;
 			
-			// 次の状態へ
+			// 次の状態へ.
 		case STATE.eChangeState:
 			StateController.Instance.ChangeState(nextState);
 			break;
@@ -76,14 +76,14 @@ public class TitleState : StateBase {
 	}
 	
 	
-	//! デストラクタ
+	//! デストラクタ.
 	protected override void OnDestruct ()
 	{
 		
 	}
 	
 	private void OnStartPressed(){
-		nextState = E_STATE.InGame;
+		nextState = E_STATE.Tutorial;
 		state = STATE.eExit_Init;
 	}
 	
