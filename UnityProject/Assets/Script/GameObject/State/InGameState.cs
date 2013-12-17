@@ -139,11 +139,7 @@ public class InGameState : StateBase {
 			StateController.Instance.ChangeState(E_STATE.Result);
 			break;
 		}
-		
-		if(Input.GetKeyDown(KeyCode.Alpha3))
-		{
-			state = STATE.eGameClear_Init;
-		}
+
 	}
 	
 	protected override void OnDestruct ()
