@@ -18,13 +18,16 @@ public class OrigamiUpdate : MonoBehaviour {
 	private STATE State = STATE.START_MOVE;
 	private STATE OldState = STATE.START_MOVE;
 	
+	public GameObject	OrigamiAppearEffectPrefab;
 	public GameObject	WaveEffectPrefab;
 	public GameObject	BreakEffectPrefab;
 	
 	[HideInInspector]
 	public GameObject	WakuObject;
 	
-	const float	StartMoveTime = 90.0f;
+	private	GameObject	OrigamiAppearEffect;
+	
+	const float	StartMoveTime = 120.0f;
 	const float	EndMoveTime = 20.0f;
 	const float	WaveEffectTime = 30.0f;
 	const float	BreakEffectTime = 30.0f;
@@ -48,7 +51,10 @@ public class OrigamiUpdate : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		OrigamiAppearEffect = Instantiate( OrigamiAppearEffectPrefab, Vector3.zero, Quaternion.Euler( new Vector3( -90,0,0 ) ) ) as GameObject;
+		OrigamiAppearEffect.transform.parent = Camera.main.transform;
+		OrigamiAppearEffect.transform.localPosition = Vector3.zero;
+		gameObject.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -85,6 +91,8 @@ public class OrigamiUpdate : MonoBehaviour {
 		if( StaticMath.Compensation( ref Timer, StartMoveTime, 1.0f ) ){
 			State = STATE.WAVE_EFFECT;
 			Instantiate( WaveEffectPrefab, transform.position, Quaternion.identity );
+			Destroy( OrigamiAppearEffect );
+			gameObject.renderer.enabled = true;
 		}
 		t = 1.0f - (StartMoveTime - Timer) / StartMoveTime;
 		transform.localPosition = Vector3.Lerp( Vector3.zero, new Vector3( 0,0,4.5f ), t );
