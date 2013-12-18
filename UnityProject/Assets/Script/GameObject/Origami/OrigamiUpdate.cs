@@ -24,6 +24,7 @@ public class OrigamiUpdate : MonoBehaviour {
 	
 	[HideInInspector]
 	public GameObject	WakuObject;
+	public Vector3		WakuInitPos = new Vector3( 0,0,100.0f );
 	
 	private	GameObject	OrigamiAppearEffect;
 	
@@ -95,6 +96,7 @@ public class OrigamiUpdate : MonoBehaviour {
 			gameObject.renderer.enabled = true;
 		}
 		t = 1.0f - (StartMoveTime - Timer) / StartMoveTime;
+		WakuObject.transform.localPosition = Vector3.Lerp( WakuInitPos, new Vector3( 0,0,4.5f ), t );
 		transform.localPosition = Vector3.Lerp( Vector3.zero, new Vector3( 0,0,4.5f ), t );
 		if( State != STATE.START_MOVE ) Timer = 0.0f;
 	}

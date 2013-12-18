@@ -124,12 +124,12 @@ public class LeapUnityHandController : MonoBehaviour
 		if( index != -1 )
 		{
 			if( m_HandControllerScript[1-index].gameObject.activeSelf == false ){
-				m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
-				m_HandControllerScript[index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= true;
+				//m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
+				//m_HandControllerScript[index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= true;
 			}
 			else{
-				m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
-				m_HandControllerScript[index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
+				//m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
+				//m_HandControllerScript[index].gameObject.GetComponent<LeapOrigamiCollider>().enabled 	= false;
 			}
 			m_handIDs[index] = h.Id;
 			updatePalm(h, m_HandControllerScript[index]);
@@ -149,7 +149,7 @@ public class LeapUnityHandController : MonoBehaviour
 		if( index != -1 )
 		{
 			if( m_HandControllerScript[1-index].gameObject.activeSelf == true ){
-				m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled = true;
+				//m_HandControllerScript[1-index].gameObject.GetComponent<LeapOrigamiCollider>().enabled = true;
 			}
 			m_HandControllerScript[index].SetOutOfScreen( true );
 			updatePalm(Hand.Invalid, m_HandControllerScript[index]);
