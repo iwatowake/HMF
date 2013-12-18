@@ -51,9 +51,9 @@ public class OrigamiUpdate : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		OrigamiAppearEffect = Instantiate( OrigamiAppearEffectPrefab, Vector3.zero, Quaternion.Euler( new Vector3( -90,0,0 ) ) ) as GameObject;
-		OrigamiAppearEffect.transform.parent = Camera.main.transform;
-		OrigamiAppearEffect.transform.localPosition = Vector3.zero;
+		OrigamiAppearEffect = Instantiate( OrigamiAppearEffectPrefab  ) as GameObject;
+//		OrigamiAppearEffect.transform.parent = Camera.main.transform;
+//		OrigamiAppearEffect.transform.localPosition = Vector3.zero;
 		gameObject.renderer.enabled = false;
 	}
 	

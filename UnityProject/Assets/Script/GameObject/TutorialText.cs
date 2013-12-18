@@ -15,9 +15,9 @@ public class TutorialText : MonoBehaviour {
 		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 		gameObject.transform.localScale = Vector3.zero;
 		OpenText();
-		Debug.Log("Text" + text.Length.ToString());
 		
 		MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
+		tex.loop = true;
 		tex.Play();
 	}
 	
@@ -46,20 +46,24 @@ public class TutorialText : MonoBehaviour {
 		{
 		// 折るための始点と終点の線を引く説明.
 		case 5:
-//			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.FOLD_SELECT)
-//				NextText();
-			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
+			OrigamiControllerScript.DisableClap();
+			tutorialMovie.SetActive(false);
+			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.FOLD_SELECT)
+				NextText();
+//			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
 			break;
 
 		// 折る方向の選択の説明.
 		case 6:
-//			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.CUT)
-//				NextText();
-			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
+			tutorialMovie.SetActive(false);
+			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.CUT)
+				NextText();
+//			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
 			break;
 
 		// 戻る機能の説明.
 		case 7:
+			tutorialMovie.SetActive(false);
 //			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.FOLD_SELECT)
 //				NextText();
 			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
@@ -67,12 +71,14 @@ public class TutorialText : MonoBehaviour {
 			
 		// 拍手の説明.
 		case 8:
+			tutorialMovie.SetActive(false);
 			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
 //			if(OrigamiControllerScript.GetActiveFlg() == false)
 //				NextText();
 			break;
 
 		default:
+			tutorialMovie.SetActive(true);
 			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
 			break;
 		}
