@@ -21,7 +21,8 @@ public class HandObjectController : MonoBehaviour {
 	// Update is called once per frame
 	void	Update	(){
 		if( OutOfScreen && PosArray.Count == 0 ){
-			gameObject.SetActive( false );
+			this.enabled = false;
+			//gameObject.SetActive( false );
 		}
 		if( PosArray.Count == 0 ){
 			Speed = 0.0f;
@@ -76,7 +77,8 @@ public class HandObjectController : MonoBehaviour {
 			else{
 				PosArray.Add( inPos );
 			}
-			gameObject.SetActive( true );
+			this.enabled = true;
+			//gameObject.SetActive( true );
 		}
 	}
 	
