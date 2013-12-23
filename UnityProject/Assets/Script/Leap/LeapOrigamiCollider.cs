@@ -78,13 +78,11 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			UI_RevertButton.Instance.Off();
 			//UI_InGame.Instance.ButtonEnable(false);
 			
-
 			PointParticleDestroy();
 			
-
 			Vector3	Vec = MoveVec;
 			Vec.z = 0.0f;
-			Vector3	HitPos = transform.position;
+			Vector3	HitPos = other.ClosestPointOnBounds( transform.position );
 			Vector3	HitPos2 = HitPos;
 			HitPos += RayPosOffset;
 			HitPos2.z = other.transform.position.z + 5.0f;
@@ -132,7 +130,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut && HitFlg ){
 			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;		
 			
-			Vector3	HitPos = transform.position;
+			Vector3	HitPos = other.ClosestPointOnBounds( transform.position );
 			Vector3	HitPos2 = HitPos;
 			Vector3	Vec = HitPos - HitStartPos;
 			HitPos += RayPosOffset;
@@ -221,19 +219,16 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				if( OrigamiMeshCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
 					other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;
 					OrigamiControllerScript.SetState( OrigamiUpdate.STATE.FOLD_SELECT );
+					
+					// 2013/11/26 kojima
+					iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
+					
+					// Set AlowEffectPos.
+					UI_AlowEffect.Instance.SetPoint2();
 				}
-				// 2013/11/26 kojima
-				iTweenEvent.GetEvent(GameObject.Find("UI_Select"), "FadeIn").Play();
-				
-				// Set AlowEffectPos.
-				UI_AlowEffect.Instance.SetPoint2();
 			}
 			else{
-				Destroy( PointParticle[0] );
-				iTween.Stop( LineEffectObj );
-				Destroy( LineEffectObj );
-				LineEffectObj = null;
-				PointParticle[0] = null;
+				PointParticleDestroy();
 				
 				UI_OKButton.Instance.On();
 				UI_RevertButton.Instance.On();
