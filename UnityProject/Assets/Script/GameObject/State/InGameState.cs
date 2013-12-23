@@ -48,7 +48,7 @@ public class InGameState : StateBase {
 
 			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
-//			UI_TimeCounter.Instance.SetEnable(false);
+			UI_TimeCounter.Instance.SetEnable(false);
 			UI_ScoreCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
