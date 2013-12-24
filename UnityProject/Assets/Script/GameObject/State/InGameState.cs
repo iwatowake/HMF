@@ -90,6 +90,7 @@ public class InGameState : StateBase {
 			break;
 			
 		case STATE.eGameOver_Init:
+			//UI_TimeCounter.Instance.StopAllTween();
 			nextState = STATE.eChangeState_ToGameOver;
 			state++;
 			break;
@@ -98,6 +99,7 @@ public class InGameState : StateBase {
 			break;
 			
 		case STATE.eGameClear_Init:
+			//UI_TimeCounter.Instance.StopAllTween();
 			UI_ScoreCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			nextState = STATE.eChangeState_ToResult;
@@ -112,9 +114,9 @@ public class InGameState : StateBase {
 			break;
 			
 			// インゲーム　状態離脱
-		case STATE.eExit_Init:
+		case STATE.eExit_Init:			
 			if(nextState == STATE.eChangeState_ToResult)
-			{
+			{ 
 				FadeOut(Color.white, 1.5f);
 			}else{
 				FadeOut(Color.black, 1.5f);
