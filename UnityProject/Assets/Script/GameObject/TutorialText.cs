@@ -18,9 +18,6 @@ public class TutorialText : MonoBehaviour {
 		tutorialMovie.transform.localScale = Vector3.zero;
 		OpenText();
 		
-		MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
-		tex.loop = true;
-		tex.Play();
 		UI_TentionGauge.Instance.SetEnable(true);
 
 	}
@@ -83,6 +80,9 @@ public class TutorialText : MonoBehaviour {
 	
 	void IdleText()
 	{
+				MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
+	Debug.Log("tex = " + tex.isPlaying);
+		
 		switch(currentNo)
 		{
 		// 操作方法の説明.
@@ -154,7 +154,7 @@ public class TutorialText : MonoBehaviour {
 	void NextText()
 	{
 		currentNo++;
-		if(currentNo >= 3)//text.Length)
+		if(currentNo >= text.Length)
 		{
 			EndTutorial();
 			return;
@@ -234,7 +234,8 @@ public class TutorialText : MonoBehaviour {
 	void SetMovie(int movieNo,bool useChangeTween)
 	{
 		MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
-		tex.Stop();
+		if(tex.isPlaying)	
+			tex.Stop();
 		tutorialMovie.renderer.material.SetTexture("_MainTex",movie[movieNo]);
 		tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
 		tex.loop = true;
