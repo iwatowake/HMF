@@ -9,8 +9,8 @@ public class UI_ScoreCounter : SingletonMonoBehaviour<UI_ScoreCounter> {
 	private			UILabel		label;
 	
 	private			int[]		SC_CITYLEVEL_POINTS = 	{
-															1500,
-															3000,
+															1000,
+															2500,
 															5000,
 															7500,
 															10000,

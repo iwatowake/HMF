@@ -84,7 +84,7 @@ public class TitleState : StateBase {
 	
 	private void OnStartPressed(){
 		//nextState = E_STATE.Tutorial;
-		nextState = E_STATE.Tutorial;
+		nextState = E_STATE.InGame;
 		state = STATE.eExit_Init;
 	}
 	

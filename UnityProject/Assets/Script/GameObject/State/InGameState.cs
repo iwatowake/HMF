@@ -65,7 +65,7 @@ public class InGameState : StateBase {
 			// インゲーム　入力待ち
 		case STATE.eMain_Init:
 			Debug.Log("main_init");
-//			UI_TimeCounter.Instance.SetEnable(true);
+			UI_TimeCounter.Instance.SetEnable(true);
 			UI_ScoreCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
 			WakuGenerator.Instance.Play();
