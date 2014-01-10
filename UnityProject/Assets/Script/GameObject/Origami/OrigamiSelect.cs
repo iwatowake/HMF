@@ -22,10 +22,15 @@ public class OrigamiSelect : MonoBehaviour {
 	private	bool[]	SelectFlg = new bool[]{ false,false,false };
 	private	float[]	SelectTimer = new float[]{ 0,0,0 };
 	private MeshFilter[]	SelectMesh = new MeshFilter[2];
+	private bool	TutorialFlg = false;
 	
 	private const float	IntervalTime = 0.5f * 60.0f;
 	private float		Timer = 0.0f;
 	private	bool		SelectStartFlg = false;
+	
+	public void TutorialModeEnable (){
+		TutorialFlg = true;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -48,16 +53,19 @@ public class OrigamiSelect : MonoBehaviour {
 			UI_OrigamiDicisionGauge.Instance.Pause();
 			return;
 		}
-		UI_OrigamiDicisionGauge.Instance.Play();
 		
 		if( !SelectStartFlg ){
 			if( StaticMath.Compensation( ref Timer, IntervalTime, 1.0f ) ){
 				UI_OrigamiDicisionGauge.Instance.spriteEnable( true );
 				UI_OrigamiDicisionGauge.Instance.PlayAtZero();
+				SelectColliderScript[0].Hit = false;
+				SelectColliderScript[1].Hit = false;
 				SelectStartFlg = true;
 			}
 			return;
 		}
+		UI_OrigamiDicisionGauge.Instance.Play();
+		
 		
 		if( SelectColliderScript[0].Hit ){
 			if( !SelectFlg[0] ){
@@ -84,7 +92,13 @@ public class OrigamiSelect : MonoBehaviour {
 			}
 		}
 		else{
-			if( !SelectFlg[2] ){
+			if( TutorialFlg ){
+				UI_OrigamiDicisionGauge.Instance.SetNowAmount( 0 );
+				UI_OrigamiDicisionGauge.Instance.Stop();
+				SelectFlg[0] = SelectFlg[1] = SelectFlg[2] = false;
+				UI_AlowEffect.Instance.Off();
+			}
+			else if( !SelectFlg[2] ){
 				SelectFlg[2] = true;
 				SelectFlg[0] = SelectFlg[1] = false;
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[2] );
@@ -97,6 +111,7 @@ public class OrigamiSelect : MonoBehaviour {
 		}
 		UpdateTimer();
 		UpdateMeshRenderer();
+		
 		
 		if( UI_OrigamiDicisionGauge.Instance.isFilled() ){
 			UI_OrigamiDicisionGauge.Instance.spriteEnable( false );
@@ -147,7 +162,7 @@ public class OrigamiSelect : MonoBehaviour {
 			if( SelectTimer[0] > 0.0f ) SelectTimer[0]-=DecreaseTime;
 			if( SelectTimer[2] > 0.0f ) SelectTimer[2]-=DecreaseTime;
 		}
-		else{
+		else if( SelectFlg[2] ){
 			SelectTimer[2] = UI_OrigamiDicisionGauge.Instance.GetNowAmount();
 			if( SelectTimer[0] > 0.0f ) SelectTimer[0]-=DecreaseTime;
 			if( SelectTimer[1] > 0.0f ) SelectTimer[2]-=DecreaseTime;
@@ -243,6 +258,7 @@ public class OrigamiSelect : MonoBehaviour {
 		SelectColliderScript[1].gameObject.GetComponent<MeshCollider>().sharedMesh = Mesh2;
 		SelectColliderScript[0].ActiveFlg = true;
 		SelectColliderScript[1].ActiveFlg = true;
+		SelectColliderScript[0].Hit = SelectColliderScript[1].Hit = false;
 			
 		SelectFlg[0] = SelectFlg[1] = SelectFlg[2] = false;
 		SelectTimer[0] = SelectTimer[1] = SelectTimer[2] = 0.0f;

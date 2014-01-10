@@ -52,10 +52,10 @@ public class OrigamiUpdate : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		OrigamiAppearEffect = Instantiate( OrigamiAppearEffectPrefab  ) as GameObject;
+		//OrigamiAppearEffect = Instantiate( OrigamiAppearEffectPrefab  ) as GameObject;
 //		OrigamiAppearEffect.transform.parent = Camera.main.transform;
 //		OrigamiAppearEffect.transform.localPosition = Vector3.zero;
-		gameObject.renderer.enabled = false;
+		//gameObject.renderer.enabled = false;
 	}
 	
 	// Update is called once per frame

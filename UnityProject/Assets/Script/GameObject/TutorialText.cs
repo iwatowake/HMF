@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class TutorialText : MonoBehaviour {
-	public string[] text;
 	public Texture[] movie;
+	public string[] text;
+
 	public GameObject tutorialState;
 	public GameObject tutorialMovie;
-	
+
 	private OrigamiController OrigamiControllerScript = null;
 
 	int currentNo = 0;
@@ -23,7 +24,7 @@ public class TutorialText : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () {		
 		switch(currentNo)
 		{
 		// 折るための始点と終点の線を引く説明.
@@ -42,20 +43,42 @@ public class TutorialText : MonoBehaviour {
 
 		// 折る方向の選択の説明.
 		case 6:
+			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.FOLD)
+			{
+				CloseText();
+				OrigamiControllerScript.SetUpdateFlg(false);
+				UI_OKButton.Instance.Off();
+			}
+			else
+			{
+				OrigamiControllerScript.DisableClap();
+				OrigamiControllerScript.SetUpdateFlg(true);
+			}
 			break;
 
 		// 戻る機能の説明.
 		case 7:
+			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.REVERT)
+			{
+				UI_OKButton.Instance.On();
+				CloseText();
+			}
+			else
+			{
+				OrigamiControllerScript.DisableClap();
+				OrigamiControllerScript.SetUpdateFlg(false);
+			}
 			break;
 			
 		// 拍手の説明.
 		case 8:
-			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.FOLD_SELECT)
+			if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.END_MOVE)
 			{
 				CloseText();
 			}
 			else
 			{
+				OrigamiControllerScript.SetUpdateFlg(true);
 				OrigamiControllerScript.OnlyClap();
 			}
 			break;
@@ -75,14 +98,12 @@ public class TutorialText : MonoBehaviour {
 	
 	void OpenText()
 	{
+		iTween.Stop(gameObject);
 		iTweenEvent.GetEvent(gameObject,"OpenTextTween").Play();
 	}
 	
 	void IdleText()
 	{
-				MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
-	Debug.Log("tex = " + tex.isPlaying);
-		
 		switch(currentNo)
 		{
 		// 操作方法の説明.
@@ -98,6 +119,7 @@ public class TutorialText : MonoBehaviour {
 		// 折るための始点と終点の線を引く説明.
 		case 5:
 			CountMovieTime(true);
+			UI_TimeCounter.Instance.enabled = false;
 			break;
 
 		// 折る方向の選択の説明.
@@ -117,16 +139,23 @@ public class TutorialText : MonoBehaviour {
 
 		// 制限時間の説明.
 		case 9:
+			UI_TimeCounter.Instance.enabled = true;
 			CountMovieTime(false);
+			break;
+			
+		case 10:
+			iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();		
+			UI_TimeCounter.Instance.enabled = false;
 			break;
 			
 		// 評価の説明.
 		case 11:
+			
 			CountMovieTime(false);
 			break;
 			
 		// ゲージの説明.
-		case 13:
+		case 12:
 			CountMovieTime(false);
 			break;
 			
@@ -138,6 +167,10 @@ public class TutorialText : MonoBehaviour {
 	
 	void CloseText()
 	{
+		MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
+		if(tex.isPlaying)	
+			tex.Stop();
+		iTween.Stop(gameObject);
 		iTweenEvent.GetEvent(gameObject,"CloseTextTween").Play();		
 	}
 	
@@ -148,7 +181,8 @@ public class TutorialText : MonoBehaviour {
 	
 	void PlayOrigami()
 	{
-		OrigamiControllerScript.CreateOrigami(WAKU.LEVEL_1_1,90);
+		OrigamiControllerScript.CreateOrigami(WAKU.LEVEL_1_3,90);
+		OrigamiControllerScript.OrigamiSelectTutorialModeEnable();
 	}
 	
 	void NextText()
@@ -167,7 +201,9 @@ public class TutorialText : MonoBehaviour {
 		// 操作方法の説明.
 		case 3:
 			SetMovie(0,false);
+			iTween.Stop(tutorialMovie);
 			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();		
+			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
 			
 		// ワクの説明.
@@ -183,27 +219,22 @@ public class TutorialText : MonoBehaviour {
 		// 折る方向の選択の説明.
 		case 6:
 			SetMovie(3,true);
-			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();
-			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
 
 		// 戻る機能の説明.
 		case 7:
 			SetMovie(4,true);
-			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();
-			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
 			
 		// 拍手の説明.
 		case 8:
 			SetMovie(5,true);
-			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();
-			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
 
 		// 制限時間の説明.
 		case 9:
 			SetMovie(6,true);
+			iTween.Stop(tutorialMovie);
 			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();
 			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
@@ -211,20 +242,21 @@ public class TutorialText : MonoBehaviour {
 		// 評価の説明.
 		case 11:
 			SetMovie(7,true);
+			iTween.Stop(tutorialMovie);
 			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();	
 			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
 			
-		// 評価の説明.
-		case 12:
-			break;
-
 		// ゲージの説明.
-		case 13:
+		case 12:
 			SetMovie(8,true);
+			iTween.Stop(tutorialMovie);
+			iTweenEvent.GetEvent(tutorialMovie,"OpenMovieTween").Play();	
+			iTweenEvent.GetEvent(tutorialMovie,"MovieRefleshMove").Play();		
 			break;
 			
 		default:
+			iTween.Stop(tutorialMovie);
 			iTweenEvent.GetEvent(tutorialMovie,"CloseMovieTween").Play();		
 			break;
 		}
@@ -247,19 +279,21 @@ public class TutorialText : MonoBehaviour {
 	
 	void ReduceMovie()
 	{
+		iTween.Stop(tutorialMovie);
 		iTweenEvent.GetEvent(tutorialMovie,"MovieReduceMove").Play();
 		iTweenEvent.GetEvent(tutorialMovie,"MovieReduceScale").Play();
-		iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();
+//		iTweenEvent.GetEvent(gameObject,"IdleTextTween").Play();
 		
-//		if(currentNo == 5)
-//			PlayOrigami();
+		if(currentNo == 5)
+			PlayOrigami();
 	}
 	
 	void CountMovieTime(bool loop)
 	{
 		MovieTexture tex = (MovieTexture)tutorialMovie.renderer.material.mainTexture;
 		if(loop)
-			iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time",tex.duration , "onupdate", "CountMovieTimeUpdate", "oncomplete", "ReduceMovie"));
+			ReduceMovie();
+//			iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time",tex.duration , "onupdate", "CountMovieTimeUpdate", "oncomplete", "ReduceMovie"));
 		else
 			iTween.ValueTo(gameObject, iTween.Hash("from", 0, "to", 1, "time",tex.duration , "onupdate", "CountMovieTimeUpdate", "oncomplete", "CloseText"));
 	}
