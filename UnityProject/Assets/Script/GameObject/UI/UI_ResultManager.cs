@@ -14,6 +14,12 @@ public class UI_ResultManager : SingletonMonoBehaviour<UI_ResultManager>{
 	public	bool SetScore(){
 		lbFdScore.gameObject.GetComponent<UILabel>().text = "Score: " + StateController.Instance.score.ToString();
 		
+		for(int i=0; i<MasterData.Instance.rankingData.Length; i++)
+		{
+			if(StateController.Instance.score >= MasterData.Instance.rankingData[i].score)
+				return true;
+		}
+		
 		return false;
 	}
 }

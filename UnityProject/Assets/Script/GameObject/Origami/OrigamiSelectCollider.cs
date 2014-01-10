@@ -15,7 +15,7 @@ public class OrigamiSelectCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(gameObject.name + ":" + Hit.ToString() + ":" + ActiveFlg.ToString());
+
 	}
 	
 	private void OnTriggerEnter (Collider other){

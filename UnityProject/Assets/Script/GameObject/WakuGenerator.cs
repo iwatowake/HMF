@@ -27,19 +27,19 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	private	float	Timer = 0;	// 11/29 kojima edited
 	
 	public void Init (){
-		NowDegree = 3;
+		NowDegree = 1;
 		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
 	}
 	
 	public void SetResult ( int Result ){
 		if( Result >= DegreeAddTable.Length )	return;
 		
-		if(NowDegree < 20)
-		{
-			NowDegree += DegreeAddTable[Result]*3;
-		}else{
+//		if(NowDegree < 20)
+//		{
+//			NowDegree += DegreeAddTable[Result]*3;
+//		}else{
 			NowDegree += DegreeAddTable[Result];
-		}
+//		}
 	}
 	
 	// Use this for initialization

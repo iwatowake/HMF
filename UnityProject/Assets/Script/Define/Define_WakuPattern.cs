@@ -156,7 +156,7 @@ public static class Define_WakuPattern {
 		Table[Index].CreatePattern( 1 );
 		Table[Index].Set( 0, 100, WAKU.LEVEL_1_4 );
 		
-		Index++;
+/*		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
 		Table[Index].CreatePattern( 2 );
@@ -169,7 +169,8 @@ public static class Define_WakuPattern {
 		Table[Index].CreatePattern( 2 );
 		Table[Index].Set( 0, 50, WAKU.LEVEL_2_3 );
 		Table[Index].Set( 1, 50, WAKU.LEVEL_2_2 );
-		
+*/
+				
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -177,7 +178,8 @@ public static class Define_WakuPattern {
 		Table[Index].Set( 0, 20, WAKU.LEVEL_2_1 );
 		Table[Index].Set( 1, 30, WAKU.LEVEL_2_4 );
 		Table[Index].Set( 2, 50, WAKU.LEVEL_2_5 );
-		
+
+/*
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -208,7 +210,15 @@ public static class Define_WakuPattern {
 		Table[Index].Set( 0, 40, WAKU.LEVEL_3_8 );
 		Table[Index].Set( 1, 40, WAKU.LEVEL_3_9 );
 		Table[Index].Set( 2, 20, WAKU.LEVEL_3_10 );
-		
+*/		
+		Index++;
+		Table[Index] = new WakuPatternTable();
+		Table[Index].Degree = MIN_DEGREE + Index;
+		Table[Index].CreatePattern( 3 );
+		Table[Index].Set( 0, 20, WAKU.LEVEL_3_8 );
+		Table[Index].Set( 1, 20, WAKU.LEVEL_3_9 );
+		Table[Index].Set( 2, 60, WAKU.LEVEL_4_4 );
+/*		
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -253,7 +263,7 @@ public static class Define_WakuPattern {
 		Table[Index].CreatePattern( 2 );
 		Table[Index].Set( 0, 50, WAKU.LEVEL_4_14 );
 		Table[Index].Set( 1, 50, WAKU.LEVEL_4_15 );
-		
+*/		
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -274,8 +284,8 @@ public static class Define_WakuPattern {
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
 		Table[Index].CreatePattern( 2 );
-		Table[Index].Set( 0, 50, WAKU.LEVEL_5_7 );
-		Table[Index].Set( 1, 50, WAKU.LEVEL_5_8 );
+		Table[Index].Set( 0, 100, WAKU.LEVEL_5_7 );
+//		Table[Index].Set( 1, 50, WAKU.LEVEL_5_8 );
 		
 		Index++;
 		Table[Index] = new WakuPatternTable();

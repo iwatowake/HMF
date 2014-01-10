@@ -17,7 +17,12 @@ public class RankingState : StateBase {
 		eChangeState
 	}
 	
-	private STATE	state = STATE.eEnter_Init;	//!< 状態管理用
+	private STATE		state = STATE.eEnter_Init;	//!< 状態管理用
+	public	UI_Ranking	uiRanking;
+	
+	void Start(){
+		gameObject.name = "State_Ranking";
+	}
 	
 	public override void Exec ()
 	{
@@ -25,11 +30,14 @@ public class RankingState : StateBase {
 		{
 			// タイトル　状態入り
 		case STATE.eEnter_Init:
-			Debug.Log("Enter_Ranking");
+			//Debug.Log("Enter_Ranking");
+			//fade.Tween_FadeIn(gameObject,"OnFadeComplete",0.5f);
+			FadeIn(1.5f);
+			uiRanking.Init();
+			uiRanking.btMenu.active = true;
 			state++;
 			break;
 		case STATE.eEnter_Wait:
-			state++;
 			break;
 			
 			// タイトル　入力待ち
@@ -37,18 +45,15 @@ public class RankingState : StateBase {
 			state++;
 			break;
 		case STATE.eMain_Wait:
-			if(Input.GetKeyDown(KeyCode.Space))
-			{
-				state++;
-			}
 			break;
 			
 			// タイトル　状態離脱
 		case STATE.eExit_Init:
+			FadeOut(1.5f);
+			uiRanking.btMenu.active = false;
 			state++;
 			break;
 		case STATE.eExit_Wait:
-			state++;
 			break;
 			
 			// 次の状態へ
@@ -56,6 +61,16 @@ public class RankingState : StateBase {
 			StateController.Instance.ChangeState(E_STATE.Title);
 			break;
 		}
+	}
+	
+	void OnMenuButtonPressed()
+	{
+		state = STATE.eExit_Init;
+	}
+	
+	protected override void OnCompleteFade ()
+	{
+		state++;
 	}
 	
 	protected override void OnDestruct ()
