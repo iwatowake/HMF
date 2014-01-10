@@ -3,7 +3,6 @@ using System.Collections;
 
 public class InGameState : StateBase {
 	
-	public GameObject WakuGeneratorPrefab;
 	
 	// 状態管理
 	enum STATE{
@@ -48,13 +47,11 @@ public class InGameState : StateBase {
 
 			//Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
-			UI_TimeCounter.Instance.SetEnable(false);
-			UI_ScoreCounter.Instance.SetEnable(false);
+//			UI_TimeCounter.Instance.SetEnable(false);
+//			UI_ScoreCounter.Instance.SetEnable(false);
 			UI_TentionGauge.Instance.SetEnable(false);
 			FadeIn(1.5f);			
-			GameObject WakuGeneratorObj = Instantiate( WakuGeneratorPrefab ) as GameObject;
-			WakuGeneratorObj.transform.parent = transform;
-			WakuGeneratorObj.GetComponent<WakuGenerator>().Init();
+			WakuGenerator.Instance.Init();
 			
 			state++;
 			break;
@@ -68,7 +65,8 @@ public class InGameState : StateBase {
 			UI_TimeCounter.Instance.SetEnable(true);
 			UI_ScoreCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
-			WakuGenerator.Instance.Play();
+
+						WakuGenerator.Instance.Play();
 			state++;
 			break;
 		case STATE.eMain_Wait:

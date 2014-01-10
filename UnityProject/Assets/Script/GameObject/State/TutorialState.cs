@@ -47,21 +47,19 @@ public class TutorialState : StateBase {
 			
 			// インゲーム　入力待ち.
 		case STATE.eMain_Init:
-//			UI_TimeCounter.Instance.SetEnable(true);
-//			UI_TentionGauge.Instance.SetEnable(true);
+			UI_TimeCounter.Instance.SetEnable(true);
+			UI_TentionGauge.Instance.SetEnable(true);
 			state = STATE.eMain_Wait;
 //			PlayOrigami();
 			break;
 
 		case STATE.eMain_Wait:
 //			UI_TimeCounter.Instance.Exec();
-			Debug.Log("main_wait");
 			break;
 			
 		case STATE.eExit_Init:
 			FadeOut(1.5f);
-			Debug.Log("Exit");
-			GameObject.Find("UI_InGame").SetActive(false);
+			Destroy(GameObject.Find("UI_Tutorial"));
 			state = STATE.eExit_Wait;
 			break;
 			
