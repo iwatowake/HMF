@@ -15,10 +15,10 @@ public class OrigamiSelectCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		Debug.Log(gameObject.name + ":" + Hit.ToString() + ":" + ActiveFlg.ToString());
 	}
 	
-	private void OnTriggerStay (Collider other){
+	private void OnTriggerEnter (Collider other){
 		if( other.gameObject.layer == (int)LayerEnum.layer_LeapHand && ActiveFlg ){
 			Hit = true;
 		}
