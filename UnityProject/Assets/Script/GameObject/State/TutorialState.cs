@@ -28,6 +28,10 @@ public class TutorialState : StateBase {
 	
 	public override void Exec ()
 	{
+		// Debug
+		if(Input.GetKeyDown(KeyCode.Space))
+			state = STATE.eExit_Init;
+		
 		switch(state)
 		{
 			// インゲーム　状態入り.

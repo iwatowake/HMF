@@ -44,7 +44,7 @@ public class TitleState : StateBase {
 		{
 			// タイトル　状態入り.
 		case STATE.eEnter_Init:
-			//Debug.Log("Enter_Title");
+			Debug.Log("Enter_Title");
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
 			Game_CityLayer.Instance.InitCityLayer();
 			FadeIn(1.5f);
@@ -84,11 +84,7 @@ public class TitleState : StateBase {
 	
 	private void OnStartPressed(){
 		//nextState = E_STATE.Tutorial;
-<<<<<<< HEAD
 		nextState = E_STATE.Openning;
-=======
-		nextState = E_STATE.InGame;
->>>>>>> 1b31f32ea89b646115eb27114f2239f73c59b0e0
 		state = STATE.eExit_Init;
 	}
 	

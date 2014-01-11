@@ -53,7 +53,6 @@ public class OrigamiSelect : MonoBehaviour {
 			UI_OrigamiDicisionGauge.Instance.Pause();
 			return;
 		}
-<<<<<<< HEAD
 		
 		if( !SelectStartFlg ){
 			if( StaticMath.Compensation( ref Timer, IntervalTime, 1.0f ) ){
@@ -61,14 +60,6 @@ public class OrigamiSelect : MonoBehaviour {
 				UI_OrigamiDicisionGauge.Instance.PlayAtZero();
 				SelectColliderScript[0].Hit = false;
 				SelectColliderScript[1].Hit = false;
-=======
-//		UI_OrigamiDicisionGauge.Instance.Play();
-		
-		if( !SelectStartFlg ){
-			if( StaticMath.Compensation( ref Timer, IntervalTime, 1.0f ) ){
-				//UI_OrigamiDicisionGauge.Instance.spriteEnable( true );
-				//UI_OrigamiDicisionGauge.Instance.PlayAtZero();
->>>>>>> 1b31f32ea89b646115eb27114f2239f73c59b0e0
 				SelectStartFlg = true;
 			}
 			return;
@@ -80,8 +71,8 @@ public class OrigamiSelect : MonoBehaviour {
 			if( !SelectFlg[0] ){
 				SelectFlg[0] = true;
 				SelectFlg[1] = SelectFlg[2] = false;
-				//UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[0] );
-				UI_OrigamiDicisionGauge.Instance.PlayAtZero();
+				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[0] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 				UI_OrigamiDicisionGauge.Instance.SetSpriteType(UI_OrigamiDicisionGauge.SPRITETYPE.Select);
 				
 				// AlowEffect On
@@ -92,15 +83,14 @@ public class OrigamiSelect : MonoBehaviour {
 			if( !SelectFlg[1] ){
 				SelectFlg[1] = true;
 				SelectFlg[0] = SelectFlg[2] = false;
-				//UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[1] );
-				UI_OrigamiDicisionGauge.Instance.PlayAtZero();
+				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[1] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 				UI_OrigamiDicisionGauge.Instance.SetSpriteType(UI_OrigamiDicisionGauge.SPRITETYPE.Select);
 				
 				// AlowEffect On
 				UI_AlowEffect.Instance.On();
 			}
 		}
-<<<<<<< HEAD
 		else{
 			if( TutorialFlg ){
 				UI_OrigamiDicisionGauge.Instance.SetNowAmount( 0 );
@@ -109,14 +99,10 @@ public class OrigamiSelect : MonoBehaviour {
 				UI_AlowEffect.Instance.Off();
 			}
 			else if( !SelectFlg[2] ){
-=======
-		else {
-			if( !SelectFlg[2] ){
->>>>>>> 1b31f32ea89b646115eb27114f2239f73c59b0e0
 				SelectFlg[2] = true;
 				SelectFlg[0] = SelectFlg[1] = false;
-				//UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[2] );
-				UI_OrigamiDicisionGauge.Instance.PlayAtZero();
+				UI_OrigamiDicisionGauge.Instance.SetNowAmount( SelectTimer[2] );
+				UI_OrigamiDicisionGauge.Instance.Play();
 				UI_OrigamiDicisionGauge.Instance.SetSpriteType(UI_OrigamiDicisionGauge.SPRITETYPE.Cancel);
 				
 				// AlowEffect Off

@@ -45,7 +45,7 @@ public class InGameState : StateBase {
 		case STATE.eEnter_Init:
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.INGAME);
 
-			//Debug.Log("Enter_InGame");
+			Debug.Log("Enter_InGame");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);
 //			UI_TimeCounter.Instance.SetEnable(false);
 //			UI_ScoreCounter.Instance.SetEnable(false);
@@ -56,12 +56,12 @@ public class InGameState : StateBase {
 			state++;
 			break;
 		case STATE.eEnter_Wait:
-			//Debug.Log("enter_wait");
+			Debug.Log("enter_wait");
 			break;
 			
 			// インゲーム　入力待ち
 		case STATE.eMain_Init:
-			//Debug.Log("main_init");
+			Debug.Log("main_init");
 			UI_TimeCounter.Instance.SetEnable(true);
 			UI_ScoreCounter.Instance.SetEnable(true);
 			UI_TentionGauge.Instance.SetEnable(true);
@@ -78,14 +78,13 @@ public class InGameState : StateBase {
 			if(UI_TentionGauge.Instance.isDead())
 			{
 				if(WakuGenerator.Instance.Stop())
-					state = STATE.eGameClear_Init;
-//					state = STATE.eGameOver_Init;
+					state = STATE.eGameOver_Init;
 			}
-//			if(UI_TimeCounter.Instance.isLastWave)
-//			{
-//				if(WakuGenerator.Instance.Stop())
-//					state = STATE.eGameClear_Init;
-//			}
+			if(UI_TimeCounter.Instance.isLastWave)
+			{
+				if(WakuGenerator.Instance.Stop())
+					state = STATE.eGameClear_Init;
+			}
 			break;
 			
 		case STATE.eGameOver_Init:

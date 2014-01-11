@@ -18,7 +18,7 @@ public class OrigamiSelectCollider : MonoBehaviour {
 
 	}
 	
-	private void OnTriggerEnter (Collider other){
+	private void OnTriggerStay (Collider other){
 		if( other.gameObject.layer == (int)LayerEnum.layer_LeapHand && ActiveFlg ){
 			Hit = true;
 		}
