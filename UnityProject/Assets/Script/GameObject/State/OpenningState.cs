@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//===========================================
-/*!
- *	@brief	タイトルクラス
- *
- *	@date	2013/10/21
- *	@author	Daisuke Kojima
- */
-//===========================================
-public class TitleState : StateBase {
+public class OpenningState : StateBase {
+	public GameObject mainView;
+	public GameObject textObject;
+	
 	
 	// 状態管理.
 	enum STATE{
@@ -32,8 +27,7 @@ public class TitleState : StateBase {
 	//! 初期処理
 	protected override void Start(){
 		base.Start();
-		gameObject.name = "State_Title";
-		RenderSettings.fogEndDistance = 150;
+		textObject.transform.localScale = Vector3.zero;
 	}
 	
 	
@@ -44,9 +38,9 @@ public class TitleState : StateBase {
 		{
 			// タイトル　状態入り.
 		case STATE.eEnter_Init:
-			Debug.Log("Enter_Title");
 			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
-			Game_CityLayer.Instance.InitCityLayer();
+			for(int i = 0;i < 7;i++)
+				Game_CityLayer.Instance.CityLayerEnable(i,true);
 			FadeIn(1.5f);
 			state++;
 			break;
@@ -55,9 +49,11 @@ public class TitleState : StateBase {
 			
 			// タイトル　入力待ち.
 		case STATE.eMain_Init:
+			textObject.SendMessage("OpenText");
 			state++;
 			break;
 		case STATE.eMain_Wait:
+			mainView.transform.LookAt(Vector3.zero);
 			break;
 			
 			// タイトル　状態離脱.
@@ -70,7 +66,8 @@ public class TitleState : StateBase {
 			
 			// 次の状態へ.
 		case STATE.eChangeState:
-			StateController.Instance.ChangeState(nextState);
+			Game_CityLayer.Instance.InitCityLayer();
+			StateController.Instance.ChangeState(E_STATE.Tutorial);
 			break;
 		}
 	}
@@ -82,18 +79,15 @@ public class TitleState : StateBase {
 		
 	}
 	
-	private void OnStartPressed(){
-		//nextState = E_STATE.Tutorial;
-		nextState = E_STATE.Openning;
-		state = STATE.eExit_Init;
-	}
-	
-	private void OnRankingPressed(){
-		nextState = E_STATE.Ranking;
-		state = STATE.eExit_Init;
-	}
 	
 	override protected void OnCompleteFade(){
 		state++;
 	}
+	
+	void EndOpenning()
+	{
+		state = STATE.eExit_Init;
+	}
+	
+
 }
