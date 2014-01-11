@@ -34,12 +34,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 	public void SetResult ( int Result ){
 		if( Result >= DegreeAddTable.Length )	return;
 		
-		if(NowDegree < 20)
-		{
-			NowDegree += DegreeAddTable[Result]*3;
-		}else{
-			NowDegree += DegreeAddTable[Result];
-		}
+		NowDegree += DegreeAddTable[Result];
 	}
 	
 	// Use this for initialization
@@ -51,7 +46,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 		if( State == STATE.CREATE ){
 			int	Index = NowDegree - Define_WakuPattern.MIN_DEGREE;
 			if( Index < 0 )	Index = 0;
-			else if( Index >= Define_WakuPattern.MaxRange )	Index = Define_WakuPattern.MaxRange;
+			else if( Index >= Define_WakuPattern.MaxRange )	Index = Define_WakuPattern.MaxRange-1;
 			int NumPattern = Define_WakuPattern.Table[Index].Pattern.Length;
 			float RandPar = Random.Range( 0.0f, 100.0f );
 			float Par = 0;
