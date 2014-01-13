@@ -78,13 +78,13 @@ public class InGameState : StateBase {
 			if(UI_TentionGauge.Instance.isDead())
 			{
 				if(WakuGenerator.Instance.Stop())
-					state = STATE.eGameOver_Init;
+					state = STATE.eGameClear_Init;
 			}
-			if(UI_TimeCounter.Instance.isLastWave)
+/*			if(UI_TimeCounter.Instance.isLastWave)
 			{
 				if(WakuGenerator.Instance.Stop())
 					state = STATE.eGameClear_Init;
-			}
+			}*/
 			break;
 			
 		case STATE.eGameOver_Init:

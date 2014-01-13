@@ -28,6 +28,7 @@ public class NaviCamera : SingletonMonoBehaviour<NaviCamera> {
 		UI_TentionGauge.Instance.SetEnable(false);
 		WakuGenerator.Instance.Stop();
 		UI_CityLevel.Instance.Play();
+		CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_CityLevelUp);
 	}
 	#endregion
 	

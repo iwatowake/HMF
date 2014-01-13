@@ -39,6 +39,7 @@ public class UI_DicisionGauge : MonoBehaviour_Extends {
 				
 				sprite.fillAmount = 0;
 				
+				CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_GaugeMax);
 				GameObject effect = Instantiate(GaugeLasrWaveEffect,gameObject.transform.position,Quaternion.identity) as GameObject;
 				effect.transform.parent = transform;
 			}else if(!bFilled){

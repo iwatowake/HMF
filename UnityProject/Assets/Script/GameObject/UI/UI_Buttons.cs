@@ -33,6 +33,7 @@ public class UI_Buttons : MonoBehaviour_Extends {
 			{
 				if(!isPressed)
 				{
+					CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_GaugeAppear);
 					InstantiateGameObjectAsChild("Prefabs/Test_Yanagisawa/GaugeAppearEffect", dicisionGauge.gameObject, -Vector3.forward*2, true);
 					isPressed = true;
 					dicisionGauge.isOnButton = true;

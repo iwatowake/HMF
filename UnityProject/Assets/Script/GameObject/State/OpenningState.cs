@@ -38,7 +38,7 @@ public class OpenningState : StateBase {
 		{
 			// タイトル　状態入り.
 		case STATE.eEnter_Init:
-			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TITLE);
+			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.OPENING);
 			for(int i = 0;i < 7;i++)
 				Game_CityLayer.Instance.CityLayerEnable(i,true);
 			FadeIn(1.5f);

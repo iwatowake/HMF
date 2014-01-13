@@ -36,7 +36,7 @@ public class TutorialState : StateBase {
 		{
 			// インゲーム　状態入り.
 		case STATE.eEnter_Init:
-			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.INGAME);
+			CRI_SoundManager_2D.Instance.PlayBGM(BGM_ID.TUTORIAL);
 
 			Debug.Log("Enter_Tutorial");
 			Game_CityLayer.Instance.CityLayerEnable(0,true);

@@ -105,6 +105,9 @@ public class LeapOrigamiCollider : MonoBehaviour {
 			HitStartPos = HitPos;
 			PointParticle[0] = Instantiate( PointLoopParticlePrefab, HitStartPos, Quaternion.identity ) as GameObject;
 			
+			// Sound
+			CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_FlashEffect);
+			
 			LineEffectObj = Instantiate( LineEffectPrefab, Vector3.zero, Quaternion.identity ) as GameObject;
 			LineEffectObj.transform.parent = HitObj.transform.parent;
 			LineEffectScript = LineEffectObj.GetComponent<LineEffect>();
@@ -214,7 +217,10 @@ public class LeapOrigamiCollider : MonoBehaviour {
 				OrigamiSelectScript.ContactParticlePos = HitStartPos + Vec / 2.0f - Vector3.forward * 0.3f;
 				
 				PointParticle[1] = Instantiate( PointOneShotParticlePrefab, HitEndPos, Quaternion.identity ) as GameObject;
-
+				
+				//Sound
+				CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_FlashEffect);
+				
 				// カット.
 				if( OrigamiMeshCutter.Cut( other.gameObject, HitStartPos, HitEndPos ) ){
 					other.gameObject.layer = (int)LayerEnum.layer_OrigamiWait;

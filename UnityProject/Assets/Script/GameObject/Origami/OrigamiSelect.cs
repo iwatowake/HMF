@@ -122,6 +122,8 @@ public class OrigamiSelect : MonoBehaviour {
 			else {
 				OrigamiControllerScript.SetState( OrigamiUpdate.STATE.CUT );
 				gameObject.layer = (int)LayerEnum.layer_OrigamiCut;
+				
+				CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_ContactEffect);
 			}
 			ActiveFlg = false;
 			

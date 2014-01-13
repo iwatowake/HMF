@@ -49,12 +49,16 @@ public class UI_RateManager : SingletonMonoBehaviour<UI_RateManager> {
 		if(per < Define_Rate.Safe)
 		{
 			rate = 0;
+			CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_Bad);
 		}else if(per < Define_Rate.Good){
 			rate = 1;
+			CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_GoodSafe);
 		}else if(per < Define_Rate.Excellent){
 			rate = 2;
+			CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_GoodSafe);
 		}else{
 			rate = 3;
+			CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_Excellent);
 		}
 		
 		nowAnimating = Mathf.Clamp(rate, 0, spRates.Length);

@@ -94,6 +94,8 @@ public class OrigamiUpdate : MonoBehaviour {
 			Instantiate( WaveEffectPrefab, transform.position, Quaternion.identity );
 			Destroy( OrigamiAppearEffect );
 			gameObject.renderer.enabled = true;
+			//Sound
+			CRI_SoundManager_2D.Instance.PlaySE(SE_ID.ING_WaveEffect);
 		}
 		t = 1.0f - (StartMoveTime - Timer) / StartMoveTime;
 		WakuObject.transform.localPosition = Vector3.Lerp( WakuInitPos, new Vector3( 0,0,4.5f ), t );
