@@ -111,4 +111,5 @@ public class TutorialState : StateBase {
 		state = STATE.eExit_Init;
 		Debug.Log("EndText");
 	}
+	
 }

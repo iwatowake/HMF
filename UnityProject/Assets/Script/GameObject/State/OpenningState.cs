@@ -34,6 +34,10 @@ public class OpenningState : StateBase {
 	//! 実行.
 	public override void Exec ()
 	{
+		// Debug
+		if(Input.GetKeyDown(KeyCode.Space))
+			state = STATE.eExit_Init;
+
 		switch(state)
 		{
 			// タイトル　状態入り.

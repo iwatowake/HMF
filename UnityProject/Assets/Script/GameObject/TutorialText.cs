@@ -25,6 +25,10 @@ public class TutorialText : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {		
+		// Debug
+		if(Input.GetKeyDown(KeyCode.A))
+			CloseText();
+
 		switch(currentNo)
 		{
 		// 折るための始点と終点の線を引く説明.
@@ -83,7 +87,8 @@ public class TutorialText : MonoBehaviour {
 			}
 			break;
 		}
-
+					
+		
 		if(currentNo < text.Length)
 		{
 			TextMesh tm = (TextMesh)gameObject.GetComponent("TextMesh");
@@ -106,6 +111,10 @@ public class TutorialText : MonoBehaviour {
 	{
 		switch(currentNo)
 		{
+		// ゲームの説明は必要ですか？.
+		case 0:
+			break;
+			
 		// 操作方法の説明.
 		case 3:
 			CountMovieTime(false);
@@ -300,5 +309,14 @@ public class TutorialText : MonoBehaviour {
 	
 	void CountMovieTimeUpdate(float value)
 	{
+		
+	}
+	
+	public void OnYesButtonPressed(){
+		CloseText();
+	}
+	
+	public void OnNoButtonPressed(){
+		EndTutorial();
 	}
 }
