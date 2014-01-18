@@ -121,11 +121,11 @@ public class WakuPatternTable {
 
 public static class Define_WakuPattern {
 	// テーブルのサイズ.
-	public const int MaxRange = 37;
+	public const int MaxRange = 49;
 	public static WakuPatternTable[] Table;
 	
 	public const int MIN_DEGREE = 0;
-	public const int MAX_DEGREE = 37;
+	public const int MAX_DEGREE = 49;
 	
 	static Define_WakuPattern (){
 		Table = new WakuPatternTable[MaxRange];
@@ -155,7 +155,7 @@ public static class Define_WakuPattern {
 		Table[Index].Degree = MIN_DEGREE + Index;
 		Table[Index].CreatePattern( 1 );
 		Table[Index].Set( 0, 100, WAKU.LEVEL_1_4 );
-		/*
+		
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -200,7 +200,7 @@ public static class Define_WakuPattern {
 		Table[Index].Set( 0, 40, WAKU.LEVEL_3_5 );
 		Table[Index].Set( 1, 30, WAKU.LEVEL_3_6 );
 		Table[Index].Set( 2, 30, WAKU.LEVEL_3_7 );
-		*/
+		
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -208,7 +208,7 @@ public static class Define_WakuPattern {
 		Table[Index].Set( 0, 40, WAKU.LEVEL_3_8 );
 		Table[Index].Set( 1, 40, WAKU.LEVEL_3_9 );
 		Table[Index].Set( 2, 20, WAKU.LEVEL_4_4 );
-		/*
+		
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -253,7 +253,7 @@ public static class Define_WakuPattern {
 		Table[Index].CreatePattern( 2 );
 		Table[Index].Set( 0, 50, WAKU.LEVEL_4_14 );
 		Table[Index].Set( 1, 50, WAKU.LEVEL_4_15 );
-		*/
+		
 		Index++;
 		Table[Index] = new WakuPatternTable();
 		Table[Index].Degree = MIN_DEGREE + Index;
@@ -461,6 +461,7 @@ public static class Define_WakuPattern {
 		Table[Index].CreatePattern( 1 );
 		Table[Index].Set( 0, 100, WAKU.LEVEL_7_10 );
 		
+		Debug.Log( Index );
 	}
 	
 }

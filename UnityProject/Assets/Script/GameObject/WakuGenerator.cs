@@ -30,6 +30,7 @@ public class WakuGenerator : SingletonMonoBehaviour<WakuGenerator> {
 
 		NowDegree = 1;
 		OrigamiControllerScript = GameObject.Find( "OrigamiController" ).GetComponent<OrigamiController>();
+		State = STATE.STOP;
 	}
 	
 	public void SetResult ( int Result ){
