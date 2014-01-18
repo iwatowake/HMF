@@ -39,6 +39,13 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		NowPos = transform.position;
 		MoveVec = (OldPos - NowPos).normalized;
 		
+		if( HitObj != null ){
+			if( HitObj.GetComponent<OrigamiUpdate>().LineDeleteFlg ){
+				HitFlg = false;
+				PointParticleDestroy();
+			}
+		}
+		
 		if( !OrigamiControllerScript.GetActiveFlg() || HitObj == null ){
 			PointParticleDestroy();
 			return;
@@ -46,6 +53,7 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( HitObj.layer == (int)LayerEnum.layer_OrigamiCut && !HitFlg ){
 			PointParticleDestroy();
 		}
+		
 		
 		if( LineEffectScript != null && !isEnd ){
 			float z = LineEffectScript.targetPositionEnd.z;
@@ -73,7 +81,8 @@ public class LeapOrigamiCollider : MonoBehaviour {
 		if( enabled == false ) return;
 		
 		if( other.gameObject.layer == (int)LayerEnum.layer_OrigamiCut ){
-			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ) return;
+			if( other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.STOP ||
+				other.gameObject.GetComponent<OrigamiUpdate>().GetState() == OrigamiUpdate.STATE.FOLD ) return;
 			UI_OKButton.Instance.Off();
 			UI_RevertButton.Instance.Off();
 			//UI_InGame.Instance.ButtonEnable(false);

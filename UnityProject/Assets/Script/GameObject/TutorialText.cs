@@ -51,12 +51,12 @@ public class TutorialText : MonoBehaviour {
 			{
 				CloseText();
 				OrigamiControllerScript.SetUpdateFlg(false);
+				OrigamiControllerScript.OrigamiLineDelete();
 				UI_OKButton.Instance.Off();
 			}
 			else
 			{
 				OrigamiControllerScript.DisableClap();
-				OrigamiControllerScript.SetUpdateFlg(true);
 			}
 			break;
 
@@ -70,7 +70,12 @@ public class TutorialText : MonoBehaviour {
 			else
 			{
 				OrigamiControllerScript.DisableClap();
-				OrigamiControllerScript.SetUpdateFlg(false);
+				if(OrigamiControllerScript.GetState() == OrigamiUpdate.STATE.FOLD)	
+					OrigamiControllerScript.SetUpdateFlg(true);
+				else{
+					OrigamiControllerScript.SetUpdateFlg(false);	
+					UI_RevertButton.Instance.On();
+				}
 			}
 			break;
 			
@@ -227,11 +232,13 @@ public class TutorialText : MonoBehaviour {
 
 		// 折る方向の選択の説明.
 		case 6:
+			OrigamiControllerScript.SetUpdateFlg(true);
 			SetMovie(3,true);
 			break;
 
 		// 戻る機能の説明.
 		case 7:
+			OrigamiControllerScript.SetUpdateFlg(true);
 			SetMovie(4,true);
 			break;
 			

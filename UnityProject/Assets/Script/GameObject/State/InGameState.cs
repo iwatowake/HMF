@@ -24,7 +24,8 @@ public class InGameState : StateBase {
 		eChangeState_Bridge,
 		
 		eChangeState_ToGameOver,
-		eChangeState_ToResult
+		eChangeState_ToResult,
+		eChangeState_ToTitle
 	}
 	
 	private STATE	state		= STATE.eEnter_Init;	//!< 状態管理用
@@ -138,6 +139,10 @@ public class InGameState : StateBase {
 		case STATE.eChangeState_ToResult:
 			StateController.Instance.ChangeState(E_STATE.Result);
 			break;
+		case STATE.eChangeState_ToTitle:	
+			StateController.Instance.ChangeState(E_STATE.Title);
+			break;
+		
 		}
 
 	}
@@ -169,5 +174,11 @@ public class InGameState : StateBase {
 	
 	override protected void OnCompleteFade(){
 		state++;
+	}
+	
+	public void ToTitle()
+	{
+		state = STATE.eExit_Init;
+		nextState = STATE.eChangeState_ToTitle;
 	}
 }

@@ -38,6 +38,8 @@ public class OrigamiUpdate : MonoBehaviour {
 	
 	[HideInInspector]
 	public	bool	RevertFlg = false;
+	[HideInInspector]
+	public 	bool	LineDeleteFlg = false;
 	private bool	CalculateMediumPos = false;
 	private Vector3	MediumPos;
 	private Vector3	OrigamiPos;
